@@ -1,1 +1,5 @@
-#### 一个伟大的史诗级巨著 
+King of Bots
+---
+#### this is a small snack online game
+
+ 
