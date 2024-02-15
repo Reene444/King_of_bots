@@ -1,5 +1,5 @@
 King of Bots
 ---
-#### this is a small snack online game
+#### this is a small snake online game
 
  
