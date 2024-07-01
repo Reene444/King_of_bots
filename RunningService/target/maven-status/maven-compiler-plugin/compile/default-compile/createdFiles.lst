@@ -1,0 +1,16 @@
+com/snakeio/snake/chat/ChatMessage$ChatMessageBuilder.class
+com/snakeio/snake/model/Player$Segment.class
+com/snakeio/snake/config/WebConfig$1.class
+com/snakeio/snake/config/SeedData.class
+com/snakeio/snake/ChatApplication.class
+com/snakeio/snake/chat/ChatMessage.class
+com/snakeio/snake/chat/ChatController.class
+com/snakeio/snake/config/WebSocketConfig.class
+com/snakeio/snake/service/GameService.class
+com/snakeio/snake/chat/MessageType.class
+com/snakeio/snake/model/Player.class
+com/snakeio/snake/config/AsyncConfig.class
+com/snakeio/snake/config/WebSocketEventListener.class
+com/snakeio/snake/controller/GameController$GameState.class
+com/snakeio/snake/config/WebConfig.class
+com/snakeio/snake/controller/GameController.class

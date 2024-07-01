@@ -1,0 +1,39 @@
+.home-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 使容器填满整个视窗高度 */
+    background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%); /* 深色渐变背景 */
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 使Playground填满剩余高度 */
+    width: calc(100vw - 60px); /* 减去drawer的宽度 */
+}
+
+.drawer {
+    width: 60px; /* 初始宽度 */
+    transition: width 0.3s ease; /* 添加过渡效果 */
+    white-space: nowrap; /* 防止文本换行 */
+}
+
+.drawer:hover {
+    width: 240px; /* 悬停时的宽度 */
+}
+
+.drawer-paper {
+    width: inherit; /* 继承父元素宽度 */
+    background-color: rgba(255, 255, 255, 0.8); /* 设置背景色透明 */
+    backdrop-filter: blur(10px); /* 增加模糊效果 */
+}
+
+.drawer-content {
+    overflow: hidden; /* 隐藏内容超出部分 */
+}
+
+.drawer:hover .drawer-content {
+    overflow: auto; /* 悬停时显示完整内容 */
+}
