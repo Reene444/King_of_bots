@@ -22,6 +22,7 @@ public class GameController {
     @SendTo("/topic/game")
     public GameState addPlayer(@Payload Player player) {
         gameService.addPlayer(player);
+        System.out.println("add");
         return new GameState(gameService.getPlayers());
     }
 
@@ -29,6 +30,7 @@ public class GameController {
     @SendTo("/topic/game")
     public GameState movePlayer(@Payload Player updatedPlayer) {
         gameService.movePlayer(updatedPlayer);
+        System.out.println("move");
         return new GameState(gameService.getPlayers());
     }
 

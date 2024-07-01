@@ -43,7 +43,8 @@ const Game = () => {
     const MAX_SPEED = 5; // Set maximum speed for snake head
 
     useEffect(() => {
-        const socket = new SockJS('http://localhost:8082/ws');
+        //'http://localhost:8082/ws'
+        const socket = new SockJS('http://localhost:8097/ws');
         const client = new Client({
             webSocketFactory: () => socket,
             debug: (str) => {
