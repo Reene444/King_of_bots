@@ -1,8 +1,8 @@
 import React from 'react';
 import './Leaderboard.css';
 
-const Leaderboard = ({ players }) => {
-    const uniquePlayers = [...players]
+const Leaderboard = ({ leaderboard }) => {
+    const uniquePlayers = [...leaderboard]
         .sort((a, b) => b.score - a.score)
         .filter((player, index, self) =>
                 index === self.findIndex((p) => (
