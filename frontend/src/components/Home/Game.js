@@ -10,11 +10,14 @@ import './Game.css';
 import Score from './Score';
 import Leaderboard from './Leaderboard';
 import RecordingControl from "./RecordingControl";
+import randomColor from "../../utils/randomColor";
 
 const Game = () => {
     const { state, dispatch } = useContext(GameContext);
     const [players, setPlayers] = useState(state.players);
     const [leaderboard, setLeaderboard] = useState([]);
+    const [stompClient, setStompClient] = useState(null);
+    const MAX_SPEED = 6; // Set maximum speed for snake head
 
     const generateInitialSegments = () => {
         let segments;
@@ -38,11 +41,9 @@ const Game = () => {
         color: getRandomColor(),
         score: 0,
         username:'user@user.com',
-        nickname:'user'
+        nickname:'user_'+uuidv4().slice(0,1)
     });
 
-    const [stompClient, setStompClient] = useState(null);
-    const MAX_SPEED = 6; // Set maximum speed for snake head
 
     useEffect(() => {
 
@@ -120,7 +121,7 @@ const Game = () => {
                 body: JSON.stringify(updatedPlayer),
             });
             dispatch({ type: 'MOVE_PLAYER', payload: updatedPlayer });
-            updateLeaderboard(updatedPlayer);
+
         }
     }, 20); // Send data every 20 milliseconds
     useEffect(() => {
@@ -139,11 +140,18 @@ const Game = () => {
 
         // Detect collision with other players
         for (let i = 0; i < players.length; i++) {
-            const otherPlayer = players[i];
+            let otherPlayer = players[i];
             if (otherPlayer.id !== player.id) {
                 for (let j = 0; j < otherPlayer.segments.length; j++) {
                     if (Math.abs(head.x - otherPlayer.segments[j].x) < 10 &&
                         Math.abs(head.y - otherPlayer.segments[j].y) < 10) {
+                        otherPlayer.score+=1;
+                        if (stompClient && stompClient.connected) {
+                            stompClient.publish({
+                                destination: '/app/game.movePlayer',
+                                body: JSON.stringify(otherPlayer),
+                            });
+                        }
                         return true;
                     }
                 }
@@ -161,7 +169,7 @@ const Game = () => {
             color: getRandomColor(),
             score: 0,
             username:'user@user.com',
-            nickname:'user'
+            nickname:'user_'+uuidv4().slice(0,1)
         };
         setPlayer(newPlayer);
         if (stompClient && stompClient.connected) {
@@ -184,25 +192,13 @@ const Game = () => {
         }
     };
 
-    const updateLeaderboard = (updatedPlayer) => {
-        setLeaderboard((prevLeaderboard) => {
-            const existingPlayer = prevLeaderboard.find(p => p.id === updatedPlayer.id);
-            if (existingPlayer) {
-                if (updatedPlayer.score > existingPlayer.score) {
-                    return prevLeaderboard.map(p => p.id === updatedPlayer.id ? updatedPlayer : p);
-                }
-                return prevLeaderboard;
-            }
-            return [...prevLeaderboard, updatedPlayer];
-        });
-    };
 
     return (
         <div className="game-container">
             <RecordingControl stompClient={stompClient} player={player} />
             <Snake players={players} onMouseMove={handleMouseMove} />
             <Score score={player.score} />
-            <Leaderboard leaderboard={leaderboard} />
+            <Leaderboard leaderboard={players} />
         </div>
     );
 };
