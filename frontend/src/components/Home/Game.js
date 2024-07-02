@@ -11,6 +11,7 @@ import Score from './Score';
 import Leaderboard from './Leaderboard';
 import RecordingControl from "./RecordingControl";
 import randomColor from "../../utils/randomColor";
+import RecordingList from "./RecordingList";
 
 const Game = () => {
     const { state, dispatch } = useContext(GameContext);
@@ -121,7 +122,6 @@ const Game = () => {
                 body: JSON.stringify(updatedPlayer),
             });
             dispatch({ type: 'MOVE_PLAYER', payload: updatedPlayer });
-
         }
     }, 20); // Send data every 20 milliseconds
     useEffect(() => {
@@ -199,6 +199,7 @@ const Game = () => {
             <Snake players={players} onMouseMove={handleMouseMove} />
             <Score score={player.score} />
             <Leaderboard leaderboard={players} />
+            <RecordingList />
         </div>
     );
 };

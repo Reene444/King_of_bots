@@ -13,6 +13,7 @@ const RecordingControl = ({ stompClient, player }) => {
     const handleStopRecording = () => {
         setRecording(false);
         // 发送操作记录到后端
+        console.log({ playerId: player.id, actions });
         fetch('http://localhost:8097/api/recordings', {
             method: 'POST',
             headers: {

@@ -4,13 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Router} from "react-router-dom";
+import AppRoutes from "./routes/AppRoutes";
+import {GameProvider} from "./context/GameContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-
-          <App />
-
+  <GameProvider>
+          <AppRoutes />
+  </GameProvider>
   </React.StrictMode>
 );
 

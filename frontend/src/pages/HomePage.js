@@ -28,7 +28,7 @@ const HomePage = () => {
     // };
 
     return (
-        <Box sx={{ display: 'flex', height: '100vh' }}>
+        <Box sx={{ display: 'flex', height: '110vh' }}>
             <CssBaseline />
 
             <Box
@@ -37,6 +37,7 @@ const HomePage = () => {
                 className="main-container"
             >
                 <Playground />
+
             </Box>
             {/*<LoginDialog open={loginDialogOpen} onClose={handleLoginClose} />*/}
         </Box>

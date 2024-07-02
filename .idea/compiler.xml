@@ -8,13 +8,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="DiscoveryServer" />
-        <module name="ApiGateway" />
-      </profile>
-      <profile name="Annotation profile for RunningService" enabled="true">
-        <sourceOutputDir name="../RunningServer/target/generated-sources/annotations" />
-        <sourceTestOutputDir name="../RunningServer/target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
         <module name="RunningService" />
+        <module name="ApiGateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
