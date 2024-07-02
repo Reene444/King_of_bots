@@ -11,11 +11,11 @@
     justify-content: center;
     align-items: center;
     height: 100vh; /* 使Playground填满剩余高度 */
-    width: calc(100vw - 60px); /* 减去drawer的宽度 */
+    width: calc(100vw ); /* 减去drawer的宽度 */
 }
 
 .drawer {
-    width: 60px; /* 初始宽度 */
+    width: 100px; /* 初始宽度 */
     transition: width 0.3s ease; /* 添加过渡效果 */
     white-space: nowrap; /* 防止文本换行 */
 }

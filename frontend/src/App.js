@@ -8,12 +8,12 @@ import {Router} from "react-router-dom";
 
 function App() {
     return (
-        <AuthProvider> {/* Wrap the entire application in AuthProvider */}
-            <GameProvider>
-                <HomePage/>
+        // <AuthProvider> {/* Wrap the entire application in AuthProvider */}
 
-            </GameProvider>
-        </AuthProvider>
+                <HomePage/>,
+
+
+        {/*</AuthProvider>*/}
     );
 }
 
