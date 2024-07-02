@@ -82,8 +82,15 @@ const Game = () => {
                 body: JSON.stringify(player),
             });
         }
-    }, [player, stompClient]);
-
+    }, [player.segments, stompClient]);
+    useEffect(() => {
+        if (stompClient && stompClient.connected) {
+            stompClient.publish({
+                destination: '/app/game.addPlayer',
+                body: JSON.stringify(player),
+            });
+        }
+    }, [player.id, stompClient]);
     const handleMouseMove = throttle((event) => {
         const rect = event.target.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
