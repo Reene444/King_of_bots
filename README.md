@@ -38,8 +38,7 @@ $ cd frontend
 $ npm start
 
 ```
-## :wrench: Functions
-(Ingrated with Insta apis)
+## :wrench: Functionsf
 -  Process:
 1. [x] Pk
 2. [x] LeaderBoard
