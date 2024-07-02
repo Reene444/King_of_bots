@@ -2,10 +2,14 @@ package com.snakeio.snake.controller;
 
 import com.snakeio.snake.model.Player;
 import com.snakeio.snake.service.GameService;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -41,19 +45,15 @@ public class GameController {
         return new GameState(gameService.getPlayers());
     }
 
-    static class GameState {
+
+    @Setter
+    @Getter
+    public static class GameState {
         private List<Player> players;
 
         public GameState(List<Player> players) {
             this.players = players;
         }
 
-        public List<Player> getPlayers() {
-            return players;
-        }
-
-        public void setPlayers(List<Player> players) {
-            this.players = players;
-        }
     }
 }
