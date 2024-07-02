@@ -42,9 +42,8 @@ $ npm start
 (Ingrated with Insta apis)
 -  Process:
 1. [x] Pk
-2. [x] Pk list
-3. [ ] Ranking list
-4. [ ] Scoring function
+2. [x] LeaderBoard
+3. [ ] recording function
 
 
 ## Page Link
