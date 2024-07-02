@@ -124,6 +124,7 @@ const Game = () => {
             dispatch({ type: 'MOVE_PLAYER', payload: updatedPlayer });
         }
     }, 20); // Send data every 20 milliseconds
+
     useEffect(() => {
         const handleBeforeUnload = (event) => {
             removePlayer(player)
