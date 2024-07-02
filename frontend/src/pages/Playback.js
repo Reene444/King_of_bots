@@ -39,7 +39,9 @@ const Playback = () => {
     const actions = recording.actions ? recording.actions.slice(0, currentAction) : [];
 
     return (
+
         <div className="playback-container">
+            Playback
             <Snake players={[{ segments: actions, color: 'blue' }]} />
         </div>
     );
