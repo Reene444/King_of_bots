@@ -42,7 +42,8 @@ $ npm start
 -  Process:
 1. [x] Pk
 2. [x] LeaderBoard
-3. [ ] recording function
+3. [ ] Recording function
+4. [ ] Playback function
 
 
 ## Page Link
