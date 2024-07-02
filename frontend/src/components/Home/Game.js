@@ -34,7 +34,7 @@ const Game = () => {
 
     const [player, setPlayer] = useState({
         id: uuidv4(),
-        segments: Array.from({ length: 15 }, (_, index) => ({ x: 50 - index * 10, y: 50 })), // 初始化蛇的身体为15节
+        segments: Array.from({ length: 15 }, (_, index) => ({ x: 50 - index * 10, y: 50 })), // Initialize snake body with 15 segments
         color: getRandomColor(),
         score: 0,
         username:'user@user.com',
@@ -42,9 +42,10 @@ const Game = () => {
     });
 
     const [stompClient, setStompClient] = useState(null);
-    const MAX_SPEED = 6; // 设置蛇头的最大速度
+    const MAX_SPEED = 6; // Set maximum speed for snake head
 
     useEffect(() => {
+
         const socket = new SockJS('http://localhost:8097/ws');
         const client = new Client({
             webSocketFactory: () => socket,
@@ -58,7 +59,7 @@ const Game = () => {
                     setPlayers(gameState.players);
                 });
                 client.publish({
-                    destination: '/app/game.movePlayer',
+                    destination: '/app/game.addPlayer',
                     body: JSON.stringify(player),
                 });
                 setStompClient(client);
@@ -70,10 +71,8 @@ const Game = () => {
         });
         client.activate();
 
-        return () => {
-            if (client) client.deactivate();
-        };
-    }, [dispatch]); // 依赖项中去掉 player
+
+    }, [dispatch]); // Add player as a dependency
 
     useEffect(() => {
         if (stompClient && stompClient.connected) {
@@ -83,14 +82,7 @@ const Game = () => {
             });
         }
     }, [player.segments, stompClient]);
-    useEffect(() => {
-        if (stompClient && stompClient.connected) {
-            stompClient.publish({
-                destination: '/app/game.addPlayer',
-                body: JSON.stringify(player),
-            });
-        }
-    }, [player.id, stompClient]);
+
     const handleMouseMove = throttle((event) => {
         const rect = event.target.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
@@ -113,7 +105,7 @@ const Game = () => {
         const updatedSegments = [head, ...player.segments.slice(0, -1)];
         const updatedPlayer = { ...player, segments: updatedSegments };
 
-        // 碰撞检测
+        // Collision detection
         if (checkCollision(updatedPlayer)) {
             alert('Game over! restart...');
             removePlayer(player);
@@ -130,12 +122,22 @@ const Game = () => {
             dispatch({ type: 'MOVE_PLAYER', payload: updatedPlayer });
             updateLeaderboard(updatedPlayer);
         }
-    }, 20); // 每20毫秒发送一次数据
+    }, 20); // Send data every 20 milliseconds
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            removePlayer(player)
+        };
 
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [player]);
     const checkCollision = (player) => {
         const head = player.segments[0];
 
-        // 检测与其他玩家的碰撞
+        // Detect collision with other players
         for (let i = 0; i < players.length; i++) {
             const otherPlayer = players[i];
             if (otherPlayer.id !== player.id) {
@@ -149,12 +151,13 @@ const Game = () => {
         }
 
         return false;
+
     };
 
     const resetPlayer = () => {
         const newPlayer = {
             id: uuidv4(),
-            segments: generateInitialSegments(), // 初始化蛇的身体
+            segments: generateInitialSegments(), // Initialize snake body
             color: getRandomColor(),
             score: 0,
             username:'user@user.com',
@@ -166,6 +169,7 @@ const Game = () => {
                 destination: '/app/game.addPlayer',
                 body: JSON.stringify(newPlayer),
             });
+
             dispatch({ type: 'ADD_PLAYER', payload: newPlayer });
         }
     };
