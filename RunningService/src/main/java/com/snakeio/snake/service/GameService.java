@@ -20,17 +20,21 @@ public class GameService {
     }
 
     public void addPlayer(Player player) {
-        players.add(player);
+
+//        players.add(player);
+        if (players.stream().noneMatch(p -> p.getId().equals(player.getId()))) {
+            players.add(player);
+            System.out.println("Player added: " + player);
+        }
     }
 
     public void movePlayer(Player updatedPlayer) {
         if (players != null) {
-            Iterator<Player> iterator = players.iterator();
-            while (iterator.hasNext()) {
-                Player player = iterator.next();
+            for (Player player : players) {
                 if (player != null) {
                     if (player.getId().equals(updatedPlayer.getId())) {
                         player.setSegments(updatedPlayer.getSegments());
+                        player.setScore(updatedPlayer.getScore());
                     }
                 }
             }
@@ -38,16 +42,7 @@ public class GameService {
     }
 
     public void removePlayer(Player player) {
-        synchronized (players) {
-            Iterator<Player> iterator = players.iterator();
-            while (iterator.hasNext()) {
-                Player p = iterator.next();
-                if (p.getId().equals(player.getId())) {
-                    iterator.remove();
-                    break;
-                }
-            }
-        }
+        players.removeIf(p -> p.getId().equals(player.getId()));
         System.out.println(player.getId() + players);
     }
 }

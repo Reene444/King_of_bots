@@ -35,6 +35,8 @@ public class GameController {
     public GameState movePlayer(@Payload Player updatedPlayer) {
         gameService.movePlayer(updatedPlayer);
         System.out.println("move");
+        System.out.println("move:"+gameService.getPlayers().size());
+
         return new GameState(gameService.getPlayers());
     }
 
@@ -42,6 +44,8 @@ public class GameController {
     @SendTo("/topic/game")
     public GameState removePlayer(@Payload Player player) {
         gameService.removePlayer(player);
+        System.out.println("remove:"+gameService.getPlayers().size());
+
         return new GameState(gameService.getPlayers());
     }
 
