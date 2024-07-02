@@ -14,9 +14,7 @@ public class Player {
     private int x;
     private int y;
     private String color;
-    private String username;
-    private String nickname;
-    private int score; // 新增score字段
+    private int score=10; // 新增score字段
     private List<Segment> segments;
 
     @Data

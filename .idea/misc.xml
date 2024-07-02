@@ -15,7 +15,7 @@
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/RunningService/pom.xml" />
+        <option value="$PROJECT_DIR$/UserService/pom.xml" />
       </set>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />
