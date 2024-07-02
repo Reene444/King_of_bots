@@ -15,11 +15,11 @@ public class GameService {
         this.players = initialPlayers;
     }
 
-    public List<Player> getPlayers() {
+    public synchronized List<Player> getPlayers() {
         return players;
     }
 
-    public void addPlayer(Player player) {
+    public synchronized void addPlayer(Player player) {
 
 //        players.add(player);
         if (players.stream().noneMatch(p -> p.getId().equals(player.getId()))) {
@@ -28,7 +28,7 @@ public class GameService {
         }
     }
 
-    public void movePlayer(Player updatedPlayer) {
+    public synchronized void movePlayer(Player updatedPlayer) {
         if (players != null) {
             for (Player player : players) {
                 if (player != null) {
@@ -41,7 +41,7 @@ public class GameService {
         }
     }
 
-    public void removePlayer(Player player) {
+    public synchronized void removePlayer(Player player) {
         players.removeIf(p -> p.getId().equals(player.getId()));
         System.out.println(player.getId() + players);
     }
