@@ -59,6 +59,10 @@ const Game = () => {
                     const gameState = JSON.parse(message.body);
                     dispatch({ type: 'SET_PLAYERS', payload: gameState.players });
                     setPlayers(gameState.players);
+                    // players.map(p=>{
+                    //     if(p.id===player.id)
+                    //         setPlayer({...p,score:p.score})
+                    // })
                 });
                 client.publish({
                     destination: '/app/game.addPlayer',
@@ -153,6 +157,7 @@ const Game = () => {
                                 body: JSON.stringify(otherPlayer),
                             });
                         }
+                        setPlayers(players.map((p)=>{if(p.id===otherPlayer.id){return {...p,score:p.score+1} }return p;}))
                         return true;
                     }
                 }

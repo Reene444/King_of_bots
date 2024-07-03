@@ -6,7 +6,7 @@
 
 ## :sparkles: Skills
 - `Springboot`
-- `H2 database`
+- `Mongodb`
 - `React`
 
 ## :book: How to use
