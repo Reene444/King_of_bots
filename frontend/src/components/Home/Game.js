@@ -61,12 +61,13 @@ const Game = () => {
                     const gameState = JSON.parse(message.body);
                     dispatch({ type: 'SET_PLAYERS', payload: gameState.players });
                     setPlayers(gameState.players);
-                    // const got_player=players.find(p=>p.id===player.id)
-                    // if(got_player)setPlayer(player => ({
-                    //     ...player,
-                    //     score: got_player.score
-                    // }));
-                    // console.log("player:",player    );
+                    const foundPlayer = gameState.players.find(p => p.id === player.id);
+                    if (foundPlayer) {
+                        setPlayer(prevPlayer => ({
+                            ...prevPlayer,
+                            score: foundPlayer.score
+                        }));
+                    }
                 });
                 client.publish({
                     destination: '/app/game.addPlayer',
@@ -92,15 +93,15 @@ const Game = () => {
             });
         }
     }, [player.segments, stompClient]);
-    useEffect(() => {
-        const foundPlayer = state.players.find(p => p.id === player.id);
-        if (foundPlayer) {
-            setPlayer(prevPlayer => ({
-                ...prevPlayer,
-                score: foundPlayer.score
-            }));
-        }
-    }, [state.players, player.id]);
+        // useEffect(() => {
+        //     const foundPlayer = state.players.find(p => p.id === player.id);
+        //     if (foundPlayer) {
+        //         setPlayer(prevPlayer => ({
+        //             ...prevPlayer,
+        //             score: foundPlayer.score
+        //         }));
+        //     }
+        // }, [state.players, player.id]);
 
     const handleMouseMove = throttle((event) => {
         const rect = event.target.getBoundingClientRect();
@@ -172,7 +173,7 @@ const Game = () => {
                         }
                         setPlayers(players.map((p)=>{if(p.id===otherPlayer.id){return {...p,score:p.score+1} }return p;}))
 
-                        // 更新当前玩家分数
+                        // update current player score
                         if (otherPlayer.id === player.id) {
                             setPlayer(prevPlayer => ({
                                 ...prevPlayer,
