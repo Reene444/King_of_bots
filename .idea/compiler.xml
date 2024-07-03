@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="RecordingService" />
         <module name="DiscoveryServer" />
         <module name="RunningService" />
         <module name="ApiGateway" />
@@ -22,6 +23,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ApiGateway" options="-parameters" />
       <module name="DiscoveryServer" options="-parameters" />
+      <module name="RecordingService" options="-parameters" />
       <module name="RunningServer" options="-parameters" />
       <module name="RunningService" options="-parameters" />
       <module name="Runningservice" options="-parameters" />

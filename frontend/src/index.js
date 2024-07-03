@@ -6,13 +6,16 @@ import reportWebVitals from './reportWebVitals';
 import {Router} from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
 import {GameProvider} from "./context/GameContext";
+import {RecordingProvider} from "./context/RecordingContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-  <GameProvider>
-          <AppRoutes />
-  </GameProvider>
+      <RecordingProvider>
+            <GameProvider>
+                <AppRoutes />
+            </GameProvider>
+      </RecordingProvider>
   </React.StrictMode>
 );
 

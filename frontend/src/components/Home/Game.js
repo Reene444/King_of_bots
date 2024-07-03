@@ -12,6 +12,8 @@ import Leaderboard from './Leaderboard';
 import RecordingControl from "./RecordingControl";
 import randomColor from "../../utils/randomColor";
 import RecordingList from "./RecordingList";
+import {useRecording} from "../../context/RecordingContext";
+import score from "./Score";
 
 const Game = () => {
     const { state, dispatch } = useContext(GameContext);
@@ -19,7 +21,7 @@ const Game = () => {
     const [leaderboard, setLeaderboard] = useState([]);
     const [stompClient, setStompClient] = useState(null);
     const MAX_SPEED = 6; // Set maximum speed for snake head
-
+    const { isRecording, startRecording, stopRecording } = useRecording();
     const generateInitialSegments = () => {
         let segments;
         let isSafe;
@@ -59,10 +61,12 @@ const Game = () => {
                     const gameState = JSON.parse(message.body);
                     dispatch({ type: 'SET_PLAYERS', payload: gameState.players });
                     setPlayers(gameState.players);
-                    // players.map(p=>{
-                    //     if(p.id===player.id)
-                    //         setPlayer({...p,score:p.score})
-                    // })
+                    // const got_player=players.find(p=>p.id===player.id)
+                    // if(got_player)setPlayer(player => ({
+                    //     ...player,
+                    //     score: got_player.score
+                    // }));
+                    // console.log("player:",player    );
                 });
                 client.publish({
                     destination: '/app/game.addPlayer',
@@ -88,6 +92,15 @@ const Game = () => {
             });
         }
     }, [player.segments, stompClient]);
+    useEffect(() => {
+        const foundPlayer = state.players.find(p => p.id === player.id);
+        if (foundPlayer) {
+            setPlayer(prevPlayer => ({
+                ...prevPlayer,
+                score: foundPlayer.score
+            }));
+        }
+    }, [state.players, player.id]);
 
     const handleMouseMove = throttle((event) => {
         const rect = event.target.getBoundingClientRect();
@@ -158,6 +171,14 @@ const Game = () => {
                             });
                         }
                         setPlayers(players.map((p)=>{if(p.id===otherPlayer.id){return {...p,score:p.score+1} }return p;}))
+
+                        // 更新当前玩家分数
+                        if (otherPlayer.id === player.id) {
+                            setPlayer(prevPlayer => ({
+                                ...prevPlayer,
+                                score: otherPlayer.score
+                            }));
+                        }
                         return true;
                     }
                 }

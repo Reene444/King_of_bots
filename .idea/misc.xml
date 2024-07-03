@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/UserService/pom.xml" />
         <option value="$PROJECT_DIR$/RunningServer2/pom.xml" />
         <option value="$PROJECT_DIR$/RunningServer/pom.xml" />
+        <option value="$PROJECT_DIR$/RecordingService/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

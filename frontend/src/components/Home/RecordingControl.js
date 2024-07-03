@@ -5,15 +5,28 @@ const RecordingControl = ({ stompClient, player }) => {
     const [recording, setRecording] = useState(false);
     const [actions, setActions] = useState([]);
 
+    useEffect(() => {
+        if (stompClient) {
+            const subscription = stompClient.subscribe('/topic/recording', (message) => {
+                setRecording(JSON.parse(message.body));
+            });
+
+            return () => subscription.unsubscribe();
+        }
+    }, [stompClient]);
+
     const handleStartRecording = () => {
-        setRecording(true);
-        setActions([]);
+        stompClient.publish({
+            destination: '/app/game.startRecording'
+        });
     };
 
     const handleStopRecording = () => {
-        setRecording(false);
+        stompClient.publish({
+            destination: '/app/game.stopRecording'
+        });
+
         // 发送操作记录到后端
-        console.log({ playerId: player.id, actions });
         fetch('http://localhost:8097/api/recordings', {
             method: 'POST',
             headers: {
@@ -26,7 +39,6 @@ const RecordingControl = ({ stompClient, player }) => {
     useEffect(() => {
         if (recording) {
             const recordAction = (event) => {
-                if(actions===null)setActions(player.segments[0])
                 const rect = event.target.getBoundingClientRect();
                 const mouseX = event.clientX - rect.left;
                 const mouseY = event.clientY - rect.top;
