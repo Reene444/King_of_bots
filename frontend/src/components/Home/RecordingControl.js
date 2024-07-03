@@ -26,6 +26,7 @@ const RecordingControl = ({ stompClient, player }) => {
     useEffect(() => {
         if (recording) {
             const recordAction = (event) => {
+                if(actions===null)setActions(player.segments[0])
                 const rect = event.target.getBoundingClientRect();
                 const mouseX = event.clientX - rect.left;
                 const mouseY = event.clientY - rect.top;

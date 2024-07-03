@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public class RecordingService {
-
     @Autowired
     private RecordingRepository recordingRepository;
 
@@ -22,7 +22,11 @@ public class RecordingService {
         return recordingRepository.findAll();
     }
 
-    public Optional<Recording> getRecordingById(Long id) {
+    public Optional<Recording> getRecordingById(String id) {
         return recordingRepository.findById(id);
+    }
+
+    public void deleteRecordingById(String id) {
+        recordingRepository.deleteById(id);
     }
 }

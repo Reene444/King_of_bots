@@ -5,16 +5,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
 @Data
-
+@Document
 public class Action {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private int x;
-    private int y;
+    private double y;
 
+    // Getters and Setters
 }
