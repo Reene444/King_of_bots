@@ -3,7 +3,7 @@ import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import { v4 as uuidv4 } from 'uuid';
 import getRandomColor from '../../utils/randomColor';
-import Snake from '../..//scripts/Snake';
+import Snake from '../..//scripts/Snake/Snake';
 import { throttle } from 'lodash';
 import { GameContext } from '../../context/GameContext';
 import './Game.css';

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Box, CssBaseline, Drawer, List, ListItem, ListItemText } from '@mui/material';
-import Playground from '../components/Home/Playground';
+import Playground from '../components/Home/Playground/Playground';
 import LoginDialog from '../components/Login/LoginDialog';
 import { AuthContext } from '../context/AuthContext';
 import './HomePage.css';
