@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Snake from '../scripts/Snake';
+import Snake from '../../scripts/Snake/Snake';
 import './Playback.css';
 import {v4 as uuidv4} from "uuid";
 
