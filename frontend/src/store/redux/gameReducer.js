@@ -26,6 +26,7 @@ const gameReducer = (state = initialState, action) => {
         case REMOVE_PLAYER:
             return {
                 ...state,
+
                 players: state.players.filter(player => player.id !== action.payload.id),
             };
         default:

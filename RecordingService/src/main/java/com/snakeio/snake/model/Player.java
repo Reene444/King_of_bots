@@ -17,7 +17,7 @@ public class Player {
     private int score=10; // 新增score字段
     private List<Segment> segments;
     private String nickname;
-
+    private String type; // 新增type字段，用于区分Snake和Mouse
     @Data
     @Getter
     @Setter
