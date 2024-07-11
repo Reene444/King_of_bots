@@ -45,11 +45,14 @@ $ npm start
 3. [ ] Recording function
 4. [ ] PlaybackPage function
 
+# Implement Blogger
+[Blogs for implementing](https://www.blogger.com/blog/posts/3583988235096926786)
 
 ## Page Link
 
 [//]: # (![img_1.png]&#40;img_1.png&#41;)
 ![img_2.png](img_2.png)
+
 
 
 
