@@ -57,6 +57,12 @@ const Snake = ({ players, onMouseMove }) => {
                 context.beginPath();
                 context.arc(head.x + eyeOffsetX, head.y - eyeOffsetY, eyeRadius, 0, 2 * Math.PI);
                 context.fill();
+
+                // 绘制玩家昵称
+                context.fillStyle = player.color;
+                context.font = '12px Arial';
+                context.textAlign = 'center';
+                context.fillText(player.nickname, head.x, head.y - 30); // 在头部上方绘制昵称
             }
 
             // Reset shadow properties
