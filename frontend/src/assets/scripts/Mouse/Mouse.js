@@ -22,13 +22,21 @@ const Mouse = ({ players, onMouseMove }) => {
                 context.fillStyle = player.color;
                 context.strokeStyle = player.color;
 
-                const bodyCenterX = (bodyStart.x + bodyEnd.x) / 2;
-                const bodyCenterY = (bodyStart.y + bodyEnd.y) / 2;
-                const bodyWidth =Math.max(Math.abs(bodyStart.x - bodyEnd.x) + 10,40);
-                const bodyHeight = Math.max(Math.abs(bodyStart.y - bodyEnd.y) + 10,40);
+                const bodyCenterX =bodyStart.x + (bodyEnd.x - bodyStart.x) / 3;
+                const bodyCenterY = bodyStart.y+(bodyEnd.y - bodyStart.y) / 3;
+                let bodyWidth =Math.max(Math.abs(bodyStart.x - bodyEnd.x) + 10,15);
+                let bodyHeight = Math.max(Math.abs(bodyStart.y - bodyEnd.y) + 10,15);
 
+                bodyHeight=Math.max(bodyHeight,bodyWidth)
+                bodyWidth=Math.min(bodyWidth,bodyHeight)
+                const dx = bodyEnd.x - bodyStart.x;
+                const dy = bodyEnd.y - bodyStart.y;
+                const angle = Math.atan2(dx, dy);
+                // correct the angle for the start
+                const correctedAngle = angle >90 ? angle + Math.PI : angle;
                 context.beginPath();
-                context.ellipse(bodyCenterX, bodyCenterY, bodyWidth / 2, bodyHeight / 2, 0, 0, 2 * Math.PI);
+                context.ellipse(bodyCenterX - bodyStart.x+head.x , bodyCenterY - bodyStart.y + head.y, bodyWidth / 4   , bodyHeight / 6  , 0 , correctedAngle,correctedAngle+ 2 * Math.PI);
+
                 context.fill();
                 context.stroke();
             }
@@ -43,18 +51,23 @@ const Mouse = ({ players, onMouseMove }) => {
                     context.fill();
                     context.stroke();
                 };
-                drawLimb(bodyStart.x - 10, bodyStart.y + 20, 5, 10);
-                drawLimb(bodyStart.x + 10, bodyStart.y + 20, 5, 10);
-                drawLimb(bodyEnd.x - 10, bodyEnd.y + 20, 5, 10);
-                drawLimb(bodyEnd.x + 10, bodyEnd.y + 20, 5, 10);
+                drawLimb(bodyStart.x - 10, bodyStart.y + 15, 2, 10);
+                drawLimb(bodyStart.x + 10, bodyStart.y + 15, 2, 10);
+                drawLimb(bodyStart.x + (bodyEnd.x - bodyStart.x) / 3 -8, bodyStart.y+(bodyEnd.y - bodyStart.y) / 3 +10, 2, 10);
+                drawLimb(bodyStart.x + (bodyEnd.x - bodyStart.x) / 3+ 8, bodyStart.y+(bodyEnd.y - bodyStart.y) / 3 +10 , 2, 10);
             }
 
             // 绘制尾巴
             if (bodyEnd) {
                 context.strokeStyle = player.color;
                 context.beginPath();
-                context.moveTo(bodyEnd.x, bodyEnd.y + 10);
-                context.bezierCurveTo(bodyEnd.x + 10, bodyEnd.y + 20, bodyEnd.x + 20, bodyEnd.y + 20, bodyEnd.x + 30, bodyEnd.y + 10);
+                context.moveTo(bodyStart.x + (bodyEnd.x - bodyStart.x) / 3 -8, bodyStart.y+(bodyEnd.y - bodyStart.y) / 3 );
+
+                const ax_x=bodyStart.x + (bodyEnd.x - bodyStart.x) / 3 -8;
+                const ax_y=bodyStart.y+(bodyEnd.y - bodyStart.y) / 3;
+                const dx=bodyEnd.x-bodyStart.x;
+                const dy=bodyEnd.y-bodyStart.y
+                context.bezierCurveTo(ax_x+0.1*dx ,ax_y-0.1*dy , ax_x+ 0.4*dx, ax_y+0.1*dy , ax_x + 0.5*dx, ax_y -10);
                 context.stroke();
             }
 
@@ -70,12 +83,12 @@ const Mouse = ({ players, onMouseMove }) => {
                 // 绘制耳朵
                 const drawEar = (x, y) => {
                     context.beginPath();
-                    context.arc(x, y, 8, 0, 2 * Math.PI);
+                    context.arc(x, y, 15, 0, 2 * Math.PI);
                     context.fill();
                     context.stroke();
                 };
-                drawEar(head.x - 10, head.y - 10);
-                drawEar(head.x + 10, head.y - 10);
+                drawEar(head.x - 15, head.y - 10);
+                drawEar(head.x + 15, head.y - 10);
 
                 // 绘制头部
                 context.beginPath();
