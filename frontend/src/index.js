@@ -2,20 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './common/test/reportWebVitals';
 import {Router} from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
-import {GameProvider} from "./context/GameContext";
-import {RecordingProvider} from "./context/RecordingContext";
+// import {GameProvider} from "./context/GameContext";
+
+import { Provider } from 'react-redux';
+import store from "./store"; // Ensure Provider is imported from react-redux
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-      <RecordingProvider>
-            <GameProvider>
+          <Provider store={store}>
                 <AppRoutes />
-            </GameProvider>
-      </RecordingProvider>
+          </Provider>
   </React.StrictMode>
 );
 

@@ -43,7 +43,7 @@ $ npm start
 1. [x] Pk
 2. [x] LeaderBoard
 3. [ ] Recording function
-4. [ ] Playback function
+4. [ ] PlaybackPage function
 
 
 ## Page Link

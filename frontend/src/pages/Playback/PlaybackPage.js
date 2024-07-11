@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Snake from '../../scripts/Snake/Snake';
-import './Playback.css';
+import Snake from '../../assets/scripts/Snake/Snake';
+import './PlaybackPage.css';
 import {v4 as uuidv4} from "uuid";
 
 const MAX_SPEED = 5; // Set maximum speed for snake head
 
-const Playback = () => {
+const PlaybackPage = () => {
     const { id } = useParams();
     const [recording, setRecording] = useState(null);
     const [currentAction, setCurrentAction] = useState(0);
@@ -73,4 +73,4 @@ const Playback = () => {
     );
 };
 
-export default Playback;
+export default PlaybackPage;
