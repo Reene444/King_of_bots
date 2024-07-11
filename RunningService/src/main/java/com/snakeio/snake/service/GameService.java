@@ -35,6 +35,9 @@ public class GameService {
                     if (player.getId().equals(updatedPlayer.getId())) {
                         player.setSegments(updatedPlayer.getSegments());
                         player.setScore(updatedPlayer.getScore());
+                        player.setX(updatedPlayer.getX());
+                        player.setY(updatedPlayer.getY());
+                        player.setType(updatedPlayer.getType()); // 确保更新类型
                     }
                 }
             }

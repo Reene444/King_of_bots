@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import './Mouse.css';
+import {max, min} from "lodash/math";
 
 const Mouse = ({ players, onMouseMove }) => {
     const canvasRef = useRef(null);
@@ -7,85 +8,106 @@ const Mouse = ({ players, onMouseMove }) => {
     useEffect(() => {
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
-        const gridSize = 20;
-
-        const drawGrid = () => {
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            context.strokeStyle = '#e0e0e0';
-            context.lineWidth = 1;
-
-            for (let x = 0; x <= canvas.width; x += gridSize) {
-                context.moveTo(x, 0);
-                context.lineTo(x, canvas.height);
-            }
-
-            for (let y = 0; y <= canvas.height; y += gridSize) {
-                context.moveTo(0, y);
-                context.lineTo(canvas.width, y);
-            }
-
-            context.stroke();
-        };
 
         const drawMouse = (player) => {
             if (!player.segments || player.segments.length === 0) return;
 
-            context.fillStyle = player.color;
-            context.strokeStyle = player.color;
-            context.lineWidth = 20;
-
-            context.shadowBlur = 10;
-            context.shadowColor = 'rgba(0, 0, 0, 0.1)';
-            context.lineJoin = 'round';
-            context.lineCap = 'round';
-
-            context.beginPath();
-            context.moveTo(player.segments[0].x, player.segments[0].y);
-            for (let i = 1; i < player.segments.length; i++) {
-                const segment = player.segments[i];
-                if (segment) {
-                    context.lineTo(segment.x, segment.y);
-                }
-            }
-            context.stroke();
-
-            player.segments.forEach(segment => {
-                if (segment) {
-                    context.beginPath();
-                    context.arc(segment.x, segment.y, 10, 0, 2 * Math.PI);
-                    context.fill();
-                }
-            });
-
             const head = player.segments[0];
-            if (head) {
-                context.beginPath();
-                context.arc(head.x, head.y, 10, 0, 2 * Math.PI);
-                context.fill();
+            const bodyStart = player.segments[1];
+            const bodyEnd = player.segments[player.segments.length - 1];
 
-                const eyeOffsetX = 4;
-                const eyeOffsetY = 2;
-                const eyeRadius = 2;
-                context.fillStyle = '#000';
+
+            // 绘制身体
+            if (bodyStart && bodyEnd) {
+                context.fillStyle = player.color;
+                context.strokeStyle = player.color;
+
+                const bodyCenterX = (bodyStart.x + bodyEnd.x) / 2;
+                const bodyCenterY = (bodyStart.y + bodyEnd.y) / 2;
+                const bodyWidth =Math.max(Math.abs(bodyStart.x - bodyEnd.x) + 10,40);
+                const bodyHeight = Math.max(Math.abs(bodyStart.y - bodyEnd.y) + 10,40);
 
                 context.beginPath();
-                context.arc(head.x - eyeOffsetX, head.y - eyeOffsetY, eyeRadius, 0, 2 * Math.PI);
+                context.ellipse(bodyCenterX, bodyCenterY, bodyWidth / 2, bodyHeight / 2, 0, 0, 2 * Math.PI);
                 context.fill();
-
-                context.beginPath();
-                context.arc(head.x + eyeOffsetX, head.y - eyeOffsetY, eyeRadius, 0, 2 * Math.PI);
-                context.fill();
+                context.stroke();
             }
 
+            // 绘制四肢
+            if (bodyStart && bodyEnd) {
+                const drawLimb = (x, y, width, height) => {
+                    context.fillStyle = player.color;
+                    context.strokeStyle = player.color;
+                    context.beginPath();
+                    context.ellipse(x, y, width, height, 0, 0, 2 * Math.PI);
+                    context.fill();
+                    context.stroke();
+                };
+                drawLimb(bodyStart.x - 10, bodyStart.y + 20, 5, 10);
+                drawLimb(bodyStart.x + 10, bodyStart.y + 20, 5, 10);
+                drawLimb(bodyEnd.x - 10, bodyEnd.y + 20, 5, 10);
+                drawLimb(bodyEnd.x + 10, bodyEnd.y + 20, 5, 10);
+            }
+
+            // 绘制尾巴
+            if (bodyEnd) {
+                context.strokeStyle = player.color;
+                context.beginPath();
+                context.moveTo(bodyEnd.x, bodyEnd.y + 10);
+                context.bezierCurveTo(bodyEnd.x + 10, bodyEnd.y + 20, bodyEnd.x + 20, bodyEnd.y + 20, bodyEnd.x + 30, bodyEnd.y + 10);
+                context.stroke();
+            }
+
+            // 取消阴影效果
             context.shadowBlur = 0;
             context.shadowColor = 'transparent';
+
+            // 绘制头部和耳朵
+            if (head) {
+                context.fillStyle = player.color;
+                context.strokeStyle = player.color;
+
+                // 绘制耳朵
+                const drawEar = (x, y) => {
+                    context.beginPath();
+                    context.arc(x, y, 8, 0, 2 * Math.PI);
+                    context.fill();
+                    context.stroke();
+                };
+                drawEar(head.x - 10, head.y - 10);
+                drawEar(head.x + 10, head.y - 10);
+
+                // 绘制头部
+                context.beginPath();
+                context.arc(head.x, head.y, 15, 0, 2 * Math.PI);
+                context.fill();
+                context.stroke();
+
+                // 绘制眼睛
+                context.fillStyle = '#000';
+                const drawEye = (x, y) => {
+                    context.beginPath();
+                    context.arc(x, y, 3, 0, 2 * Math.PI);
+                    context.fill();
+                };
+                drawEye(head.x - 5, head.y - 5);
+                drawEye(head.x + 5, head.y - 5);
+
+                // 绘制鼻子
+                // context.beginPath();
+                // context.arc(head.x, head.y + 5, 3, 0, 2 * Math.PI);
+                // context.fill();
+            }
+
         };
 
         const render = () => {
-            drawGrid();
+
+            context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas before drawing
             players.forEach(player => {
                 drawMouse(player);
             });
+
         };
 
         render();

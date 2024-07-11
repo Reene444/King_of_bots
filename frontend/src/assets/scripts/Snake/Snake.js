@@ -7,25 +7,6 @@ const Snake = ({ players, onMouseMove }) => {
     useEffect(() => {
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
-        const gridSize = 20;
-
-        const drawGrid = () => {
-            context.clearRect(0, 0, canvas.width, canvas.height); // 确保清除画布
-            context.strokeStyle = '#e0e0e0';
-            context.lineWidth = 1;
-
-            for (let x = 0; x <= canvas.width; x += gridSize) {
-                context.moveTo(x, 0);
-                context.lineTo(x, canvas.height);
-            }
-
-            for (let y = 0; y <= canvas.height; y += gridSize) {
-                context.moveTo(0, y);
-                context.lineTo(canvas.width, y);
-            }
-
-            context.stroke();
-        };
 
         const drawSnake = (player) => {
             if (!player.segments || player.segments.length === 0) return; // 防止未定义的属性访问
@@ -83,11 +64,12 @@ const Snake = ({ players, onMouseMove }) => {
             context.shadowColor = 'transparent';
         };
         const render = () => {
-            drawGrid();
+            context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas before drawing
             players.forEach(player => {
                 drawSnake(player);
             });
         };
+
 
         render();
     }, [players]);

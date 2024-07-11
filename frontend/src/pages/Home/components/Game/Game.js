@@ -5,6 +5,7 @@ import { Client } from '@stomp/stompjs';
 import { v4 as uuidv4 } from 'uuid';
 import getRandomColor from '../../../../common/utils/randomColor';
 import Mouse from '../../../../assets/scripts/Mouse/Mouse';
+import Snake from '../../../../assets/scripts/Snake/Snake';
 import { throttle } from 'lodash';
 import './Game.css';
 import Score from '../Score/Score';
@@ -12,13 +13,16 @@ import Leaderboard from '../Leaderboard/Leaderboard';
 import RecordingControl from '../RecordingControl/RecordingControl';
 import RecordingList from '../RecordingList/RecordingList';
 import { setPlayers, addPlayer, movePlayer, removePlayer } from '../../../../store/redux/gameReducer';
-import { startRecording, stopRecording, updateStatus } from '../../../../store/redux/recordingReducer';
-
+import SelectModel from '../SelectModel/SelectModel';
+import Map from '../../../../assets/scripts/Map/Map'
 const Game = () => {
     const players = useSelector(state => state.game.players);
     const isRecording = useSelector(state => state.recording.isRecording);
     const dispatch = useDispatch();
     const [stompClient, setStompClient] = useState(null);
+    const [playerType, setPlayerType] = useState(''); // 初始化为空
+    const [modelSelected, setModelSelected] = useState(false); // 记录是否选择了模型
+
     const MAX_SPEED = 6;
 
     const generateInitialSegments = () => {
@@ -39,11 +43,12 @@ const Game = () => {
 
     const [player, setPlayer] = useState({
         id: uuidv4(),
-        segments: Array.from({ length: 15 }, (_, index) => ({ x: 50 - index * 10, y: 50 })),
+        segments: generateInitialSegments(), // 使用生成的安全位置
         color: getRandomColor(),
         score: 0,
         username: 'user@user.com',
-        nickname: 'user_' + uuidv4().slice(0, 1)
+        nickname: 'user_' + uuidv4().slice(0, 1),
+        type: '' // 初始化为空
     });
 
     useEffect(() => {
@@ -61,7 +66,8 @@ const Game = () => {
                     if (foundPlayer) {
                         setPlayer(prevPlayer => ({
                             ...prevPlayer,
-                            score: foundPlayer.score
+                            score: foundPlayer.score,
+                            type: foundPlayer.type
                         }));
                     }
                 });
@@ -179,7 +185,8 @@ const Game = () => {
             color: getRandomColor(),
             score: 0,
             username: 'user@user.com',
-            nickname: 'user_' + uuidv4().slice(0, 1)
+            nickname: 'user_' + uuidv4().slice(0, 1),
+            type: playerType // 保留玩家类型
         };
         setPlayer(newPlayer);
         if (stompClient && stompClient.connected) {
@@ -193,6 +200,7 @@ const Game = () => {
     };
 
     const removePlayerHandler = (player) => {
+        dispatch(removePlayer(player.id));
         if (player && player.id) {
             if (stompClient && stompClient.connected) {
                 stompClient.publish({
@@ -206,11 +214,26 @@ const Game = () => {
 
     return (
         <div className="game-container">
-            <RecordingControl stompClient={stompClient} player={player} />
-            <Mouse players={players} onMouseMove={handleMouseMove} />
-            <Score score={player.score} />
-            <Leaderboard leaderboard={players} />
-            <RecordingList />
+            <Map />
+            {!modelSelected && (
+                <SelectModel playerType={playerType} setType={(type) => {
+                    setPlayer(prev => ({...prev, type}));
+                    setPlayerType(type); // 设置玩家类型
+                    setModelSelected(true); // 设置选择完成
+                }}/>
+            )}
+
+            <RecordingControl stompClient={stompClient} player={player}/>
+            {players.map((p) => (
+                p.type === 'mouse' ? (
+                    <Mouse key={p.id} players={[p]} onMouseMove={ handleMouseMove }/>
+                ) : (
+                    <Snake key={p.id} players={[p]} onMouseMove={ handleMouseMove }/>
+                )
+            ))}
+            <Score score={player.score}/>
+            <Leaderboard leaderboard={players}/>
+            <RecordingList/>
         </div>
     );
 };
