@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 // import './Map.css';
 
-const Map = () => {
+const Map = (players) => {
     const canvasRef = useRef(null);
 
     useEffect(() => {
@@ -32,7 +32,19 @@ const Map = () => {
         };
 
         render();
-    }, []);
+        // Add resize event listener
+        const handleResize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            render();
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [players]);
 
     return (
         <canvas
