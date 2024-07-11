@@ -214,7 +214,7 @@ const Game = () => {
 
     return (
         <div className="game-container">
-            <Map />
+            <Map players={{players}}/>
             {!modelSelected && (
                 <SelectModel playerType={playerType} setType={(type) => {
                     setPlayer(prev => ({...prev, type}));
@@ -231,6 +231,7 @@ const Game = () => {
                     <Snake key={p.id} players={[p]} onMouseMove={ handleMouseMove }/>
                 )
             ))}
+
             <Score score={player.score}/>
             <Leaderboard leaderboard={players}/>
             <RecordingList/>
