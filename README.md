@@ -38,7 +38,7 @@ $ cd frontend
 $ npm start
 
 ```
-## :wrench: Functionsf
+## :wrench: Functions
 -  Process:
 1. [x] Pk
 2. [x] LeaderBoard
