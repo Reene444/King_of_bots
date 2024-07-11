@@ -17,7 +17,7 @@ const Leaderboard = ({ leaderboard }) => {
                     <ul className="leaderboard-list">
                         {uniquePlayers.map((player, index) => (
                             <li key={player.id} className="leaderboard-item">
-                                <Typography variant="h7">
+                                <Typography variant="h7"style={{ color: player.color }}>
                                     {index + 1}. {player.nickname} - {player.score}
                                 </Typography>
                             </li>
