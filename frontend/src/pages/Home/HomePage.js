@@ -2,30 +2,19 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Box, CssBaseline, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import Playground from './components/Playground/Playground';
 import LoginDialog from '../../components/Login/LoginDialog';
-
+import { login } from '../../store/redux/authReducer';
 import './HomePage.css';
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const HomePage = () => {
-    // const { state, login } = useContext(AuthContext);
-    // const [loginDialogOpen, setLoginDialogOpen] = useState(false);
-    //
-    // useEffect(() => {
-    //     const storedAuthState = localStorage.getItem('authState');
-    //     if (storedAuthState) {
-    //         const { isAuthenticated, user } = JSON.parse(storedAuthState);
-    //         if (isAuthenticated) {
-    //             login(user);
-    //         } else {
-    //             setLoginDialogOpen(true);
-    //         }
-    //     } else {
-    //         setLoginDialogOpen(true);
-    //     }
-    // }, [login]);
-    //
-    // const handleLoginClose = () => {
-    //     setLoginDialogOpen(false);
-    // };
+
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const navigate=useNavigate();
+    useEffect(() => {
+        if(!isAuthenticated)navigate("/auth");
+    }, []);
+
 
     return (
         <Box sx={{ display: 'flex', height: '110vh' }}>
@@ -39,7 +28,6 @@ const HomePage = () => {
                 <Playground />
 
             </Box>
-            {/*<LoginDialog open={loginDialogOpen} onClose={handleLoginClose} />*/}
         </Box>
     );
 };
