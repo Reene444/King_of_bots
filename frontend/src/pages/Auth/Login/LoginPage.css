@@ -1,0 +1,33 @@
+.login-page {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1; /* 确保登录框在前景 */
+    background-color: transparent; /* 确保背景透明 */
+}
+
+.login-box {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 2; /* 确保登录框在前景 */
+}
+
+.google-login {
+    margin-top: 20px;
+    width: 100%; /* 确保按钮占满可用宽度 */
+}
+
+.nickname-input {
+    margin-top: 20px;
+    width: 100%; /* 确保输入框占满可用宽度 */
+}
+
+.guest-login {
+    margin-top: 20px;
+    width: 100%; /* 确保输入框占满可用宽度 */
+}
