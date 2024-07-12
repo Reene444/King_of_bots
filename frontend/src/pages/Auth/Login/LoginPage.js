@@ -1,28 +1,40 @@
 // LoginPage.js
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import Background from '../../../components/Background/Background';
 import { login } from '../../../store/redux/authReducer';
-
+import './LoginPage.css';
+import { jwtDecode } from "jwt-decode";
 const generateRandomUsername = () => `guest_${Math.random().toString(36).substring(7)}`;
 
 const LoginPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [nickname, setNickname] = useState('');
-
+    const isAuthenticated=useSelector(state => state.auth.isAuthenticated)
     const handleGoogleLogin = (response) => {
-        // Handle Google login response
-        const user = {
-            id: response.profileObj.googleId,
-            name: response.profileObj.name,
-            email: response.profileObj.email,
-        };
-        dispatch(login(user));
-        navigate('/home');
+        // if (response && response.credential) {
+            const decoded = jwtDecode(response.credential);
+            console.log(decoded);
+            const { sub: googleId, name, email } = decoded;
+            // 处理登录逻辑，例如更新状态或发送请求到后端
+            console.log('Google ID:', googleId);
+            console.log('Name:', name);
+            console.log('Email:', email);
+            const user={
+                username:email,
+                nickname:name,
+            }
+            dispatch(login(user));
+            navigate("/home")
+        // } else {
+        //     console.log('Google 登录响应没有包含期望的属性');
+        // }
+
+
     };
 
     const handleGuestLogin = () => {

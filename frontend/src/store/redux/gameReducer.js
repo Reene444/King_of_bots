@@ -10,7 +10,7 @@ const initialState = {
 };
 
 // Reducer
-const gameReducer = (state = initialState, action) => {
+const gameReducer = (state = initialState, action= {}) => {
     switch (action.type) {
         case SET_PLAYERS:
             return { ...state, players: action.payload };
