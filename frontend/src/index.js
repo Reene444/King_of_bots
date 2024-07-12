@@ -8,16 +8,19 @@ import AppRoutes from "./routes/AppRoutes";
 // import {GameProvider} from "./context/GameContext";
 
 import { Provider } from 'react-redux';
-import store from "./store";
+import { store, persistor } from './store';
 import {GoogleOAuthProvider} from "@react-oauth/google"; // Ensure Provider is imported from react-redux
-import config from './common/config';  // 导入配置文件
+import config from './common/config';
+import {PersistGate} from "redux-persist/integration/react";  // 导入配置文件
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
           <Provider store={store}>
+              <PersistGate loading={null} persistor={persistor}>
               <GoogleOAuthProvider clientId={config.googleClientId}>
                   <App/>
               </GoogleOAuthProvider>
+              </PersistGate>
           </Provider>
   </React.StrictMode>
 );

@@ -9,7 +9,7 @@ const initialState = {
 };
 
 // Reducer
-const recordingReducer = (state = initialState, action) => {
+const recordingReducer = (state = initialState, action= {}) => {
     switch (action.type) {
         case START_RECORDING:
             return { ...state, isRecording: true };
