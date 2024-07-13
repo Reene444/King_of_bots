@@ -1,0 +1,39 @@
+.room-manager {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.room-manager h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.room-manager ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    max-width: 800px;
+}
+
+.room-manager li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*background-color: #c0d9e5;*/
+    /*border: 1px solid #ccc;*/
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+
+

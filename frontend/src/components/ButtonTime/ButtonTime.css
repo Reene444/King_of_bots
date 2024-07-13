@@ -1,0 +1,32 @@
+.button-container {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+}
+
+.custom-button {
+    background-color: #ADD8E6; /* 浅蓝色 */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.custom-button:hover {
+    background-color: #87CEEB; /* 鼠标悬停时更深的蓝色 */
+}
+
+.progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 5px;
+    background-color: #4CAF50; /* 绿色 */
+    z-index: 2;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}

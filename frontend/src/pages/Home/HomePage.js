@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Box, CssBaseline, Drawer, List, ListItem, ListItemText } from '@mui/material';
-import Playground from './components/Playground/Playground';
-import LoginDialog from '../../components/Login/LoginDialog';
-import { login } from '../../store/redux/authReducer';
 import './HomePage.css';
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {joinRoom} from "../../store/redux/roomReducer";
+import Game from "./components/Game/Game";
 
 const HomePage = () => {
 
@@ -16,16 +15,25 @@ const HomePage = () => {
     }, []);
 
 
+    const location = useLocation();
+    const { room } = location;
+
+    const dispatch = useDispatch();
+    const roomId = room?.id;
+
+    if(roomId){
+        dispatch(joinRoom(roomId))
+    }
+
     return (
         <Box sx={{ display: 'flex', height: '110vh' }}>
             <CssBaseline />
-
             <Box
                 component="main"
                 sx={{ flexGrow: 1, p: 3 }}
                 className="main-container"
             >
-                <Playground />
+                <Game />
 
             </Box>
         </Box>
