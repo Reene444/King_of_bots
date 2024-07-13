@@ -8,6 +8,7 @@ import Background from '../../../components/Background/Background';
 import { login } from '../../../store/redux/authReducer';
 import './LoginPage.css';
 import { jwtDecode } from "jwt-decode";
+import {Map} from "@material-ui/icons";
 const generateRandomUsername = () => `guest_${Math.random().toString(36).substring(7)}`;
 
 const LoginPage = () => {
@@ -29,7 +30,7 @@ const LoginPage = () => {
                 nickname:name,
             }
             dispatch(login(user));
-            navigate("/home")
+            navigate("/room")
         // } else {
         //     console.log('Google 登录响应没有包含期望的属性');
         // }
@@ -54,7 +55,7 @@ const LoginPage = () => {
                     Login
                 </Typography>
                 <Box className="google-login">
-                    <GoogleLogin onSuccess={handleGoogleLogin} onFailure={() => console.log('Login Failed')}/>
+                    <GoogleLogin onSuccess={handleGoogleLogin} onFailure={() => console.log('Login Failed')} locale="en" />
                 </Box>
                 <Box className="nickname-input">
                     <TextField

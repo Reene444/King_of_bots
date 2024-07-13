@@ -15,6 +15,7 @@ import RecordingList from '../RecordingList/RecordingList';
 import { setPlayers, addPlayer, movePlayer, removePlayer } from '../../../../store/redux/gameReducer';
 import SelectModel from '../SelectModel/SelectModel';
 import Map from '../../../../assets/scripts/Map/Map'
+import {useNavigate} from "react-router-dom";
 const Game = () => {
     const players = useSelector(state => state.game.players);
     const isRecording = useSelector(state => state.recording.isRecording);
@@ -22,6 +23,15 @@ const Game = () => {
     const [stompClient, setStompClient] = useState(null);
     const [playerType, setPlayerType] = useState(''); // 初始化为空
     const [modelSelected, setModelSelected] = useState(false); // 记录是否选择了模型
+
+    const roomId=useSelector(state => state.room.roomId)
+
+    // console.log("roomid:",roomId);
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const navigate=useNavigate();
+    useEffect(() => {
+        if(!isAuthenticated)navigate("/auth");
+    }, []);
 
     const MAX_SPEED = 6;
 
@@ -59,7 +69,7 @@ const Game = () => {
                 console.log(str);
             },
             onConnect: () => {
-                client.subscribe('/topic/game', (message) => {
+                client.subscribe('/topic/game/${roomId}', (message) => {
                     const gameState = JSON.parse(message.body);
                     dispatch(setPlayers(gameState.players));
                     const foundPlayer = gameState.players.find(p => p.id === player.id);
@@ -72,7 +82,7 @@ const Game = () => {
                     }
                 });
                 client.publish({
-                    destination: '/app/game.addPlayer',
+                    destination: '/app/game/${roomId}/addPlayer',
                     body: JSON.stringify(player),
                 });
                 setStompClient(client);
@@ -83,12 +93,15 @@ const Game = () => {
             },
         });
         client.activate();
+        return () => {
+            client.deactivate();
+        };
     }, [dispatch]);
 
     useEffect(() => {
         if (stompClient && stompClient.connected) {
             stompClient.publish({
-                destination: '/app/game.movePlayer',
+                destination: '/app/game/${roomId}/movePlayer',
                 body: JSON.stringify(player),
             });
         }
@@ -126,7 +139,7 @@ const Game = () => {
         setPlayer(updatedPlayer);
         if (stompClient && stompClient.connected) {
             stompClient.publish({
-                destination: '/app/game.movePlayer',
+                destination: '/app/game/${roomId}/movePlayer',
                 body: JSON.stringify(updatedPlayer),
             });
             dispatch(movePlayer(updatedPlayer));
@@ -157,7 +170,7 @@ const Game = () => {
                         otherPlayer.score += 1;
                         if (stompClient && stompClient.connected) {
                             stompClient.publish({
-                                destination: '/app/game.movePlayer',
+                                destination: '/app/game/${roomId}/movePlayer',
                                 body: JSON.stringify(otherPlayer),
                             });
                         }
@@ -191,7 +204,7 @@ const Game = () => {
         setPlayer(newPlayer);
         if (stompClient && stompClient.connected) {
             stompClient.publish({
-                destination: '/app/game.addPlayer',
+                destination: '/app/game/${roomId}/addPlayer',
                 body: JSON.stringify(newPlayer),
             });
 
@@ -204,37 +217,36 @@ const Game = () => {
         if (player && player.id) {
             if (stompClient && stompClient.connected) {
                 stompClient.publish({
-                    destination: '/app/game.removePlayer',
+                    destination: '/app/game/${roomId}/removePlayer',
                     body: JSON.stringify(player),
                 });
                 dispatch(removePlayer(player.id));
             }
         }
     };
-
     return (
         <div className="game-container">
-            <Map players={{players}}/>
-            {!modelSelected && (
-                <SelectModel playerType={playerType} setType={(type) => {
-                    setPlayer(prev => ({...prev, type}));
-                    setPlayerType(type); // 设置玩家类型
-                    setModelSelected(true); // 设置选择完成
-                }}/>
-            )}
 
-            <RecordingControl stompClient={stompClient} player={player}/>
-            {players.map((p) => (
-                p.type === 'mouse' ? (
-                    <Mouse key={p.id} players={[p]} onMouseMove={ handleMouseMove }/>
-                ) : (
-                    <Snake key={p.id} players={[p]} onMouseMove={ handleMouseMove }/>
-                )
-            ))}
+                    <Map players={{ players }} />
+                    {!modelSelected && (
+                        <SelectModel playerType={playerType} setType={(type) => {
+                            setPlayer((prev) => ({ ...prev, type }));
+                            setPlayerType(type); // 设置玩家类型
+                            setModelSelected(true); // 设置选择完成
+                        }} />
+                    )}
+                    <RecordingControl stompClient={stompClient} player={player} />
+                    {players.map((p) => (
+                        p.type === 'mouse' ? (
+                            <Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} />
+                        ) : (
+                            <Snake key={p.id} players={[p]} onMouseMove={handleMouseMove} />
+                        )
+                    ))}
+                    <Score score={player.score} />
+                    <Leaderboard leaderboard={players} />
+                    <RecordingList />
 
-            <Score score={player.score}/>
-            <Leaderboard leaderboard={players}/>
-            <RecordingList/>
         </div>
     );
 };

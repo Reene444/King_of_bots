@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from '../pages/Home/HomePage';
 import PlaybackPage from '../pages/Playback/PlaybackPage';
 import LoginPage from "../pages/Auth/Login/LoginPage";
-
+import RoomManagerPage from "../pages/RoomManager/RoomManagerPage";
 const AppRoutes = () => (
     <Router>
         <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<RoomManagerPage />} />
+            <Route path="/room" element={<RoomManagerPage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/auth" element={<LoginPage />} />
             <Route path="/playback/:id" element={<PlaybackPage />} />

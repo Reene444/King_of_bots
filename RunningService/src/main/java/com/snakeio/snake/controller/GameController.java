@@ -4,6 +4,7 @@ import com.snakeio.snake.model.Player;
 import com.snakeio.snake.service.GameService;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -22,31 +23,30 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    @MessageMapping("/game.addPlayer")
-    @SendTo("/topic/game")
-    public GameState addPlayer(@Payload Player player) {
-        gameService.addPlayer(player);
+    @MessageMapping("/game/{roomId}/addPlayer")
+    @SendTo("/topic/game/{roomId}")
+    public GameState addPlayer(@DestinationVariable String roomId, @Payload Player player) {
+        gameService.addPlayerToRoom(roomId,player);
         System.out.println("add");
-        return new GameState(gameService.getPlayers());
+        return new GameState(gameService.getPlayersInRoom(roomId));
     }
 
-    @MessageMapping("/game.movePlayer")
-    @SendTo("/topic/game")
-    public GameState movePlayer(@Payload Player updatedPlayer) {
-        gameService.movePlayer(updatedPlayer);
+    @MessageMapping("/game/{roomId}/movePlayer")
+    @SendTo("/topic/game/{roomId}")
+    public GameState movePlayer(@DestinationVariable String roomId,@Payload Player updatedPlayer) {
+        gameService.movePlayerInRoom(roomId, updatedPlayer);
         System.out.println("move");
-        System.out.println("move:"+gameService.getPlayers().size());
-
-        return new GameState(gameService.getPlayers());
+        System.out.println("move:"+gameService.getPlayersInRoom(roomId).size());
+        return new GameState(gameService.getPlayersInRoom(roomId));
     }
 
-    @MessageMapping("/game.removePlayer")
-    @SendTo("/topic/game")
-    public GameState removePlayer(@Payload Player player) {
-        gameService.removePlayer(player);
-        System.out.println("remove:"+gameService.getPlayers().size());
+    @MessageMapping("/game/{roomId}/removePlayer")
+    @SendTo("/topic/game/{roomId}")
+    public GameState removePlayer(@DestinationVariable String roomId,@Payload Player player) {
+        gameService.removePlayerFromRoom(roomId, player);
+        System.out.println("remove:"+gameService.getPlayersInRoom(roomId).size());
 
-        return new GameState(gameService.getPlayers());
+        return new GameState(gameService.getPlayersInRoom(roomId));
     }
 
 
