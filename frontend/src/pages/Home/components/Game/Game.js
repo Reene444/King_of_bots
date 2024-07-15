@@ -26,7 +26,7 @@ const Game = () => {
 
     const roomId=useSelector(state => state.room.roomId)
 
-    // console.log("roomid:",roomId);
+    console.log("roomid:",roomId);
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
     const navigate=useNavigate();
     useEffect(() => {
@@ -69,7 +69,7 @@ const Game = () => {
                 console.log(str);
             },
             onConnect: () => {
-                client.subscribe('/topic/game/${roomId}', (message) => {
+                client.subscribe(`/topic/game/${roomId}`, (message) => {
                     const gameState = JSON.parse(message.body);
                     dispatch(setPlayers(gameState.players));
                     const foundPlayer = gameState.players.find(p => p.id === player.id);
@@ -82,7 +82,7 @@ const Game = () => {
                     }
                 });
                 client.publish({
-                    destination: '/app/game/${roomId}/addPlayer',
+                    destination: `/app/game/${roomId}/addPlayer`,
                     body: JSON.stringify(player),
                 });
                 setStompClient(client);
@@ -101,7 +101,7 @@ const Game = () => {
     useEffect(() => {
         if (stompClient && stompClient.connected) {
             stompClient.publish({
-                destination: '/app/game/${roomId}/movePlayer',
+                destination: `/app/game/${roomId}/movePlayer`,
                 body: JSON.stringify(player),
             });
         }
@@ -139,7 +139,7 @@ const Game = () => {
         setPlayer(updatedPlayer);
         if (stompClient && stompClient.connected) {
             stompClient.publish({
-                destination: '/app/game/${roomId}/movePlayer',
+                destination: `/app/game/${roomId}/movePlayer`,
                 body: JSON.stringify(updatedPlayer),
             });
             dispatch(movePlayer(updatedPlayer));
@@ -170,7 +170,7 @@ const Game = () => {
                         otherPlayer.score += 1;
                         if (stompClient && stompClient.connected) {
                             stompClient.publish({
-                                destination: '/app/game/${roomId}/movePlayer',
+                                destination: `/app/game/${roomId}/movePlayer`,
                                 body: JSON.stringify(otherPlayer),
                             });
                         }
@@ -204,7 +204,7 @@ const Game = () => {
         setPlayer(newPlayer);
         if (stompClient && stompClient.connected) {
             stompClient.publish({
-                destination: '/app/game/${roomId}/addPlayer',
+                destination: `/app/game/${roomId}/addPlayer`,
                 body: JSON.stringify(newPlayer),
             });
 
@@ -217,7 +217,7 @@ const Game = () => {
         if (player && player.id) {
             if (stompClient && stompClient.connected) {
                 stompClient.publish({
-                    destination: '/app/game/${roomId}/removePlayer',
+                    destination: `/app/game/${roomId}/removePlayer`,
                     body: JSON.stringify(player),
                 });
                 dispatch(removePlayer(player.id));
