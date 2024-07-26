@@ -69,40 +69,31 @@ try:
     )
     # 模拟鼠标移动
     actions = ActionChains(driver)
-    canvases = driver.find_elements(By.TAG_NAME, "canvas")
 
-# actions.move_by_offset(10, 0).perform()
-    # time.sleep(1)
-    # actions.move_by_offset(-10, 0).perform()
-    # time.sleep(1)
-    # actions.move_by_offset(0, 10).perform()
-    # time.sleep(1)
-    # actions.move_by_offset(0, -10).perform()
-    # time.sleep(1)
-    # 移动到初始位置
     # 模拟鼠标移动到每个 canvas 上
-    for canvas in canvases:
-        # 获取画布的位置和大小
-        rect = canvas.rect
-        width = canvas.size['width']
-        height = canvas.size['height']
+    while True:
+        canvases = driver.find_elements(By.TAG_NAME, "canvas")
+        for canvas in canvases:
+            # 获取画布的位置和大小
+            rect = canvas.rect
+            width = canvas.size['width']
+            height = canvas.size['height']
 
-        # 确保目标位置在画布边界内的最大偏移量
-        max_offset_x = min(50, width / 2 - 1)
-        max_offset_y = min(50, height / 2 - 1)
+            # 确保目标位置在画布边界内的最大偏移量
+            max_offset_x = min(50, width / 2 - 1)
+            max_offset_y = min(50, height / 2 - 1)
 
-        # 移动到画布的中心位置
-        actions.move_to_element_with_offset(canvas, 0, 0).perform()
-        time.sleep(1)  # 等待1秒观察效果
+            # 移动到画布的中心位置
+            actions.move_to_element_with_offset(canvas, 0, 0).perform()
+            time.sleep(1)  # 等待1秒观察效果
 
-        # 模拟鼠标在画布上的移动
-        actions.move_by_offset(max_offset_x, max_offset_y).perform()  # 从中心移动 (max_offset_x, max_offset_y)
-        time.sleep(1)  # 等待1秒观察效果
+            # 模拟鼠标在画布上的移动
+            actions.move_by_offset(max_offset_x, max_offset_y).perform()  # 从中心移动 (max_offset_x, max_offset_y)
+            time.sleep(1)  # 等待1秒观察效果
 
-        actions.move_by_offset(max_offset_x, max_offset_y).perform()  # 从当前位置再移动 (max_offset_x, max_offset_y)
-        time.sleep(1)  # 等待1秒观察效果
+            actions.move_by_offset(max_offset_x, max_offset_y).perform()  # 从当前位置再移动 (max_offset_x, max_offset_y)
+            time.sleep(1)  # 等待1秒观察效果
 
 finally:
      #关闭浏览器
-    # driver.quit()
-     time.sleep(1)  # 等待1秒观察效果
+    driver.quit()
