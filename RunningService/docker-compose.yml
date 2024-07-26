@@ -10,11 +10,13 @@ services:
       - .:/backend  # 将当前目录挂载到容器内的 /app 目录
     deploy:
       replicas: 3
+    expose:
+      - "8097"
     command: ./mvnw  spring-boot:run  # 使用Maven命令启动Spring Boot应用
   nginx:
     image: nginx:latest
     ports:
-      - "8097:80"  # 将主机的8097端口映射到NGINX的80端口
+      - "80:80"  # 将主机的80端口映射到NGINX的80端口
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro  # 将本地的NGINX配置文件挂载到容器中
     depends_on:
