@@ -44,6 +44,7 @@ const RoomManagerPage = ({ }) => {
                 {rooms.map(room => (
                     <li key={room.id}>
                         <ButtonTime
+                            name={`room${room.id}`}  // 添加这个属性
                             onClick={() => handleRoomClick(room.id)}
                             progress={(room.timeLeft / 300) * 100}
                         >

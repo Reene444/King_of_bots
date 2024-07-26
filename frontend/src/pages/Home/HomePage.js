@@ -17,10 +17,9 @@ const HomePage = () => {
 
     const location = useLocation();
     const { room } = location;
-
     const dispatch = useDispatch();
     const roomId = room?.id;
-
+    console.log(useSelector(state => state.room.roomId));
     if(roomId){
         dispatch(joinRoom(roomId))
     }

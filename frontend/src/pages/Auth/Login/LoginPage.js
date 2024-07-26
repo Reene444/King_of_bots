@@ -44,7 +44,7 @@ const LoginPage = () => {
             name: nickname || generateRandomUsername(),
         };
         dispatch(login(user));
-        navigate('/home');
+        navigate('/room');
     };
 
     return (
@@ -59,6 +59,7 @@ const LoginPage = () => {
                 </Box>
                 <Box className="nickname-input">
                     <TextField
+                        name="nickname"
                         label="Enter a nickname"
                         value={nickname}
                         onChange={(e) => setNickname(e.target.value)}
@@ -66,7 +67,7 @@ const LoginPage = () => {
                     />
                 </Box>
                 <Box className="guest-login">
-                    <Button onClick={handleGuestLogin} variant="contained" color="primary" fullWidth>
+                    <Button name="guest_login_button" onClick={handleGuestLogin} variant="contained" color="primary" fullWidth>
                         Guest Login
                     </Button>
                 </Box>
