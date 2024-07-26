@@ -62,7 +62,7 @@ const Game = () => {
     });
 
     useEffect(() => {
-        const socket = new SockJS('http://localhost:8097/ws');
+        const socket = new SockJS('http://localhost:80/ws');
         const client = new Client({
             webSocketFactory: () => socket,
             debug: (str) => {
@@ -96,7 +96,7 @@ const Game = () => {
         return () => {
             client.deactivate();
         };
-    }, [dispatch]);
+    }, []);
 
     useEffect(() => {
         if (stompClient && stompClient.connected) {
@@ -144,7 +144,7 @@ const Game = () => {
             });
             dispatch(movePlayer(updatedPlayer));
         }
-    }, 20);
+    }, 16.7);
 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
