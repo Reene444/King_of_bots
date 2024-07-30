@@ -45,7 +45,7 @@ const Snake = ({ players, onMouseMove }) => {
             } else {
                 // 获取上次绘制的头尾信息
                 const { previousHead, previousTail } = snakePositions.current.get(player.id);
-                 console.log("jst update from last storage");
+                 console.log("jst update from last storage",snakePositions.current.size,);
                 // 清除之前的尾巴
                 context.clearRect(previousTail.x - 10, previousTail.y - 10, 20, 20); // 调整清除区域大小以覆盖尾巴
 
@@ -110,7 +110,7 @@ const Snake = ({ players, onMouseMove }) => {
                 drawSnake(player);
             });
         };
-        requestAnimationFrame(render)
+
         render();
     }, [players]);
     return (
