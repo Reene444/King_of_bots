@@ -64,7 +64,7 @@ try:
     mouse_button.click()
 
     # 等待游戏页面加载
-    game_container = WebDriverWait(driver, 2).until(
+    game_container = WebDriverWait(driver, 1).until(
         EC.presence_of_element_located((By.CLASS_NAME, "game-container"))
     )
     # 模拟鼠标移动
@@ -85,14 +85,9 @@ try:
 
             # 移动到画布的中心位置
             actions.move_to_element_with_offset(canvas, 0, 0).perform()
-            time.sleep(1)  # 等待1秒观察效果
-
-            # 模拟鼠标在画布上的移动
-            actions.move_by_offset(max_offset_x, max_offset_y).perform()  # 从中心移动 (max_offset_x, max_offset_y)
-            time.sleep(1)  # 等待1秒观察效果
-
-            actions.move_by_offset(max_offset_x, max_offset_y).perform()  # 从当前位置再移动 (max_offset_x, max_offset_y)
-            time.sleep(1)  # 等待1秒观察效果
+            while True:
+             # 模拟鼠标在画布上的移动
+                actions.move_by_offset(max_offset_x, max_offset_y).perform()  # 从中心移动 (max_offset_x, max_offset_y)
 
 finally:
      #关闭浏览器
