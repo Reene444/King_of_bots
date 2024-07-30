@@ -86,7 +86,7 @@ const Game = () => {
                 });
                 client.subscribe(`/topic/game/${roomId}/move`, (message) => {
                     const movedPlayer = JSON.parse(message.body);
-                    console.log("move:" + message.body + "id:"+movedPlayer.id+"current_player:" + player.id,(movedPlayer.id !== player.id));
+                    console.log("sbscribe_move:" + message.body + "id:"+movedPlayer.id+"current_player:" + player.id,(movedPlayer.id !== player.id));
                     dispatch(movePlayer(movedPlayer));
                 });
                 setStompClient(client);
@@ -101,6 +101,19 @@ const Game = () => {
     }, []);
 
     useEffect(() => {
+        console.log("logs:modelselected:", modelSelected)
+        console.log("logs:playerType", playerType, playerType === 'mouse' || playerType === 'snake');
+        if (modelSelected && stompClient && stompClient.connected) {
+            stompClient.publish({
+                destination: `/app/game/${roomId}/add`,
+                body: JSON.stringify(player),
+            });
+        }
+        dispatch(addPlayer(player))
+    }, [playerType]);
+
+
+    useEffect(() => {
         console.log("logs:moved:"+JSON.stringify({ id: player.id, head: player.segments[0], type: player.type, timestamp: Date.now() }))
         let timestamp = Date.now();
         if (modelSelected && stompClient && stompClient.connected) {
@@ -111,18 +124,6 @@ const Game = () => {
             });
         }
     }, [player.segments, stompClient, roomId]);
-    useEffect(() => {
-        console.log("logs:modelselected:", modelSelected)
-        console.log("logs:playerType", playerType, playerType === 'mouse' || playerType === 'snake');
-        if(playerType==='snake'||playerType==='mouse')
-        if (stompClient && stompClient.connected) {
-            stompClient.publish({
-                destination: `/app/game/${roomId}/add`,
-                body: JSON.stringify(player),
-            });
-        }
-        dispatch(addPlayer(player))
-    }, [playerType]);
 
     const handleMouseMove = throttle((event) => {
         console.log("Mouse moved"); // 添加日志以确认事件触发
@@ -149,17 +150,7 @@ const Game = () => {
             return;
         }
         setPlayer(updatedPlayer);
-
-        // 发送移动信息
-        if (stompClient && stompClient.connected) {
-            let timestamp = Date.now();
-            stompClient.publish({
-                destination: `/app/game/${roomId}/move`,
-                body: JSON.stringify({ id: player.id, head, type: player.type, timestamp }),
-                headers: { timestamp: timestamp }
-            });
-        }
-    }, 17);
+    }, 500);
 
     const checkCollision = (player) => {
         const head = player.segments[0];
@@ -191,26 +182,26 @@ const Game = () => {
             nickname: 'user_' + uuidv4().slice(0, 1),
             type: playerType // 保留玩家类型
         };
-        setPlayer(newPlayer);
-        if (stompClient && stompClient.connected) {
-            stompClient.publish({
-                destination: `/app/game/${roomId}/add`,
-                body: JSON.stringify(newPlayer),
-            });
-            dispatch(addPlayer(newPlayer));
-        }
+        // setPlayer(newPlayer);
+        // if (stompClient && stompClient.connected) {
+        //     stompClient.publish({
+        //         destination: `/app/game/${roomId}/add`,
+        //         body: JSON.stringify(newPlayer),
+        //     });
+        //     dispatch(addPlayer(newPlayer));
+        // }
     };
 
     const removePlayerHandler = (player) => {
         dispatch(removePlayer(player.id));
         if (player && player.id) {
-            if (stompClient && stompClient.connected) {
-                stompClient.publish({
-                    destination: `/app/game/${roomId}/removePlayer`,
-                    body: JSON.stringify(player),
-                });
-                dispatch(removePlayer(player.id));
-            }
+            // if (stompClient && stompClient.connected) {
+            //     stompClient.publish({
+            //         destination: `/app/game/${roomId}/removePlayer`,
+            //         body: JSON.stringify(player),
+            //     });
+            //     dispatch(removePlayer(player.id));
+            // }
         }
     };
 

@@ -109,6 +109,7 @@ const Snake = ({ players, onMouseMove }) => {
             players.forEach(player => {
                 drawSnake(player);
             });
+            requestAnimationFrame(render)
         };
 
         render();
