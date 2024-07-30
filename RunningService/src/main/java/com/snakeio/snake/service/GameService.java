@@ -1,6 +1,10 @@
 package com.snakeio.snake.service;
 
+import com.snakeio.snake.controller.GameController;
 import com.snakeio.snake.model.Player;
+import com.snakeio.snake.payload.PlayerMovePayload;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
@@ -11,47 +15,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Service
 public class GameService {
 
-//    private List<Player> players;
-//
-//    public GameService(List<Player> initialPlayers) {
-//        this.players = initialPlayers;
-//    }
-//
-//    public synchronized List<Player> getPlayers() {
-//        return players;
-//    }
-//
-//    public synchronized void addPlayer(Player player) {
-//
-////        players.add(player);
-//        if (players.stream().noneMatch(p -> p.getId().equals(player.getId()))) {
-//            players.add(player);
-//            System.out.println("Player added: " + player);
-//        }
-//    }
-//
-//    public synchronized void movePlayer(Player updatedPlayer) {
-//        if (players != null) {
-//            for (Player player : players) {
-//                if (player != null) {
-//                    if (player.getId().equals(updatedPlayer.getId())) {
-//                        player.setSegments(updatedPlayer.getSegments());
-//                        player.setScore(updatedPlayer.getScore());
-//                        player.setX(updatedPlayer.getX());
-//                        player.setY(updatedPlayer.getY());
-//                        player.setType(updatedPlayer.getType()); // 确保更新类型
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    public synchronized void removePlayer(Player player) {
-//        players.removeIf(p -> p.getId().equals(player.getId()));
-//        System.out.println(player.getId() + players);
-//    }
-
     private final ConcurrentHashMap<String, CopyOnWriteArrayList<Player>> roomPlayers = new ConcurrentHashMap<>();
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     public void addPlayerToRoom(String roomId, Player player) {
         roomPlayers.computeIfAbsent(roomId, k -> new CopyOnWriteArrayList<>()).add(player);
@@ -63,13 +29,39 @@ public class GameService {
             players.remove(player);
         }
     }
-    public void movePlayerInRoom(String roomId, Player updatedPlayer) {
+
+    public GameController.GameState getFullState(String roomId) {
+        List<Player> players = roomPlayers.getOrDefault(roomId, new CopyOnWriteArrayList<>());
+        return new GameController.GameState(players);
+    }
+
+    public void movePlayer(String roomId, PlayerMovePayload moveData) {
         CopyOnWriteArrayList<Player> players = roomPlayers.get(roomId);
         if (players != null) {
-            for (int i = 0; i < players.size(); i++) {
-                Player player = players.get(i);
-                if (player.getId().equals(updatedPlayer.getId())) {
-                    players.set(i, updatedPlayer);
+            for (Player player : players) {
+                if (player.getId().equals(moveData.getId())) {
+                    List<Player.Segment> segments = player.getSegments();
+                    synchronized (segments) {
+                        // 检查时间戳，只有当新的时间戳比当前的时间戳大时才处理消息
+                        if (moveData.getTimestamp() > player.getLastUpdateTime()) {
+                            if (!segments.isEmpty()) {
+                                segments.add(0, moveData.getHead());
+                                if (segments.size() > 1) {
+                                    segments.remove(segments.size() - 1);
+                                }
+                            } else {
+                                segments.add(moveData.getHead());
+                            }
+                            player.setSegments(segments);
+                            player.setLastUpdateTime(moveData.getTimestamp());
+                        } else {
+                            // 忽略较旧的消息
+                            System.out.println("Ignoring outdated move data");
+                            return;
+                        }
+                    }
+                    player.setSegments(segments);
+                    messagingTemplate.convertAndSend("/topic/game/" + roomId+"/move", moveData);
                     break;
                 }
             }

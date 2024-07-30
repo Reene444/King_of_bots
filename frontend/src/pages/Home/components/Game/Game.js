@@ -16,24 +16,20 @@ import { setPlayers, addPlayer, movePlayer, removePlayer } from '../../../../sto
 import SelectModel from '../SelectModel/SelectModel';
 import Map from '../../../../assets/scripts/Map/Map'
 import {useNavigate} from "react-router-dom";
+
 const Game = () => {
-    const players = useSelector(state => state.game.players);
-    const isRecording = useSelector(state => state.recording.isRecording);
-    const dispatch = useDispatch();
-    const [stompClient, setStompClient] = useState(null);
+    const roomId = useSelector(state => state.room.roomId);
+    const players = useSelector(state => state.game.players || []);
     const [playerType, setPlayerType] = useState(''); // 初始化为空
     const [modelSelected, setModelSelected] = useState(false); // 记录是否选择了模型
-
-    const roomId=useSelector(state => state.room.roomId)
-
-    console.log("roomid:",roomId);
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const navigate=useNavigate();
-    useEffect(() => {
-        if(!isAuthenticated)navigate("/auth");
-    }, []);
+    const isRecording = useSelector(state => state.recording.isRecording);
+    const [stompClient, setStompClient] = useState(null);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const MAX_SPEED = 7;
 
-    const MAX_SPEED = 6;
+    console.log("roomid:", roomId);
 
     const generateInitialSegments = () => {
         let segments;
@@ -42,10 +38,10 @@ const Game = () => {
             const startX = Math.floor(Math.random() * window.innerWidth);
             const startY = Math.floor(Math.random() * window.innerHeight);
             segments = Array.from({ length: 15 }, (_, index) => ({ x: startX - index * 10, y: startY }));
-            isSafe = players.every(player =>
-                !player.segments.some(segment =>
-                    segments.some(s => Math.abs(segment.x - s.x) < 20 && Math.abs(segment.y - s.y) < 20)
-                )
+            isSafe = players && players.every(player =>
+                    player && Array.isArray(player.segments) && player.segments.every(segment =>
+                        segments.every(s => segment && Math.abs(segment.x - s.x) >= 20 && Math.abs(segment.y - s.y) >= 20)
+                    )
             );
         } while (!isSafe);
         return segments;
@@ -62,28 +58,46 @@ const Game = () => {
     });
 
     useEffect(() => {
-        const socket = new SockJS('http://localhost:80/ws');
+        if (!isAuthenticated) navigate("/auth");
+    }, []);
+
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            removePlayerHandler(player);
+            navigate("/room");
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, [player]);
+
+    useEffect(() => {
+        const socket = new SockJS('http://localhost:8097/ws');
         const client = new Client({
             webSocketFactory: () => socket,
-            debug: (str) => {
-                console.log(str);
-            },
+            debug: (str) => { console.log(str); },
             onConnect: () => {
-                client.subscribe(`/topic/game/${roomId}`, (message) => {
-                    const gameState = JSON.parse(message.body);
-                    dispatch(setPlayers(gameState.players));
-                    const foundPlayer = gameState.players.find(p => p.id === player.id);
-                    if (foundPlayer) {
-                        setPlayer(prevPlayer => ({
-                            ...prevPlayer,
-                            score: foundPlayer.score,
-                            type: foundPlayer.type
-                        }));
+                client.subscribe(`/topic/game/${roomId}/add`, (message) => {
+                    const newplayer = JSON.parse(message.body);
+                    if (message.body.id !== player.id) {
+                        console.log("this is update for dispatch in adding",message.body);
+                        dispatch(addPlayer(newplayer));
+                        // dispatch(setPlayers(gameState.player));
                     }
                 });
-                client.publish({
-                    destination: `/app/game/${roomId}/addPlayer`,
-                    body: JSON.stringify(player),
+                console.log("modelselected:", modelSelected)
+                console.log("playerType", playerType, playerType === 'mouse' || playerType === 'snake');
+                if (playerType === 'mouse' || playerType === 'snake')
+                {
+                    client.publish({
+                        destination: `/app/game/${roomId}/add`,
+                        body: JSON.stringify(player),
+                    });
+                }
+
+                client.subscribe(`/topic/game/${roomId}/move`, (message) => {
+                    const gameState = JSON.parse(message.body);
+                    console.log("move:" + message.body + "current_player:" + player.id);
+                    if (message.body.id !== player.id) dispatch(movePlayer(gameState));
                 });
                 setStompClient(client);
             },
@@ -93,25 +107,24 @@ const Game = () => {
             },
         });
         client.activate();
-        return () => {
-            client.deactivate();
-        };
-    }, []);
+        return () => { client.deactivate(); };
+    }, [playerType, player]);
 
     useEffect(() => {
+        let timestamp = Date.now();
         if (stompClient && stompClient.connected) {
             stompClient.publish({
-                destination: `/app/game/${roomId}/movePlayer`,
-                body: JSON.stringify(player),
+                destination: `/app/game/${roomId}/move`,
+                body: JSON.stringify({ id: player.id, head: player.segments[0], type: player.type, timestamp: Date.now() }),
+                headers: { timestamp: timestamp }
             });
         }
-    }, [player.segments, stompClient]);
+    }, [player.segments, stompClient, roomId, player.id, player]);
 
     const handleMouseMove = throttle((event) => {
         const rect = event.target.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
-
         const head = { ...player.segments[0] };
         const dx = mouseX - head.x;
         const dy = mouseY - head.y;
@@ -119,48 +132,33 @@ const Game = () => {
 
         if (distance > MAX_SPEED) {
             const ratio = MAX_SPEED / distance;
-            head.x += dx * ratio;
-            head.y += dy * ratio;
-        } else {
-            head.x = mouseX;
-            head.y = mouseY;
-        }
+            head.x += dx * ratio; head.y += dy * ratio;
+        } else { head.x = mouseX; head.y = mouseY; }
 
         const updatedSegments = [head, ...player.segments.slice(0, -1)];
         const updatedPlayer = { ...player, segments: updatedSegments };
 
         if (checkCollision(updatedPlayer)) {
-            alert('Game over! restart...');
+            alert('Game over! Restarting...');
             removePlayerHandler(player);
             resetPlayer();
             return;
         }
-
         setPlayer(updatedPlayer);
+
+        // 发送移动信息
         if (stompClient && stompClient.connected) {
+            let timestamp = Date.now();
             stompClient.publish({
-                destination: `/app/game/${roomId}/movePlayer`,
-                body: JSON.stringify(updatedPlayer),
+                destination: `/app/game/${roomId}/move`,
+                body: JSON.stringify({ id: player.id, head, type: player.type, timestamp }),
+                headers: { timestamp: timestamp }
             });
-            dispatch(movePlayer(updatedPlayer));
         }
-    }, 16.7);
-
-    useEffect(() => {
-        const handleBeforeUnload = (event) => {
-            removePlayerHandler(player);
-        };
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, [player]);
+    }, 17);
 
     const checkCollision = (player) => {
         const head = player.segments[0];
-
         for (let i = 0; i < players.length; i++) {
             let otherPlayer = players[i];
             if (otherPlayer.id !== player.id) {
@@ -168,26 +166,14 @@ const Game = () => {
                     if (Math.abs(head.x - otherPlayer.segments[j].x) < 10 &&
                         Math.abs(head.y - otherPlayer.segments[j].y) < 10) {
                         otherPlayer.score += 1;
-                        if (stompClient && stompClient.connected) {
-                            stompClient.publish({
-                                destination: `/app/game/${roomId}/movePlayer`,
-                                body: JSON.stringify(otherPlayer),
-                            });
-                        }
-                        dispatch(setPlayers(players.map((p) => { if (p.id === otherPlayer.id) { return { ...p, score: p.score + 1 } } return p; })));
-
                         if (otherPlayer.id === player.id) {
-                            setPlayer(prevPlayer => ({
-                                ...prevPlayer,
-                                score: otherPlayer.score
-                            }));
+                            setPlayer(prevPlayer => ({ ...prevPlayer, score: otherPlayer.score }));
                         }
                         return true;
                     }
                 }
             }
         }
-
         return false;
     };
 
@@ -204,10 +190,9 @@ const Game = () => {
         setPlayer(newPlayer);
         if (stompClient && stompClient.connected) {
             stompClient.publish({
-                destination: `/app/game/${roomId}/addPlayer`,
+                destination: `/app/game/${roomId}/add`,
                 body: JSON.stringify(newPlayer),
             });
-
             dispatch(addPlayer(newPlayer));
         }
     };
@@ -224,29 +209,31 @@ const Game = () => {
             }
         }
     };
+
+    useEffect(() => {
+        const ids = players.map(player => player.id);
+        const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
+        if (duplicateIds.length > 0) {
+            console.warn('Duplicate keys found:', duplicateIds);
+        }
+    }, [players]);
+
     return (
         <div className="game-container">
-
-                    <Map players={{ players }} />
-                    {!modelSelected && (
-                        <SelectModel playerType={playerType} setType={(type) => {
-                            setPlayer((prev) => ({ ...prev, type }));
-                            setPlayerType(type); // 设置玩家类型
-                            setModelSelected(true); // 设置选择完成
-                        }} />
-                    )}
-                    <RecordingControl stompClient={stompClient} player={player} />
-                    {players.map((p) => (
-                        p.type === 'mouse' ? (
-                            <Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} />
-                        ) : (
-                            <Snake key={p.id} players={[p]} onMouseMove={handleMouseMove} />
-                        )
-                    ))}
-                    <Score score={player.score} />
-                    <Leaderboard leaderboard={players} />
-                    <RecordingList />
-
+            <Map players={{ players }} />
+            {!modelSelected && (
+                <SelectModel playerType={playerType} setType={(type) => {
+                    setPlayer((prev) => ({ ...prev, type }));
+                    setPlayerType(type); // 设置玩家类型
+                    console.log("playerType:", playerType, type);
+                    setModelSelected(true); // 设置选择完成
+                }} />
+            )}
+            <RecordingControl stompClient={stompClient} player={player} />
+            {players && players.map((p, index) => {
+                return p.type === 'mouse' ? (<Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} />) : (<Snake key={p.id} players={[p]} onMouseMove={handleMouseMove} />)
+            })}
+            <Score score={player.score} />
         </div>
     );
 };

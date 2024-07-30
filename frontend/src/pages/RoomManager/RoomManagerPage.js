@@ -34,6 +34,7 @@ const RoomManagerPage = ({ }) => {
     const handleRoomClick = (roomId) => {
         setSelectedRoom(roomId);
         dispatch(joinRoom(roomId));
+        console.log("roomId:",roomId);
         navigate('/home', { room: { id: roomId } });
     };
 

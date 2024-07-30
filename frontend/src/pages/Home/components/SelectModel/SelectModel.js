@@ -7,8 +7,8 @@ const SelectModel = ({ playerType, setType }) => {
         <div className="select-model-overlay">
             <div className="select-model-container">
                 <h2>Select Your Model</h2>
-                <Button onClick={() => setType('mouse')} disabled={playerType === 'mouse'}>Mouse</Button>
-                <Button onClick={() => setType('snake')} disabled={playerType === 'snake'}>Snake</Button>
+                <Button onClick={() => {setType('mouse');console.log("this is selected:mouse");}} disabled={playerType === 'mouse'}>Mouse</Button>
+                <Button onClick={() => {setType('snake');console.log("this is selectd snake");}} disabled={playerType === 'snake'}>Snake</Button>
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import sessionStorage from 'redux-persist/lib/storage/session';
 import { thunk } from 'redux-thunk';
 import rootReducer from '../store/redux/index'; // 确保 rootReducer 是一个有效的 reducer
 /**
@@ -9,7 +9,7 @@ import rootReducer from '../store/redux/index'; // 确保 rootReducer 是一个�
  */
 const persistConfig = {
     key: 'root',
-    storage,
+    storage:sessionStorage
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

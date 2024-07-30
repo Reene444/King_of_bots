@@ -16,6 +16,14 @@ const Mouse = ({ players, onMouseMove }) => {
             const bodyStart = player.segments[1];
             const bodyEnd = player.segments[player.segments.length - 1];
 
+            if (!head || !bodyStart || !bodyEnd) return;
+            // 确保 head, bodyStart 和 bodyEnd 对象包含 x 和 y 属性
+            if (typeof head.x !== 'number' || typeof head.y !== 'number' ||
+                typeof bodyStart.x !== 'number' || typeof bodyStart.y !== 'number' ||
+                typeof bodyEnd.x !== 'number' || typeof bodyEnd.y !== 'number') {
+                console.error('Invalid segment:', head, bodyStart, bodyEnd);
+                return;
+            }
 
             // 绘制身体
             if (bodyStart && bodyEnd) {

@@ -1,40 +1,42 @@
-// Action Types
 const SET_PLAYERS = 'SET_PLAYERS';
 const ADD_PLAYER = 'ADD_PLAYER';
 const MOVE_PLAYER = 'MOVE_PLAYER';
 const REMOVE_PLAYER = 'REMOVE_PLAYER';
 
-// Initial State
 const initialState = {
     players: [],
 };
 
-// Reducer
-const gameReducer = (state = initialState, action= {}) => {
+const gameReducer = (state = initialState, action = {}) => {
+    console.log('Action:', action.type, 'Payload:', action.payload);
     switch (action.type) {
         case SET_PLAYERS:
-            return { ...state, players: action.payload };
+            return { ...state, players: Array.isArray(action.payload) ? action.payload : [] };
         case ADD_PLAYER:
-            return { ...state, players: [...state.players, action.payload] };
+            return { ...state, players: Array.isArray(state.players) ? [...state.players, action.payload] : [action.payload] };
         case MOVE_PLAYER:
             return {
                 ...state,
-                players: state.players.map(player =>
-                    player.id === action.payload.id ? action.payload : player
-                ),
+                players: Array.isArray(state.players) ? state.players.map(player =>
+                    player.id === action.payload.id
+                        ? { ...player,
+                            segments: [
+                                { x: action.payload.head.x, y: action.payload.head.y },
+                                ...player.segments.slice(0, -1)
+                            ] }
+                        : player
+                ) : [],
             };
         case REMOVE_PLAYER:
             return {
                 ...state,
-
-                players: state.players.filter(player => player.id !== action.payload.id),
+                players: Array.isArray(state.players) ? state.players.filter(player => player.id !== action.payload.id) : [],
             };
         default:
             return state;
     }
 };
 
-// Action Creators
 export const setPlayers = players => ({
     type: SET_PLAYERS,
     payload: players
@@ -52,9 +54,7 @@ export const movePlayer = player => ({
 
 export const removePlayer = playerId => ({
     type: REMOVE_PLAYER,
-    payload: { id: playerId
-
-    }
+    payload: { id: playerId }
 });
 
 export default gameReducer;
