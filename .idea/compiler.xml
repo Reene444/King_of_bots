@@ -8,8 +8,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="RecordingService" />
+        <module name="UserService (3)" />
+        <module name="UserService (1)" />
         <module name="RunningService" />
-        <module name="UserService" />
+        <module name="UserService (2) (org.baseline)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -17,6 +19,7 @@
       <module name="DiscoveryServer" target="17" />
       <module name="RunningServer" target="17" />
       <module name="Runningservice" target="17" />
+      <module name="UserService" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -28,6 +31,8 @@
       <module name="RunningService" options="-parameters" />
       <module name="Runningservice" options="-parameters" />
       <module name="UserService" options="-parameters" />
+      <module name="UserService (1)" options="-parameters" />
+      <module name="UserService (3)" options="-parameters" />
     </option>
   </component>
 </project>

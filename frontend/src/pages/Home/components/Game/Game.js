@@ -87,7 +87,8 @@ const Game = () => {
                 client.subscribe(`/topic/game/${roomId}/move`, (message) => {
                     const movedPlayer = JSON.parse(message.body);
                     console.log("sbscribe_move:" + message.body + "id:"+movedPlayer.id+"current_player:" + player.id,(movedPlayer.id !== player.id));
-                    dispatch(movePlayer(movedPlayer));
+                    if(movedPlayer.id!==player.id)
+                        dispatch(movePlayer(movedPlayer));
                 });
                 setStompClient(client);
             },
@@ -150,6 +151,7 @@ const Game = () => {
             return;
         }
         setPlayer(updatedPlayer);
+        dispatch(setPlayers(updatedPlayer))
     }, 500);
 
     const checkCollision = (player) => {

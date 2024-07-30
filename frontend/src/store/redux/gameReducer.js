@@ -11,7 +11,12 @@ const gameReducer = (state = initialState, action = {}) => {
     console.log('Action:', action.type, 'Payload:', action.payload);
     switch (action.type) {
         case SET_PLAYERS:
-            return { ...state, players: Array.isArray(action.payload) ? action.payload : [] };
+            return {        ...state,
+                players: state.players.map(p =>
+                    p.id === action.payload.id ? { ...p, ...action.payload } : p
+                )
+
+            };
         case ADD_PLAYER:
             return { ...state, players: Array.isArray(state.players) ? [...state.players, action.payload] : [action.payload] };
         case MOVE_PLAYER:
