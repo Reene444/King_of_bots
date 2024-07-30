@@ -78,26 +78,16 @@ const Game = () => {
             onConnect: () => {
                 client.subscribe(`/topic/game/${roomId}/add`, (message) => {
                     const newplayer = JSON.parse(message.body);
-                    if (message.body.id !== player.id) {
-                        console.log("this is update for dispatch in adding",message.body);
+                    if (newplayer.id !== player.id) {
+                        console.log("this is update for dispatch in adding",message.body,newplayer.id !== player.id);
                         dispatch(addPlayer(newplayer));
                         // dispatch(setPlayers(gameState.player));
                     }
                 });
-                console.log("modelselected:", modelSelected)
-                console.log("playerType", playerType, playerType === 'mouse' || playerType === 'snake');
-                if (playerType === 'mouse' || playerType === 'snake')
-                {
-                    client.publish({
-                        destination: `/app/game/${roomId}/add`,
-                        body: JSON.stringify(player),
-                    });
-                }
-
                 client.subscribe(`/topic/game/${roomId}/move`, (message) => {
-                    const gameState = JSON.parse(message.body);
-                    console.log("move:" + message.body + "current_player:" + player.id);
-                    if (message.body.id !== player.id) dispatch(movePlayer(gameState));
+                    const movedPlayer = JSON.parse(message.body);
+                    console.log("move:" + message.body + "id:"+movedPlayer.id+"current_player:" + player.id,(movedPlayer.id !== player.id));
+                    dispatch(movePlayer(movedPlayer));
                 });
                 setStompClient(client);
             },
@@ -108,20 +98,34 @@ const Game = () => {
         });
         client.activate();
         return () => { client.deactivate(); };
-    }, [playerType, player]);
+    }, []);
 
     useEffect(() => {
+        console.log("logs:moved:"+JSON.stringify({ id: player.id, head: player.segments[0], type: player.type, timestamp: Date.now() }))
         let timestamp = Date.now();
-        if (stompClient && stompClient.connected) {
+        if (modelSelected && stompClient && stompClient.connected) {
             stompClient.publish({
                 destination: `/app/game/${roomId}/move`,
                 body: JSON.stringify({ id: player.id, head: player.segments[0], type: player.type, timestamp: Date.now() }),
                 headers: { timestamp: timestamp }
             });
         }
-    }, [player.segments, stompClient, roomId, player.id, player]);
+    }, [player.segments, stompClient, roomId]);
+    useEffect(() => {
+        console.log("logs:modelselected:", modelSelected)
+        console.log("logs:playerType", playerType, playerType === 'mouse' || playerType === 'snake');
+        if(playerType==='snake'||playerType==='mouse')
+        if (stompClient && stompClient.connected) {
+            stompClient.publish({
+                destination: `/app/game/${roomId}/add`,
+                body: JSON.stringify(player),
+            });
+        }
+        dispatch(addPlayer(player))
+    }, [playerType]);
 
     const handleMouseMove = throttle((event) => {
+        console.log("Mouse moved"); // 添加日志以确认事件触发
         const rect = event.target.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
@@ -137,7 +141,7 @@ const Game = () => {
 
         const updatedSegments = [head, ...player.segments.slice(0, -1)];
         const updatedPlayer = { ...player, segments: updatedSegments };
-
+        console.log("updated player local:",updatedPlayer);
         if (checkCollision(updatedPlayer)) {
             alert('Game over! Restarting...');
             removePlayerHandler(player);
@@ -224,8 +228,9 @@ const Game = () => {
             {!modelSelected && (
                 <SelectModel playerType={playerType} setType={(type) => {
                     setPlayer((prev) => ({ ...prev, type }));
-                    setPlayerType(type); // 设置玩家类型
-                    console.log("playerType:", playerType, type);
+                    let typetemp=type
+                    setPlayerType('snake'); // 设置玩家类型
+                    console.log("playerType:", playerType,",", type,",",player);
                     setModelSelected(true); // 设置选择完成
                 }} />
             )}
