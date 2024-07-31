@@ -23,6 +23,8 @@
       <set>
         <option value="$PROJECT_DIR$/ApiGateway/pom.xml" />
         <option value="$PROJECT_DIR$/DiscoveryServer/pom.xml" />
+        <option value="$PROJECT_DIR$/UserService/UserService/pom.xml" />
+        <option value="$PROJECT_DIR$/../untitled folder/King_of_bots/UserService/pom.xml" />
       </set>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />

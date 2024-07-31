@@ -20,5 +20,6 @@ const store = createStore(
 );
 
 const persistor = persistStore(store);
+console.log('Storage engine:', persistConfig.storage === sessionStorage ? 'sessionStorage' : 'other'); // 添加此行进行日志记录
 
 export { store, persistor };

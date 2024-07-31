@@ -1,13 +1,13 @@
 package com.snakeio.snake.service;
 
-import com.snakeio.snake.controller.GameController;
+import com.snakeio.snake.payload.GameStateDTO;
+import com.snakeio.snake.websocket.GameController;
 import com.snakeio.snake.model.Player;
 import com.snakeio.snake.payload.PlayerMovePayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -30,9 +30,9 @@ public class GameService {
         }
     }
 
-    public GameController.GameState getFullState(String roomId) {
+    public GameStateDTO getFullState(String roomId) {
         List<Player> players = roomPlayers.getOrDefault(roomId, new CopyOnWriteArrayList<>());
-        return new GameController.GameState(players);
+        return new GameStateDTO(players);
     }
 
     public void movePlayer(String roomId, PlayerMovePayload moveData) {
