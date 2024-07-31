@@ -16,6 +16,7 @@ import { setPlayers, addPlayer, movePlayer, removePlayer } from '../../../../sto
 import SelectModel from '../SelectModel/SelectModel';
 import Map from '../../../../assets/scripts/Map/Map'
 import {useNavigate} from "react-router-dom";
+import {fetchGameState} from "../../../../api/httpRequest";
 
 const Game = () => {
     const roomId = useSelector(state => state.room.roomId);
@@ -28,7 +29,7 @@ const Game = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const MAX_SPEED = 7;
-
+    const [init,setInit]=useState(false)
     console.log("roomid:", roomId);
 
     const generateInitialSegments = () => {
@@ -70,7 +71,28 @@ const Game = () => {
         return () => window.removeEventListener('beforeunload', handleBeforeUnload);
     }, [player]);
 
+    useEffect(()=>{
+
+        const initializeGamePlayers = async () => {
+            try {
+                const gameState = await fetchGameState(roomId);
+                gameState.players.forEach(p=>{
+                    dispatch(addPlayer(p))
+                })
+                console.log("game.js:get the init gamers:",players);
+                setInit(true)
+                // alert("get init player"+`${JSON.stringify(gameState.players)}`)
+            } catch (error) {
+                console.error("Failed to fetch game state:", error);
+            }
+        };
+
+       if(roomId !== null&& !init)initializeGamePlayers();
+
+    },[])
+
     useEffect(() => {
+
         const socket = new SockJS('http://localhost:8097/ws');
         const client = new Client({
             webSocketFactory: () => socket,
@@ -87,8 +109,7 @@ const Game = () => {
                 client.subscribe(`/topic/game/${roomId}/move`, (message) => {
                     const movedPlayer = JSON.parse(message.body);
                     console.log("sbscribe_move:" + message.body + "id:"+movedPlayer.id+"current_player:" + player.id,(movedPlayer.id !== player.id));
-                    if(movedPlayer.id!==player.id)
-                        dispatch(movePlayer(movedPlayer));
+                    if(movedPlayer.id!==player.id) dispatch(movePlayer(movedPlayer));
                 });
                 setStompClient(client);
             },
@@ -109,8 +130,9 @@ const Game = () => {
                 destination: `/app/game/${roomId}/add`,
                 body: JSON.stringify(player),
             });
+            dispatch(addPlayer(player))
         }
-        dispatch(addPlayer(player))
+
     }, [playerType]);
 
 
@@ -207,13 +229,13 @@ const Game = () => {
         }
     };
 
-    useEffect(() => {
-        const ids = players.map(player => player.id);
-        const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
-        if (duplicateIds.length > 0) {
-            console.warn('Duplicate keys found:', duplicateIds);
-        }
-    }, [players]);
+    // useEffect(() => {
+    //     const ids = players.map(player => player.id);
+    //     const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
+    //     if (duplicateIds.length > 0) {
+    //         console.warn('Duplicate keys found:', duplicateIds);
+    //     }
+    // }, [players]);
 
     return (
         <div className="game-container">

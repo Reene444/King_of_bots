@@ -18,7 +18,15 @@ const gameReducer = (state = initialState, action = {}) => {
 
             };
         case ADD_PLAYER:
-            return { ...state, players: Array.isArray(state.players) ? [...state.players, action.payload] : [action.payload] };
+            return {
+                ...state,
+                players: Array.isArray(state.players)
+                    ? state.players.some(player => player.id === action.payload.id)
+                        ? state.players
+                        : [...state.players, action.payload]
+                    : [action.payload]
+            };
+
         case MOVE_PLAYER:
             return {
                 ...state,
