@@ -1,2 +1,9 @@
+# Ignore node_modules and cache files
 node_modules/
 .cache/
+
+# Specific to frontend directory
+frontend/node_modules/
+frontend/.cache/
+frontend/node_modules/.cache/
+frontend/node_modules/.cache/default-development/
