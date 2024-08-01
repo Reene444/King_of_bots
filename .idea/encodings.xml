@@ -2,9 +2,15 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/RecordingService/src/main/java" charset="UTF-8" />
+<<<<<<< HEAD
     <file url="file://$PROJECT_DIR$/RunningService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/UserService/UserService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/UserService/UserService/src/main/resources" charset="UTF-8" />
+=======
+    <file url="file://$PROJECT_DIR$/RecordingService/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/RunningService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/RunningService/src/main/resources" charset="UTF-8" />
+>>>>>>> 826a0eef (Save local changes before merge)
     <file url="file://$PROJECT_DIR$/UserService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/UserService/src/main/resources" charset="UTF-8" />
   </component>

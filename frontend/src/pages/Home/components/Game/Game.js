@@ -16,9 +16,17 @@ import { setPlayers, addPlayer, movePlayer, removePlayer } from '../../../../sto
 import SelectModel from '../SelectModel/SelectModel';
 import Map from '../../../../assets/scripts/Map/Map'
 import {useNavigate} from "react-router-dom";
+<<<<<<< HEAD
 import {fetchGameState} from "../../../../api/httpRequest";
 
 const Game = () => {
+=======
+import {addPlayerToRoom, fetchGameState} from "../../../../api/httpRequest";
+import {leaveRoom} from "../../../../store/redux/roomReducer";
+
+const Game = () => {
+    const userAuth=useSelector(state => state.auth.user)
+>>>>>>> 826a0eef (Save local changes before merge)
     const roomId = useSelector(state => state.room.roomId);
     const players = useSelector(state => state.game.players || []);
     const [playerType, setPlayerType] = useState(''); // 初始化为空
@@ -53,8 +61,14 @@ const Game = () => {
         segments: generateInitialSegments(), // 使用生成的安全位置
         color: getRandomColor(),
         score: 0,
+<<<<<<< HEAD
         username: 'user@user.com',
         nickname: 'user_' + uuidv4().slice(0, 1),
+=======
+        username: userAuth.id,
+        nickname: userAuth.name,
+
+>>>>>>> 826a0eef (Save local changes before merge)
         type: '' // 初始化为空
     });
 
@@ -87,7 +101,11 @@ const Game = () => {
             }
         };
 
+<<<<<<< HEAD
        if(roomId !== null&& !init)initializeGamePlayers();
+=======
+        if(roomId !== null&& !init)initializeGamePlayers();
+>>>>>>> 826a0eef (Save local changes before merge)
 
     },[])
 
@@ -123,6 +141,7 @@ const Game = () => {
     }, []);
 
     useEffect(() => {
+<<<<<<< HEAD
         console.log("logs:modelselected:", modelSelected)
         console.log("logs:playerType", playerType, playerType === 'mouse' || playerType === 'snake');
         if (modelSelected && stompClient && stompClient.connected) {
@@ -132,6 +151,35 @@ const Game = () => {
             });
             dispatch(addPlayer(player))
         }
+=======
+        const joinRoom = async () => {
+            console.log("logs:modelselected:", modelSelected);
+            console.log("logs:playerType", playerType, playerType === 'mouse' || playerType === 'snake');
+            if (modelSelected && stompClient && stompClient.connected) {
+                stompClient.publish({
+                    destination: `/app/game/${roomId}/add`,
+                    body: JSON.stringify(player),
+                });
+                dispatch(addPlayer(player));
+                try {
+                    const addplayerResult = await addPlayerToRoom(roomId, player.id);
+
+                } catch (e) {
+                    console.log("Failed to add to the rooms", e);
+                    dispatch(leaveRoom(player))
+                    navigate("/room")
+                }
+            }
+        };
+
+        joinRoom();
+
+        // 清理函数
+        return () => {
+            // 这里可以添加需要的清理逻辑
+
+        };
+>>>>>>> 826a0eef (Save local changes before merge)
 
     }, [playerType]);
 
@@ -174,7 +222,11 @@ const Game = () => {
         }
         setPlayer(updatedPlayer);
         dispatch(setPlayers(updatedPlayer))
+<<<<<<< HEAD
     }, 500);
+=======
+    }, 200);
+>>>>>>> 826a0eef (Save local changes before merge)
 
     const checkCollision = (player) => {
         const head = player.segments[0];
@@ -206,6 +258,7 @@ const Game = () => {
             nickname: 'user_' + uuidv4().slice(0, 1),
             type: playerType // 保留玩家类型
         };
+<<<<<<< HEAD
         // setPlayer(newPlayer);
         // if (stompClient && stompClient.connected) {
         //     stompClient.publish({
@@ -214,6 +267,16 @@ const Game = () => {
         //     });
         //     dispatch(addPlayer(newPlayer));
         // }
+=======
+        setPlayer(newPlayer);
+        if (stompClient && stompClient.connected) {
+            stompClient.publish({
+                destination: `/app/game/${roomId}/add`,
+                body: JSON.stringify(newPlayer),
+            });
+            dispatch(addPlayer(newPlayer));
+        }
+>>>>>>> 826a0eef (Save local changes before merge)
     };
 
     const removePlayerHandler = (player) => {
@@ -254,6 +317,11 @@ const Game = () => {
                 return p.type === 'mouse' ? (<Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} />) : (<Snake key={p.id} players={[p]} onMouseMove={handleMouseMove} />)
             })}
             <Score score={player.score} />
+<<<<<<< HEAD
+=======
+            <Leaderboard leaderboard={players} />
+            <RecordingList />
+>>>>>>> 826a0eef (Save local changes before merge)
         </div>
     );
 };

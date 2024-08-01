@@ -4,6 +4,10 @@ import {useDispatch, useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ButtonTime from "../../components/ButtonTime/ButtonTime";
 import {joinRoom} from "../../store/redux/roomReducer";
+<<<<<<< HEAD
+=======
+import {fetchRooms} from "../../api/httpRequest";
+>>>>>>> 826a0eef (Save local changes before merge)
 
 const RoomManagerPage = ({ }) => {
     const [rooms, setRooms] = useState([]);
@@ -30,7 +34,23 @@ const RoomManagerPage = ({ }) => {
         ];
         setRooms(testRooms);
     }, []);
+<<<<<<< HEAD
 
+=======
+    // 使用useEffect来获取房间数据
+    useEffect(() => {
+        const loadRooms = async () => {
+            try {
+                const roomsData = await fetchRooms();
+                setRooms(roomsData);
+            } catch (error) {
+                console.error("Failed to load rooms:", error);
+            }
+        };
+
+        loadRooms();
+    }, []);
+>>>>>>> 826a0eef (Save local changes before merge)
     const handleRoomClick = (roomId) => {
         setSelectedRoom(roomId);
         dispatch(joinRoom(roomId));
@@ -49,7 +69,11 @@ const RoomManagerPage = ({ }) => {
                             onClick={() => handleRoomClick(room.id)}
                             progress={(room.timeLeft / 300) * 100}
                         >
+<<<<<<< HEAD
                             Room {room.id} - Players: {room.players}/{room.maxPlayers} - Time Left: {room.timeLeft}s
+=======
+                            Room {room.id} - Players: {room.playersCount}/{room.maxPlayers} - Time Left: {room.timeLeft}s
+>>>>>>> 826a0eef (Save local changes before merge)
                         </ButtonTime>
                     </li>
                 ))}

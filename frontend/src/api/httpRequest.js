@@ -32,4 +32,37 @@ export const fetchGameState = async (roomId) => {
     }
 };
 
+<<<<<<< HEAD
 // 其他请求函数...
+=======
+// 新增获取房间数据的函数
+export const fetchRooms = async () => {
+    try {
+        const response = await apiClient.get('/api/rooms');
+        return response.data;
+    } catch (error) {
+        console.error("Failed to fetch rooms:", error);
+        throw error;
+    }
+};
+
+export const addPlayerToRoom = async (roomId, playerId) => {
+    try {
+        const response = await apiClient.post(`/api/rooms/${roomId}/players/${playerId}`);
+        return response.data;
+    } catch (error) {
+        console.error(`Failed to add player ${playerId} to room ${roomId}:`, error);
+        throw error;
+    }
+};
+
+export const removePlayerFromRoom = async (roomId, playerId) => {
+    try {
+        const response = await apiClient.delete(`/api/rooms/${roomId}/players/${playerId}`);
+        return response.data;
+    } catch (error) {
+        console.error(`Failed to remove player ${playerId} from room ${roomId}:`, error);
+        throw error;
+    }
+};
+>>>>>>> 826a0eef (Save local changes before merge)

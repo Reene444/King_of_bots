@@ -1,13 +1,18 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Black">
     <option name="sdkName" value="Python 3.10" />
   </component>
+=======
+<project version="4">
+>>>>>>> 826a0eef (Save local changes before merge)
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/RunningService/pom.xml" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/DiscoveryServer/pom.xml" />
         <option value="$PROJECT_DIR$/AuthService/pom.xml" />
         <option value="$PROJECT_DIR$/ApiGateway/pom.xml" />
@@ -27,6 +32,11 @@
         <option value="$PROJECT_DIR$/../untitled folder/King_of_bots/UserService/pom.xml" />
       </set>
     </option>
+=======
+        <option value="$PROJECT_DIR$/RecordingService/pom.xml" />
+      </list>
+    </option>
+>>>>>>> 826a0eef (Save local changes before merge)
     <option name="workspaceImportForciblyTurnedOn" value="true" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="corretto-17" project-jdk-type="JavaSDK">
