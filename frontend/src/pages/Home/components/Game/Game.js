@@ -35,6 +35,9 @@ const Game = () => {
     const [init,setInit]=useState(false)
     console.log("roomid:", roomId);
 
+    useEffect(() => {
+        if (!isAuthenticated) navigate("/auth");
+    }, []);
     const generateInitialSegments = () => {
         let segments;
         let isSafe;
@@ -56,17 +59,12 @@ const Game = () => {
         segments: generateInitialSegments(), // 使用生成的安全位置
         color: getRandomColor(),
         score: 0,
-
         username: userAuth.id,
         nickname: userAuth.name,
-
-
         type: '' // 初始化为空
     });
 
-    useEffect(() => {
-        if (!isAuthenticated) navigate("/auth");
-    }, []);
+
 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
