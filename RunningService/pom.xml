@@ -38,17 +38,11 @@
         </dependency>
 
 
-<<<<<<< HEAD
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
-<!--        </dependency>-->
-=======
         <!--        <dependency>-->
         <!--            <groupId>org.springframework.cloud</groupId>-->
         <!--            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
         <!--        </dependency>-->
->>>>>>> 826a0eef (Save local changes before merge)
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -88,14 +82,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
-<<<<<<< HEAD
-=======
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
             <version>3.3.1</version>
         </dependency>
->>>>>>> 826a0eef (Save local changes before merge)
+
 
 
     </dependencies>
@@ -127,8 +120,6 @@
         </plugins>
     </build>
 
-<<<<<<< HEAD
+
 </project>
-=======
-</project>
->>>>>>> 826a0eef (Save local changes before merge)
+

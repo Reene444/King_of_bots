@@ -32,9 +32,7 @@ export const fetchGameState = async (roomId) => {
     }
 };
 
-<<<<<<< HEAD
-// 其他请求函数...
-=======
+
 // 新增获取房间数据的函数
 export const fetchRooms = async () => {
     try {
@@ -65,4 +63,4 @@ export const removePlayerFromRoom = async (roomId, playerId) => {
         throw error;
     }
 };
->>>>>>> 826a0eef (Save local changes before merge)
+
