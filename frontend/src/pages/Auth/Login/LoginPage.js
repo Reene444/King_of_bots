@@ -8,7 +8,7 @@ import Background from '../../../components/Background/Background';
 import { login } from '../../../store/redux/authReducer';
 import './LoginPage.css';
 import { jwtDecode } from "jwt-decode";
-import {Map} from "@material-ui/icons";
+
 const generateRandomUsername = () => `guest_${Math.random().toString(36).substring(7)}`;
 
 const LoginPage = () => {

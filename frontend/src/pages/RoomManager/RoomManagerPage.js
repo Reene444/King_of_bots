@@ -31,7 +31,7 @@ const RoomManagerPage = ({ }) => {
             { id: 5, players: 3, maxPlayers: 10, timeLeft: 300 },
             { id: 6 , players:8, maxPlayers: 10, timeLeft: 60 },
         ];
-        setRooms(testRooms);
+        // setRooms(testRooms);
     }, []);
 
     // 使用useEffect来获取房间数据
