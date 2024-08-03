@@ -26,8 +26,8 @@ const LoginPage = () => {
             console.log('Name:', name);
             console.log('Email:', email);
             const user={
-                username:email,
-                nickname:name,
+                id:email,
+                name:name,
             }
             dispatch(login(user));
             navigate("/room")

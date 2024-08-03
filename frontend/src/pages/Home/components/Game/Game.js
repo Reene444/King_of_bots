@@ -18,6 +18,7 @@ import Map from '../../../../assets/scripts/Map/Map'
 import {useNavigate} from "react-router-dom";
 import {addPlayerToRoom, fetchGameState} from "../../../../api/httpRequest";
 import {leaveRoom} from "../../../../store/redux/roomReducer";
+import RecordingControl2 from "../RecordingControl/RecordingControl";
 
 const Game = () => {
     const userAuth=useSelector(state => state.auth.user)
@@ -246,13 +247,13 @@ const Game = () => {
     const removePlayerHandler = (player) => {
         dispatch(removePlayer(player.id));
         if (player && player.id) {
-            // if (stompClient && stompClient.connected) {
-            //     stompClient.publish({
-            //         destination: `/app/game/${roomId}/removePlayer`,
-            //         body: JSON.stringify(player),
-            //     });
-            //     dispatch(removePlayer(player.id));
-            // }
+            if (stompClient && stompClient.connected) {
+                stompClient.publish({
+                    destination: `/app/game/${roomId}/removePlayer`,
+                    body: JSON.stringify(player),
+                });
+                dispatch(removePlayer(player.id));
+            }
         }
     };
 
@@ -276,7 +277,8 @@ const Game = () => {
                     setModelSelected(true); // 设置选择完成
                 }} />
             )}
-            <RecordingControl stompClient={stompClient} player={player} />
+
+            <RecordingControl players={players} />
             {players && players.map((p, index) => {
                 return p.type === 'mouse' ? (<Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} />) : (<Snake key={p.id} players={[p]} onMouseMove={handleMouseMove} />)
             })}
