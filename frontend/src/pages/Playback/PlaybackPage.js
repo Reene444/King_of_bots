@@ -1,74 +1,200 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import Snake from '../../assets/scripts/Snake/Snake';
-import './PlaybackPage.css';
-import {v4 as uuidv4} from "uuid";
+import '../../assets/scripts/Snake/Snake.css';
+import Map from "../../assets/scripts/Map/Map";
 
-const MAX_SPEED = 5; // Set maximum speed for snake head
+const playbackData = [
+    {
+        "players": [
+            {
+                "id": "1cbff3c9-5e93-47c3-bd5f-dd7e87b6c779",
+                "segments": [
+                    { "x": 1044.2903539915105, "y": 639.2933180629402 },
+                    { "x": 1042.3644784387245, "y": 646.0231771517459 },
+                    { "x": 1039.3616477672301, "y": 652.3463889905453 },
+                    { "x": 1034.9165217992702, "y": 657.753870394024 },
+                    { "x": 1028.0882324557474, "y": 659.2948001916243 },
+                    { "x": 1031.1020153909594, "y": 652.9768011080992 },
+                    { "x": 1037.5402942465832, "y": 650.2293358440373 },
+                    { "x": 1043.8646434687055, "y": 647.228901389389 },
+                    { "x": 1049.03497002941, "y": 642.51003253598 },
+                    { "x": 1048.0419680411037, "y": 635.580822837088 },
+                    { "x": 1045.0813697658068, "y": 629.2377275475382 },
+                    { "x": 1042.5726149900443, "y": 622.7027333260344 },
+                    { "x": 1039.9001158490548, "y": 616.2329768900153 },
+                    { "x": 1036.232213895009, "y": 610.2708887276759 },
+                    { "x": 1032.5688582640107, "y": 604.3060060363874 }
+                ],
+                "color": "#5CB133",
+                "score": 0,
+                "username": "reene44444@gmail.com",
+                "nickname": "meta J",
+                "type": "snake"
+            },
+            {
+                "id": "57a2fbab-1304-4ba1-b483-ebb8ea631f6c",
+                "x": 0,
+                "y": 0,
+                "color": "#836E7F",
+                "score": 0,
+                "segments": [
+                    { "x": 905, "y": 566 },
+                    { "x": 907, "y": 573 },
+                    { "x": 910, "y": 579 },
+                    { "x": 914, "y": 585 },
+                    { "x": 918, "y": 590 },
+                    { "x": 923, "y": 595 },
+                    { "x": 929, "y": 600 },
+                    { "x": 934, "y": 604 },
+                    { "x": 940, "y": 607 },
+                    { "x": 947, "y": 609 },
+                    { "x": 954, "y": 610 },
+                    { "x": 961, "y": 611 },
+                    { "x": 968, "y": 610 },
+                    { "x": 975, "y": 610 },
+                    { "x": 971, "y": 615 }
+                ],
+                "nickname": "123",
+                "type": "snake",
+                "lastUpdateTime": 0
+            }
+        ],
+        "timestamp": 1722725989126
+    },
+    {
+        "players": [
+            {
+                "id": "1cbff3c9-5e93-47c3-bd5f-dd7e87b6c779",
+                "segments": [
+                    { "x": 1048.2925062729869, "y": 605.1565512800662 },
+                    { "x": 1046.817838792137, "y": 611.9994567902222 },
+                    { "x": 1045.967078200601, "y": 618.9475649079683 },
+                    { "x": 1046.3695001982526, "y": 625.9359879443768 },
+                    { "x": 1047.128901556208, "y": 632.8946738531915 },
+                    { "x": 1044.2903539915105, "y": 639.2933180629402 },
+                    { "x": 1042.3644784387245, "y": 646.0231771517459 },
+                    { "x": 1039.3616477672301, "y": 652.3463889905453 },
+                    { "x": 1034.9165217992702, "y": 657.753870394024 },
+                    { "x": 1028.0882324557474, "y": 659.2948001916243 },
+                    { "x": 1031.1020153909594, "y": 652.9768011080992 },
+                    { "x": 1037.5402942465832, "y": 650.2293358440373 },
+                    { "x": 1043.8646434687055, "y": 647.228901389389 },
+                    { "x": 1049.03497002941, "y": 642.51003253598 },
+                    { "x": 1048.0419680411037, "y": 635.580822837088 }
+                ],
+                "color": "#5CB133",
+                "score": 0,
+                "username": "reene44444@gmail.com",
+                "nickname": "meta J",
+                "type": "snake"
+            },
+            {
+                "id": "57a2fbab-1304-4ba1-b483-ebb8ea631f6c",
+                "x": 0,
+                "y": 0,
+                "color": "#836E7F",
+                "score": 0,
+                "segments": [
+                    { "x": 905, "y": 566 },
+                    { "x": 907, "y": 573 },
+                    { "x": 910, "y": 579 },
+                    { "x": 914, "y": 585 },
+                    { "x": 918, "y": 590 },
+                    { "x": 923, "y": 595 },
+                    { "x": 929, "y": 600 },
+                    { "x": 934, "y": 604 },
+                    { "x": 940, "y": 607 },
+                    { "x": 947, "y": 609 },
+                    { "x": 954, "y": 610 },
+                    { "x": 961, "y": 611 },
+                    { "x": 968, "y": 610 },
+                    { "x": 975, "y": 610 },
+                    { "x": 971, "y": 615 }
+                ],
+                "nickname": "123",
+                "type": "snake",
+                "lastUpdateTime": 0
+            }
+        ],
+        "timestamp": 1722725992771
+    },
+    {
+        "players": [
+            {
+                "id": "1cbff3c9-5e93-47c3-bd5f-dd7e87b6c779",
+                "segments": [
+                    { "x": 1068.2500389328986, "y": 611.5160793838807 },
+                    { "x": 1063.5675758778173, "y": 606.3127593151364 },
+                    { "x": 1060.021499693697, "y": 600.2774180906144 },
+                    { "x": 1055.7666266101146, "y": 594.7189960984834 },
+                    { "x": 1049.2953108881147, "y": 592.0502749016933 },
+                    { "x": 1046.3915785864165, "y": 598.4196028662493 },
+                    { "x": 1048.2925062729869, "y": 605.1565512800662 },
+                    { "x": 1046.817838792137, "y": 611.9994567902222 },
+                    { "x": 1045.967078200601, "y": 618.9475649079683 },
+                    { "x": 1046.3695001982526, "y": 625.9359879443768 },
+                    { "x": 1047.128901556208, "y": 632.8946738531915 },
+                    { "x": 1044.2903539915105, "y": 639.2933180629402 },
+                    { "x": 1042.3644784387245, "y": 646.0231771517459 },
+                    { "x": 1039.3616477672301, "y": 652.3463889905453 },
+                    { "x": 1034.9165217992702, "y": 657.753870394024 }
+                ],
+                "color": "#5CB133",
+                "score": 0,
+                "username": "reene44444@gmail.com",
+                "nickname": "meta J",
+                "type": "snake"
+            },
+            {
+                "id": "57a2fbab-1304-4ba1-b483-ebb8ea631f6c",
+                "x": 0,
+                "y": 0,
+                "color": "#836E7F",
+                "score": 0,
+                "segments": [
+                    { "x": 890, "y": 520 },
+                    { "x": 892, "y": 527 },
+                    { "x": 895, "y": 533 },
+                    { "x": 899, "y": 539 },
+                    { "x": 902, "y": 545 },
+                    { "x": 904, "y": 552 },
+                    { "x": 905, "y": 559 },
+                    { "x": 905, "y": 566 },
+                    { "x": 907, "y": 573 },
+                    { "x": 910, "y": 579 },
+                    { "x": 914, "y": 585 },
+                    { "x": 918, "y": 590 },
+                    { "x": 923, "y": 595 },
+                    { "x": 929, "y": 600 },
+                    { "x": 934, "y": 604 }
+                ],
+                "nickname": "123",
+                "type": "snake",
+                "lastUpdateTime": 0
+            }
+        ],
+        "timestamp": 1722725997110
+    }
+];
 
 const PlaybackPage = () => {
-    const { id } = useParams();
-    const [recording, setRecording] = useState(null);
-    const [currentAction, setCurrentAction] = useState(0);
-    const [snakeSegments, setSnakeSegments] = useState(
-          Array.from({ length: 15 }, (_, index) => ({ x: 50 - index * 10, y: 50 }))
-); // Initialize snake with one segment
+    const [currentFrame, setCurrentFrame] = useState(0);
+    const [players, setPlayers] = useState(playbackData[0].players);
 
     useEffect(() => {
-        fetch(`http://localhost:8097/api/recordings/${id}`)
-            .then(response => response.json())
-            .then(data => setRecording(data))
-            .catch(error => console.error('Error fetching recording:', error));
-    }, [id]);
-
-    useEffect(() => {
-        if (recording && recording.actions && recording.actions.length > 0) {
-            const interval = setInterval(() => {
-                setCurrentAction(prev => {
-                    if (prev < recording.actions.length - 1) {
-                        return prev + 1;
-                    } else {
-                        clearInterval(interval);
-                        return prev;
-                    }
-                });
-            }, 20); // Adjust the interval as needed
-
-            return () => clearInterval(interval);
+        if (currentFrame < playbackData.length - 1) {
+            const timeout = setTimeout(() => {
+                setPlayers(playbackData[currentFrame + 1].players);
+                setCurrentFrame(currentFrame + 1);
+            }, playbackData[currentFrame + 1].timestamp - playbackData[currentFrame].timestamp);
+            return () => clearTimeout(timeout);
         }
-    }, [recording]);
-
-    useEffect(() => {
-        if (recording && recording.actions && recording.actions.length > 0 && currentAction > 0) {
-            const action = recording.actions[currentAction];
-            const head = { ...snakeSegments[0] };
-            const dx = action.x - head.x;
-            const dy = action.y - head.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (distance > MAX_SPEED) {
-                const ratio = MAX_SPEED / distance;
-                head.x += dx * ratio;
-                head.y += dy * ratio;
-            } else {
-                head.x = action.x;
-                head.y = action.y;
-            }
-
-            const updatedSegments = [head, ...snakeSegments.slice(0, -1)];
-            setSnakeSegments(updatedSegments);
-        }
-    }, [currentAction, recording]);
-
-    if (!recording) {
-        return <div>Loading...</div>;
-    }
+    }, [currentFrame]);
 
     return (
         <div className="playback-container">
-             <Snake players={[{ id: uuidv4(),segments: snakeSegments, color: 'blue' ,score: 0,
-                 username:'user@user.com',
-                 nickname:'user_'+uuidv4().slice(0,1)}]} />
+            <Map players={{ players }} />
+            <Snake players={players} />
         </div>
     );
 };

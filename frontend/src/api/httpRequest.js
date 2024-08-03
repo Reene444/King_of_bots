@@ -1,13 +1,17 @@
 import axios from 'axios';
 
 // 创建一个axios实例
-const apiClient = axios.create({
+const apiClientRuningService = axios.create({
     baseURL: 'http://localhost:8097',
+    timeout: 10000,
+});
+const apiClientRecordingService = axios.create({
+    baseURL: 'http://localhost:8098',
     timeout: 10000,
 });
 
 // 请求拦截器
-apiClient.interceptors.request.use(config => {
+apiClientRuningService.interceptors.request.use(config => {
     // 可以在这里添加认证令牌等信息
     return config;
 }, error => {
@@ -15,7 +19,7 @@ apiClient.interceptors.request.use(config => {
 });
 
 // 响应拦截器
-apiClient.interceptors.response.use(response => {
+apiClientRuningService.interceptors.response.use(response => {
     return response;
 }, error => {
     return Promise.reject(error);
@@ -23,7 +27,7 @@ apiClient.interceptors.response.use(response => {
 
 export const fetchGameState = async (roomId) => {
     try {
-        const response = await apiClient.get(`/api/game/${roomId}/fullstate`);
+        const response = await apiClientRuningService.get(`/api/game/${roomId}/fullstate`);
         console.log("get the rest data success!",response.data);
         return response.data;
     } catch (error) {
@@ -36,7 +40,7 @@ export const fetchGameState = async (roomId) => {
 // 新增获取房间数据的函数
 export const fetchRooms = async () => {
     try {
-        const response = await apiClient.get('/api/rooms');
+        const response = await apiClientRuningService.get('/api/rooms');
         return response.data;
     } catch (error) {
         console.error("Failed to fetch rooms:", error);
@@ -46,7 +50,7 @@ export const fetchRooms = async () => {
 
 export const addPlayerToRoom = async (roomId, playerId) => {
     try {
-        const response = await apiClient.post(`/api/rooms/${roomId}/players/${playerId}`);
+        const response = await apiClientRuningService.post(`/api/rooms/${roomId}/players/${playerId}`);
         return response.data;
     } catch (error) {
         console.error(`Failed to add player ${playerId} to room ${roomId}:`, error);
@@ -56,7 +60,7 @@ export const addPlayerToRoom = async (roomId, playerId) => {
 
 export const removePlayerFromRoom = async (roomId, playerId) => {
     try {
-        const response = await apiClient.delete(`/api/rooms/${roomId}/players/${playerId}`);
+        const response = await apiClientRuningService.delete(`/api/rooms/${roomId}/players/${playerId}`);
         return response.data;
     } catch (error) {
         console.error(`Failed to remove player ${playerId} from room ${roomId}:`, error);
@@ -64,3 +68,20 @@ export const removePlayerFromRoom = async (roomId, playerId) => {
     }
 };
 
+// 新增记录游戏动作的函数
+export const recordGameActions = async (file) => {
+    try {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const response = await apiClientRecordingService.post('/api/recordings/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Failed to upload recording file:", error);
+        throw error;
+    }
+};

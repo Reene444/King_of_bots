@@ -11,7 +11,7 @@ const AppRoutes = () => (
             <Route path="/room" element={<RoomManagerPage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/auth" element={<LoginPage />} />
-            <Route path="/playback/:id" element={<PlaybackPage />} />
+            <Route path="/playback" element={<PlaybackPage />} />
         </Routes>
     </Router>
 );

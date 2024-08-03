@@ -4,7 +4,9 @@ import com.snakeio.snake.model.Recording;
 import com.snakeio.snake.service.RecordingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +17,16 @@ public class RecordingController {
     @Autowired
     private RecordingService recordingService;
 
-    @PostMapping
-    public Recording saveRecording(@RequestBody Recording recording) {
-        return recordingService.saveRecording(recording);
+    @PostMapping("/upload")
+    public Recording saveRecording(@RequestParam("file") MultipartFile file) {
+        System.out.println("receive the file save request"+file.getOriginalFilename()+file.toString());
+
+        try {
+            return recordingService.saveRecording(file);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save recording", e);
+        }
+
     }
 
     @GetMapping

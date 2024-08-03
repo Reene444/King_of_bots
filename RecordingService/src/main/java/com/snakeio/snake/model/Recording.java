@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,8 +13,12 @@ import java.util.List;
 public class Recording {
     @Id
     private String id;
-    private String playerId;
-    private List<Action> actions;
+    private String userId;
+    private String fileName;
+    private String filePath;
+    private String contentType;
+    private String startTime;
+    private String duration;
 
     // Getters and Setters
 }
