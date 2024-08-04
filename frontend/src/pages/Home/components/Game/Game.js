@@ -18,7 +18,7 @@ import Map from '../../../../assets/scripts/Map/Map'
 import {useNavigate} from "react-router-dom";
 import {addPlayerToRoom, fetchGameState} from "../../../../api/httpRequest";
 import {leaveRoom} from "../../../../store/redux/roomReducer";
-import RecordingControl2 from "../RecordingControl/RecordingControl";
+
 
 const Game = () => {
     const userAuth=useSelector(state => state.auth.user)
