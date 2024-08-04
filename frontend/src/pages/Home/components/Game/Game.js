@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
@@ -35,6 +35,8 @@ const Game = () => {
     const MAX_SPEED = 7;
     const [init,setInit]=useState(false)
     console.log("roomid:", roomId);
+    const playersRef = useRef(players);
+    const recordingRef=useRef(false)
 
     useEffect(() => {
         if (!isAuthenticated) navigate("/auth");
@@ -65,7 +67,13 @@ const Game = () => {
         type: '' // 初始化为空
     });
 
-
+    useEffect(() => {
+        playersRef.current = players;
+    }, [players]);
+    const handleRecordingChange = (recording) => {
+        recordingRef.current = recording;
+        console.log("recordingref:",recordingRef.current);
+    };
 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
@@ -278,13 +286,17 @@ const Game = () => {
                 }} />
             )}
 
-            <RecordingControl players={players} />
-            {players && players.map((p, index) => {
-                return p.type === 'mouse' ? (<Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} />) : (<Snake key={p.id} players={[p]} onMouseMove={handleMouseMove} />)
+            <RecordingControl players={players} onRecordingChange={handleRecordingChange}/>
+            {playersRef.current && playersRef.current.map((p, index) => {
+                return p.type === 'mouse' ? (
+                    <Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} />
+                ) : (
+                    <Snake key={p.id} players={[p]} onMouseMove={handleMouseMove} />
+                );
             })}
             <Score score={player.score} />
             <Leaderboard leaderboard={players} />
-            <RecordingList />
+            <RecordingList recording={recordingRef.current}/>
 
         </div>
     );

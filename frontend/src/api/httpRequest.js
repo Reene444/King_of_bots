@@ -85,3 +85,23 @@ export const recordGameActions = async (file) => {
         throw error;
     }
 };
+// 新增获取录制文件内容的函数
+export const fetchRecordingFileContent = async (userId) => {
+    try {
+        const response = await apiClientRecordingService.get(`/api/recordings/content/${userId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Failed to fetch recording file content:", error);
+        throw error;
+    }
+};
+// 新增获取指定用户所有recording ID的函数
+export const fetchRecordingsByUserId = async (userId) => {
+    try {
+        const response = await apiClientRecordingService.get(`/api/recordings/list/${userId}`);
+        return response.data;
+    } catch (error) {
+        console.error(`Failed to fetch recordings for user ${userId}:`, error);
+        throw error;
+    }
+};
