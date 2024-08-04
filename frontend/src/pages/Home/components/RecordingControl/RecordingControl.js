@@ -3,7 +3,7 @@ import './RecordingControl.css';
 import { recordGameActions } from '../../../../api/httpRequest';
 import { useSelector } from 'react-redux';
 
-const RecordingControl = ({ players }) => {
+const RecordingControl = ({ players,onRecordingChange }) => {
     const [recording, setRecording] = useState(false);
     const [startTime, setStartTime] = useState(null);
     const recordedDataRef = useRef(''); // 使用 ref 来存储 recordedData
@@ -18,6 +18,7 @@ const RecordingControl = ({ players }) => {
 
     const handleStartRecording = () => {
         setRecording(true);
+        onRecordingChange(true);
         console.log("Start recording");
         const startTime = Date.now();
         setStartTime(startTime);
@@ -26,6 +27,7 @@ const RecordingControl = ({ players }) => {
 
     const handleStopRecording = () => {
         setRecording(false);
+        onRecordingChange(false);
         console.log("Stop recording");
 
         const endTime = Date.now();

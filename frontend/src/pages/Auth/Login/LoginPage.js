@@ -9,7 +9,7 @@ import { login } from '../../../store/redux/authReducer';
 import './LoginPage.css';
 import { jwtDecode } from "jwt-decode";
 
-const generateRandomUsername = () => `guest_${Math.random().toString(36).substring(7)}`;
+const generateRandomUsername = () => `guest${Math.random().toString(36).substring(7)}`;
 
 const LoginPage = () => {
     const dispatch = useDispatch();
