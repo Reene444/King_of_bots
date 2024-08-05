@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect } from 'react';
+import React, {useRef, useState, useEffect ,useCallback, useMemo} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
@@ -272,7 +272,13 @@ const Game = () => {
     //         console.warn('Duplicate keys found:', duplicateIds);
     //     }
     // }, [players]);
-
+    const memoizedPlayers = useMemo(() => playersRef.current.map((p) => {
+        if (p.type === 'mouse') {
+            return <Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} />;
+        } else {
+            return <Snake key={p.id} players={[p]} onMouseMove={handleMouseMove} />;
+        }
+    }), [playersRef.current, handleMouseMove]);
     return (
         <div className="game-container">
             <Map players={{ players }} />
@@ -287,13 +293,7 @@ const Game = () => {
             )}
 
             <RecordingControl players={players} onRecordingChange={handleRecordingChange}/>
-            {playersRef.current && playersRef.current.map((p, index) => {
-                return p.type === 'mouse' ? (
-                    <Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} />
-                ) : (
-                    <Snake key={p.id} players={[p]} onMouseMove={handleMouseMove} />
-                );
-            })}
+            {memoizedPlayers}
             <Score score={player.score} />
             <Leaderboard leaderboard={players} />
             <RecordingList recording={recordingRef.current}/>

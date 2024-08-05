@@ -4,6 +4,7 @@
     align-items: center;
     margin: 20px;
     font-family: Arial, sans-serif;
+    background-color: white;
 }
 
 .room-manager h1 {
@@ -17,23 +18,20 @@
     justify-content: center;
     list-style: none;
     padding: 0;
-    max-width: 800px;
+    max-width: 1200px; /* 调整最大宽度 */
 }
 
 .room-manager li {
     display: flex;
     justify-content: center;
     align-items: center;
-    /*background-color: #c0d9e5;*/
-    /*border: 1px solid #ccc;*/
     padding: 10px 20px;
     margin: 10px;
     border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.1s;
     flex: 1;
-    min-width: 200px;
+    min-width: 320px; /* 增加最小宽度 */
+    max-width: 400px; /* 增加最大宽度 */
     text-align: center;
 }
-
-
