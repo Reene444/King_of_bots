@@ -3,7 +3,6 @@ package com.snakeio.snake.service;
 import com.snakeio.snake.model.Recording;
 import com.snakeio.snake.payload.RecordingViewDTO;
 import com.snakeio.snake.repository.RecordingRepository;
-import com.snakeio.snake.util.AppUtils.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

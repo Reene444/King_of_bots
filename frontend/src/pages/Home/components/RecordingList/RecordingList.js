@@ -33,9 +33,9 @@ const RecordingList = ({recording}) => {
                         iostime = new Date(parseInt(recording.startTime)).toISOString();
                         console.log("recording_index:",recording);
                         if (typeof iostime !== 'number' || isNaN(iostime)) {
-                            console.error('Invalid timestamp:', recording.startTime);
+                           // console.error('Invalid timestamp:', recording.startTime);
                         }
-                        if (iostime === 'Invalid Date') {
+                        if (iostime === 'Invalid timestamp') {
                             return null;
                         }
                         return (
