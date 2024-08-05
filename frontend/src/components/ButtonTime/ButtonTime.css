@@ -1,19 +1,35 @@
+.room-selection-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* 确保元素左对齐 */
+}
+
 .button-container {
     position: relative;
-    display: inline-block;
     margin: 10px;
+    /*width: calc(33.33% - 20px); !* 确保每行三个元素，考虑了边距 *!*/
+    height: 100px; /* 固定高度，确保统一大小，可以根据需要调整 */
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .custom-button {
     background-color: #ADD8E6; /* 浅蓝色 */
-    border: 1px solid #ccc;
+    border: 1px solid rgba(213, 212, 212, 0.99);
     border-radius: 5px;
-    padding: 10px 20px;
+    padding: 6px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    position: relative;
-    z-index: 1;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .custom-button:hover {

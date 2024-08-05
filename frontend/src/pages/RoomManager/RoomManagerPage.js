@@ -66,9 +66,7 @@ const RoomManagerPage = ({ }) => {
                             onClick={() => handleRoomClick(room.id)}
                             progress={(room.timeLeft / 300) * 100}
                         >
-
                             Room {room.id} - Players: {room.playersCount}/{room.maxPlayers} - Time Left: {room.timeLeft}s
-
                         </ButtonTime>
                     </li>
                 ))}
