@@ -1,3 +1,4 @@
+npm cache clean --force
 chmod +x node_modules package-lock.json
 rm -rf node_modules package-lock.json
 npm install --force
