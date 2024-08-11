@@ -5,7 +5,10 @@ const UPDATE_USER = 'UPDATE_USER';
 
 // Initial State
 const initialState = {
-    user: null,
+    user: {
+        id:null,
+        name:null
+    },
     /**
      * user{
      *     id;

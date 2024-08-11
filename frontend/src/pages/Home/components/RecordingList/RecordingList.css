@@ -1,38 +1,47 @@
-.room-manager {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
-    font-family: Arial, sans-serif;
-    background-color: white;
+.recording-list-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 200px;
+    height: 50px;
+    overflow: hidden;
+    transition: height 0.3s ease-in-out;
+    border-radius: 15px; /* 设置圆角 */
+    z-index: 1000; /* 确保在最前面 */
 }
 
-.room-manager h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+.recording-list-container:hover {
+    height: 300px; /* 设置悬停时的高度 */
 }
 
-.room-manager ul {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    list-style: none;
-    padding: 0;
-    max-width: 1400px; /* 调整最大宽度 */
-    width: 100%; /* 增加宽度 */
+.recording-list {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    height: 100%;
+    /*overflow-y: auto;*/
+    border-radius: 15px; /* 保持圆角 */
 }
 
-.room-manager li {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 30px; /* 增加内边距 */
-    margin: 10px;
-    border-radius: 10px;
+.recording-list-header {
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
     cursor: pointer;
-    transition: background-color 0.1s;
-    flex: 1 1 300px; /* 调整最小宽度并设置flex属性 */
-    max-width: 450px; /* 增加最大宽度 */
-    text-align: center;
-    box-sizing: border-box; /* 确保padding包含在宽度内 */
+    border-top-left-radius: 15px; /* 圆角 */
+    border-top-right-radius: 15px; /* 圆角 */
+}
+
+.recording-list-content {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+}
+
+.recording-list-content li {
+    padding: 5px 0;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.recording-list-content li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
