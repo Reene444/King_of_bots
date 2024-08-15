@@ -1,6 +1,6 @@
 .recording-control {
     position: absolute;
-    bottom: 10px;
+    bottom: -50px;
     right: 10px;
     z-index: 1000; /* 确保按钮在其他元素之上 */
 }
@@ -8,9 +8,9 @@
 .recording-button, .stop-button {
     width: 60px;
     height: 60px;
-    border: none;
+    border: #334251;
     border-radius: 50%;
-    background-color: red;
+    background-color: #e10f0f;
     color: white;
     font-size: 0;
     display: flex;
@@ -22,8 +22,8 @@
 .recording-button::before, .stop-button::before {
     content: "";
     display: block;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     background-color: white;
 }
 
@@ -32,6 +32,6 @@
 }
 
 .stop-button::before {
-    width: 18px;
-    height: 18px;
+    width: 28px;
+    height: 28px;
 }

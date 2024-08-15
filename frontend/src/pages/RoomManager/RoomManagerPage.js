@@ -6,11 +6,13 @@ import ButtonTime from "../../components/ButtonTime/ButtonTime";
 import {joinRoom} from "../../store/redux/roomReducer";
 
 import {fetchRooms} from "../../api/httpRequest";
-
-
+import RoomModal from "./components/RoomModal/RoomModal";
+import VideogameAssetTwoToneIcon from '@mui/icons-material/VideogameAssetTwoTone';
+import Typography from '@mui/material/Typography';
 const RoomManagerPage = ({ }) => {
     const [rooms, setRooms] = useState([]);
     const [selectedRoom, setSelectedRoom] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
 
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
     const navigate = useNavigate();
@@ -22,17 +24,7 @@ const RoomManagerPage = ({ }) => {
         if (!isAuthenticated) navigate("/auth");
     }, [isAuthenticated, navigate]);
 
-    useEffect(() => {
-        const testRooms = [
-            { id: 1, players: 5, maxPlayers: 10, timeLeft: 120 },
-            { id: 2, players: 3, maxPlayers: 10, timeLeft: 300 },
-            { id: 3, players: 8, maxPlayers: 10, timeLeft: 60 },
-            { id: 4, players: 5, maxPlayers: 10, timeLeft: 120 },
-            { id: 5, players: 3, maxPlayers: 10, timeLeft: 300 },
-            { id: 6 , players:8, maxPlayers: 10, timeLeft: 60 },
-        ];
-        // setRooms(testRooms);
-    }, []);
+
 
     // 使用useEffect来获取房间数据
     useEffect(() => {
@@ -50,14 +42,40 @@ const RoomManagerPage = ({ }) => {
 
     const handleRoomClick = (roomId) => {
         setSelectedRoom(roomId);
-        dispatch(joinRoom(roomId));
-        console.log("roomId:",roomId);
-        navigate('/home');
+        setOpenModal(true); // Open the modal when a room is clicked
     };
 
+
+    const handleCloseModal = () => {
+        setSelectedRoom(null);
+        setOpenModal(false); // Close the modal
+    };
+
+    const handleJoinRoom=()=>{
+        dispatch(joinRoom(selectedRoom));
+        navigate(`/home/${selectedRoom}`);
+        setSelectedRoom(null);
+        console.log("roomId:",selectedRoom);
+    }
     return (
         <div className="room-manager">
-            <h1>Select a Room</h1>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+                <Typography
+                    variant="h1"
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        fontFamily: 'Roboto, sans-serif',
+                        fontWeight: 700,
+                        color: '#333',
+                        fontSize: '2rem', // 设置字体大小
+                        letterSpacing: '0.5px', // 设置字母间距
+                        textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)' // 添加文本阴影
+                    }}
+                >
+                    <VideogameAssetTwoToneIcon style={{ fontSize: 'inherit', marginRight: '8px' }}/>Select a Room</Typography>
+            </div>
+            <div style={{borderTop: '1px solid #ccc', paddingTop: '8px', marginBottom: '8px'}}>
             <ul className="room-list">
                 {rooms.map(room => (
                     <li key={room.id}>
@@ -71,6 +89,9 @@ const RoomManagerPage = ({ }) => {
                     </li>
                 ))}
             </ul>
+            </div>
+            {/* Render the RoomModal */}
+            <RoomModal dal open={openModal} handleClose={handleCloseModal} handleJoin={handleJoinRoom} roomId={selectedRoom}/>
         </div>
     );
 };

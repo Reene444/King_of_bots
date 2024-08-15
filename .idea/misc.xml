@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
@@ -5,6 +6,8 @@
       <list>
         <option value="$PROJECT_DIR$/RunningService/pom.xml" />
         <option value="$PROJECT_DIR$/RecordingService/pom.xml" />
+        <option value="$PROJECT_DIR$/../untitled folder/King_of_bots/UserService/pom.xml" />
+        <option value="$PROJECT_DIR$/UserService/pom.xml" />
       </list>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />

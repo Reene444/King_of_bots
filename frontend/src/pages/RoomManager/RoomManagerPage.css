@@ -1,37 +1,67 @@
 .room-manager {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin: 20px;
-    font-family: Arial, sans-serif;
-    background-color: white;
+    align-items:center;
+    margin: 10px;
+    font-family: 'Roboto', sans-serif; /* Use a more modern font */
+    background-color: rgba(249, 249, 249, 0); /* Light gray background for the whole page */
 }
 
 .room-manager h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #333; /* Darker text color for better contrast */
 }
 
-.room-manager ul {
+.room-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     list-style: none;
     padding: 0;
-    max-width: 1200px; /* 调整最大宽度 */
+    max-width: 3200px;
+    max-height: 3200px;
+    gap: 20px; /* Add gap for better spacing between items */
 }
 
-.room-manager li {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 20px;
-    margin: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.1s;
-    flex: 1;
-    min-width: 320px; /* 增加最小宽度 */
-    max-width: 400px; /* 增加最大宽度 */
-    text-align: center;
+/*.room-list li {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    padding: 15px 25px;*/
+/*    margin: 10px;*/
+/*    border-radius: 12px;*/
+/*    cursor: pointer;*/
+/*    transition: transform 0.2s, box-shadow 0.2s;*/
+/*    flex: 1 1 320px; !* Allow flex to grow and shrink while maintaining a base width *!*/
+/*    max-width: 400px;*/
+/*    text-align: center;*/
+/*    background-color: #e0f7fa; !* Light blue background for room items *!*/
+/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/*.room-list li:hover {*/
+/*    background-color: #b2ebf2; !* Darken background on hover *!*/
+/*    transform: translateY(-5px); !* Slight lift effect on hover *!*/
+/*    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);*/
+/*}*/
+
+.room-list li:active {
+    transform: translateY(-2px); /* Less lift when active */
+}
+
+.room-list li span {
+    display: block;
+    font-size: 16px;
+    color: #00796b; /* Use a consistent color scheme */
+}
+
+.room-list li .players-count {
+    font-weight: bold;
+    color: #004d40; /* Darker color for important info */
+}
+
+.room-list li .time-left {
+    font-size: 14px;
+    color: #009688; /* Highlight time left in a contrasting color */
 }

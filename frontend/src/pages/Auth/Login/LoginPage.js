@@ -17,7 +17,7 @@ const LoginPage = () => {
     const [nickname, setNickname] = useState('');
     const isAuthenticated=useSelector(state => state.auth.isAuthenticated)
     const handleGoogleLogin = (response) => {
-        // if (response && response.credential) {
+        if (response && response.credential) {
             const decoded = jwtDecode(response.credential);
             console.log(decoded);
             const { sub: googleId, name, email } = decoded;
@@ -31,9 +31,9 @@ const LoginPage = () => {
             }
             dispatch(login(user));
             navigate("/room")
-        // } else {
-        //     console.log('Google 登录响应没有包含期望的属性');
-        // }
+        } else {
+            console.log('Google 登录响应没有包含期望的属性');
+        }
 
 
     };
@@ -44,8 +44,11 @@ const LoginPage = () => {
             name: nickname || generateRandomUsername(),
         };
         dispatch(login(user));
+
         navigate('/room');
     };
+
+
 
     return (
         <div className="login-page">

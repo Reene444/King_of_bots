@@ -25,6 +25,8 @@ apiClientRuningService.interceptors.response.use(response => {
     return Promise.reject(error);
 });
 
+
+
 export const fetchGameState = async (roomId) => {
     try {
         const response = await apiClientRuningService.get(`/api/game/${roomId}/fullstate`);
@@ -47,13 +49,21 @@ export const fetchRooms = async () => {
         throw error;
     }
 };
-
-export const addPlayerToRoom = async (roomId, playerId) => {
+export const fetchRoomPlayersByRoomId = async (roomId) => {
     try {
-        const response = await apiClientRuningService.post(`/api/rooms/${roomId}/players/${playerId}`);
+        const response = await apiClientRuningService.get(`/api/rooms/${roomId}/players`);
         return response.data;
     } catch (error) {
-        console.error(`Failed to add player ${playerId} to room ${roomId}:`, error);
+        console.error(`Failed to fetch recordings for user ${roomId}:`, error);
+        throw error;
+    }
+};
+export const addPlayerToRoom = async (roomId, player) => {
+    try {
+        const response = await apiClientRuningService.post(`/api/rooms/${roomId}/players`,player);
+        return response.data;
+    } catch (error) {
+        console.error(`Failed to add player ${player} to room ${roomId}:`, error);
         throw error;
     }
 };
@@ -105,3 +115,4 @@ export const fetchRecordingsByUserId = async (userId) => {
         throw error;
     }
 };
+

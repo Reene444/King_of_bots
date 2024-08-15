@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Box, CssBaseline, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import './HomePage.css';
 import {useDispatch, useSelector} from "react-redux";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {joinRoom} from "../../store/redux/roomReducer";
 import Game from "./components/Game/Game";
 
@@ -19,15 +19,17 @@ const HomePage = () => {
     const { room } = location;
     const dispatch = useDispatch();
 
+    const { roomid } = useParams();
+
     return (
-        <Box sx={{ display: 'flex', height: '110vh' }}>
+        <Box sx={{ display: 'flex', height: '105vh' }}>
             <CssBaseline />
             <Box
                 component="main"
                 sx={{ flexGrow: 1, p: 3 }}
                 className="main-container"
             >
-                <Game />
+                <Game roomId={roomid} />
 
             </Box>
         </Box>

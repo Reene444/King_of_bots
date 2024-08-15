@@ -8,7 +8,6 @@ import Mouse from '../../../../assets/scripts/Mouse/Mouse';
 import Snake from '../../../../assets/scripts/Snake/Snake';
 import { throttle } from 'lodash';
 import './Game.css';
-import Score from '../Score/Score';
 import Leaderboard from '../Leaderboard/Leaderboard';
 import RecordingControl from '../RecordingControl/RecordingControl';
 import RecordingList from '../RecordingList/RecordingList';
@@ -20,10 +19,10 @@ import {addPlayerToRoom, fetchGameState} from "../../../../api/httpRequest";
 import {leaveRoom} from "../../../../store/redux/roomReducer";
 
 
-const Game = () => {
+const Game = ({roomId}) => {
     const userAuth=useSelector(state => state.auth.user)
 
-    const roomId = useSelector(state => state.room.roomId);
+    // const roomId = useSelector(state => state.room.roomId);
     const players = useSelector(state => state.game.players || []);
     const [playerType, setPlayerType] = useState(''); // 初始化为空
     const [modelSelected, setModelSelected] = useState(false); // 记录是否选择了模型
@@ -148,7 +147,7 @@ const Game = () => {
                 });
                 dispatch(addPlayer(player));
                 try {
-                    const addplayerResult = await addPlayerToRoom(roomId, player.id);
+                    const addplayerResult = await addPlayerToRoom(roomId, player);
 
                 } catch (e) {
                     console.log("Failed to add to the rooms", e);
@@ -265,13 +264,6 @@ const Game = () => {
         }
     };
 
-    // useEffect(() => {
-    //     const ids = players.map(player => player.id);
-    //     const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
-    //     if (duplicateIds.length > 0) {
-    //         console.warn('Duplicate keys found:', duplicateIds);
-    //     }
-    // }, [players]);
     const memoizedPlayers = useMemo(() => playersRef.current.map((p) => {
         if (p.type === 'mouse') {
             return <Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} />;
@@ -283,19 +275,21 @@ const Game = () => {
         <div className="game-container">
             <Map players={{ players }} />
             {!modelSelected && (
-                <SelectModel playerType={playerType} setType={(type) => {
+                <SelectModel
+                    playerType={playerType}
+                    setType={(type) => {
                     setPlayer((prev) => ({ ...prev, type }));
-                    let typetemp=type
+                    // let typetemp=type
                     setPlayerType('snake'); // 设置玩家类型
-                    console.log("playerType:", playerType,",", type,",",player);
+                    // console.log("playerType:", playerType,",", type,",",player);
                     setModelSelected(true); // 设置选择完成
-                }} />
+                }}
+                />
             )}
 
             <RecordingControl players={players} onRecordingChange={handleRecordingChange}/>
             {memoizedPlayers}
-            <Score score={player.score} />
-            <Leaderboard leaderboard={players} />
+            <Leaderboard leaderboard={players} score={player.score}/>
             <RecordingList recording={recordingRef.current}/>
 
         </div>

@@ -1,19 +1,24 @@
 package com.snakeio.snake.service;
 
 
+import com.snakeio.snake.model.Player;
 import com.snakeio.snake.model.Room;
+import com.snakeio.snake.payload.PlayerViewPayload;
 import com.snakeio.snake.payload.RoomPayload;
+import com.snakeio.snake.repository.PlayerRepository;
 import com.snakeio.snake.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class RoomService {
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private PlayerRepository playerRepository;
 
     public List<RoomPayload> getAllRooms() {
         return roomRepository.findAll().stream()
@@ -51,5 +56,18 @@ public class RoomService {
             return saveRoom(room);
         }
         return null;
+    }
+
+    public List<PlayerViewPayload> getPlayerInRoom(String roomId) {
+        Room room = getRoomById(roomId);
+        List<PlayerViewPayload>playerlist=new ArrayList<>();
+        if(room!=null){
+            Set<String> players = room.getPlayers();
+            for(String  player: players){
+                Optional<Player> foundPlayer= playerRepository.findById(player);
+                foundPlayer.ifPresent(value -> playerlist.add(new PlayerViewPayload(value.getId(), value.getNickname(),value.getISOcode(),value.getScore())));
+            }
+        }
+        return playerlist;
     }
 }
