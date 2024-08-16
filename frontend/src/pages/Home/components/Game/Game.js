@@ -11,17 +11,17 @@ import './Game.css';
 import Leaderboard from '../Leaderboard/Leaderboard';
 import RecordingControl from '../RecordingControl/RecordingControl';
 import RecordingList from '../RecordingList/RecordingList';
-import { setPlayers, addPlayer, movePlayer, removePlayer } from '../../../../store/redux/gameReducer';
+import {setPlayers, addPlayer, movePlayer, removePlayer, setCurrentPlayerId} from '../../../../store/redux/gameReducer';
 import SelectModel from '../SelectModel/SelectModel';
 import Map from '../../../../assets/scripts/Map/Map'
 import {useNavigate} from "react-router-dom";
-import {addPlayerToRoom, fetchGameState} from "../../../../api/httpRequest";
+import {addPlayerToRoom, fetchGameState, removePlayerFromRoom} from "../../../../api/httpRequest";
 import {leaveRoom} from "../../../../store/redux/roomReducer";
+import {generateInitialSegments} from "../../../../common/utils/generateInitialSegments";
 
 
 const Game = ({roomId}) => {
     const userAuth=useSelector(state => state.auth.user)
-
     // const roomId = useSelector(state => state.room.roomId);
     const players = useSelector(state => state.game.players || []);
     const [playerType, setPlayerType] = useState(''); // 初始化为空
@@ -31,41 +31,41 @@ const Game = ({roomId}) => {
     const [stompClient, setStompClient] = useState(null);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const MAX_SPEED = 7;
+    const MAX_SPEED = 17;
     const [init,setInit]=useState(false)
     console.log("roomid:", roomId);
     const playersRef = useRef(players);
     const recordingRef=useRef(false)
-
+    const exsited_player_id=useSelector(state => state.game.current_player_id)
     useEffect(() => {
         if (!isAuthenticated) navigate("/auth");
     }, []);
-    const generateInitialSegments = () => {
-        let segments;
-        let isSafe;
-        do {
-            const startX = Math.floor(Math.random() * window.innerWidth);
-            const startY = Math.floor(Math.random() * window.innerHeight);
-            segments = Array.from({ length: 15 }, (_, index) => ({ x: startX - index * 10, y: startY }));
-            isSafe = players && players.every(player =>
-                    player && Array.isArray(player.segments) && player.segments.every(segment =>
-                        segments.every(s => segment && Math.abs(segment.x - s.x) >= 20 && Math.abs(segment.y - s.y) >= 20)
-                    )
-            );
-        } while (!isSafe);
-        return segments;
-    };
 
     const [player, setPlayer] = useState({
         id: uuidv4(),
-        segments: generateInitialSegments(), // 使用生成的安全位置
+        segments: generateInitialSegments(players), // 使用生成的安全位置
         color: getRandomColor(),
         score: 0,
         username: userAuth.id,
         nickname: userAuth.name,
-        type: '' // 初始化为空
-    });
+        type: '' // 初始化为空,
 
+    },);
+
+
+    useEffect(()=>{
+        if(exsited_player_id){
+            const existingPlayer = players.find(p => p.id === exsited_player_id);
+            if (existingPlayer) {
+                setPlayer(existingPlayer);
+                setModelSelected(true)
+                setPlayerType(existingPlayer.type)
+            }
+        }
+        else{
+           dispatch(setCurrentPlayerId(player.id))
+        }
+    })
     useEffect(() => {
         playersRef.current = players;
     }, [players]);
@@ -74,14 +74,9 @@ const Game = ({roomId}) => {
         console.log("recordingref:",recordingRef.current);
     };
 
-    useEffect(() => {
-        const handleBeforeUnload = (event) => {
-            removePlayerHandler(player);
-            navigate("/room");
-        };
-        window.addEventListener('beforeunload', handleBeforeUnload);
-        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-    }, [player]);
+
+
+
 
     useEffect(()=>{
 
@@ -252,15 +247,21 @@ const Game = ({roomId}) => {
     };
 
     const removePlayerHandler = (player) => {
-        dispatch(removePlayer(player.id));
+        console.log("remove player:",player);
         if (player && player.id) {
+            console.log("remove 1");
             if (stompClient && stompClient.connected) {
+                console.log("remove 2");
+                console.log("begin to remove");
                 stompClient.publish({
                     destination: `/app/game/${roomId}/removePlayer`,
                     body: JSON.stringify(player),
                 });
                 dispatch(removePlayer(player.id));
+                removePlayerFromRoom(roomId,player.id);
+                console.log("remove success");
             }
+            console.log("remove 3");
         }
     };
 
@@ -273,23 +274,20 @@ const Game = ({roomId}) => {
     }), [playersRef.current, handleMouseMove]);
     return (
         <div className="game-container">
-            <Map players={{ players }} />
             {!modelSelected && (
                 <SelectModel
                     playerType={playerType}
                     setType={(type) => {
                     setPlayer((prev) => ({ ...prev, type }));
-                    // let typetemp=type
                     setPlayerType('snake'); // 设置玩家类型
-                    // console.log("playerType:", playerType,",", type,",",player);
                     setModelSelected(true); // 设置选择完成
                 }}
                 />
             )}
-
-            <RecordingControl players={players} onRecordingChange={handleRecordingChange}/>
+            <Map players={{ players }} />
             {memoizedPlayers}
             <Leaderboard leaderboard={players} score={player.score}/>
+            <RecordingControl players={players} onRecordingChange={handleRecordingChange}/>
             <RecordingList recording={recordingRef.current}/>
 
         </div>

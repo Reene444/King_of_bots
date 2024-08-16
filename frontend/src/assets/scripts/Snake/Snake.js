@@ -25,27 +25,17 @@ const Snake = ({ players, onMouseMove }) => {
             if (!snakePositions.current.has(player.id)) {
                 // 初次绘制时，绘制整个蛇
                 console.log("update from null");
-                context.beginPath();
-                context.moveTo(player.segments[0].x, player.segments[0].y);
-                for (let i = 1; i < player.segments.length; i++) {
-                    const segment = player.segments[i];
-                    if (segment) {
-                        context.lineTo(segment.x, segment.y);
-                    }
-                }
-                context.stroke();
-
                 // 更新上次绘制的头尾
                 snakePositions.current.set(player.id, {
                     previousHead: { ...player.segments[0] },
                     previousTail: { ...player.segments[player.segments.length - 1] }
                 });
-
+                // alert("这是一个提示框");
                 context.clearRect(0, 0, canvas.width, canvas.height);
             } else {
                 // 获取上次绘制的头尾信息
+                // alert("this is exist")
                 const { previousHead, previousTail } = snakePositions.current.get(player.id);
-                 // console.log("jst update from last storage",snakePositions.current.size,);
                 // 清除之前的尾巴
                 context.clearRect(previousTail.x - 10, previousTail.y - 10, 20, 20); // 调整清除区域大小以覆盖尾巴
 
@@ -66,7 +56,7 @@ const Snake = ({ players, onMouseMove }) => {
             player.segments.forEach(segment => {
                 if (segment) {
                     context.beginPath();
-                    context.arc(segment.x, segment.y, 10, 0, 2 * Math.PI);
+                    context.arc(segment.x, segment.y, 12, 0, 2 * Math.PI);
                     context.fill();
                 }
             });

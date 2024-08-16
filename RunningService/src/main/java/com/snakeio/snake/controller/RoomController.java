@@ -69,6 +69,7 @@ public class RoomController {
 
     @DeleteMapping("/{roomId}/players/{playerId}")
     public Room removePlayerFromRoom(@PathVariable String roomId, @PathVariable String playerId) {
+        System.out.println("remove player:"+roomId+","+playerId);
         return roomService.removePlayerFromRoom(roomId, playerId);
     }
 }

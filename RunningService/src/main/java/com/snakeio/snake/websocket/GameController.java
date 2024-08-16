@@ -4,8 +4,10 @@ import com.snakeio.snake.model.Player;
 import com.snakeio.snake.payload.GameStateDTO;
 import com.snakeio.snake.payload.PlayerMovePayload;
 import com.snakeio.snake.service.GameService;
+import com.snakeio.snake.service.RoomService;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -18,6 +20,8 @@ import java.util.List;
 public class GameController {
 
     private final GameService gameService;
+    @Autowired
+    private RoomService roomService;
 
     public GameController(GameService gameService) {
         this.gameService = gameService;
@@ -43,7 +47,6 @@ public class GameController {
     public GameStateDTO removePlayer(@DestinationVariable String roomId, @Payload Player player) {
         gameService.removePlayerFromRoom(roomId, player);
         System.out.println("remove:"+gameService.getPlayersInRoom(roomId).size());
-
         return new GameStateDTO(gameService.getPlayersInRoom(roomId));
     }
 

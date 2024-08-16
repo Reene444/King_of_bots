@@ -1,99 +1,40 @@
-2024-08-15 17:04:33,701 [INFO] com.snakeio.snake.DemoApplication [main] Starting DemoApplication using Java 17.0.7 with PID 75958 (/Users/oww/Documents/GitHub/SnakeOnline/UserService/target/classes started by oww in /Users/oww/Documents/GitHub/SnakeOnline)
-2024-08-15 17:04:33,705 [INFO] com.snakeio.snake.DemoApplication [main] No active profile set, falling back to 1 default profile: "default"
-2024-08-15 17:04:34,922 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-08-15 17:04:34,988 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 60 ms. Found 1 JPA repository interface.
-2024-08-15 17:04:35,705 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port 8100 (http)
-2024-08-15 17:04:35,717 [INFO] org.apache.catalina.core.StandardService [main] Starting service [Tomcat]
-2024-08-15 17:04:35,717 [INFO] org.apache.catalina.core.StandardEngine [main] Starting Servlet engine: [Apache Tomcat/10.1.24]
-2024-08-15 17:04:35,775 [INFO] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [main] Initializing Spring embedded WebApplicationContext
-2024-08-15 17:04:35,776 [INFO] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 2008 ms
-2024-08-15 17:04:35,820 [INFO] com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
-2024-08-15 17:04:35,977 [INFO] com.zaxxer.hikari.pool.HikariPool [main] HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./db/db user=ROOT
-2024-08-15 17:04:35,979 [INFO] com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
-2024-08-15 17:04:35,994 [INFO] org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration [main] H2 console available at '/db-console'. Database available at 'jdbc:h2:file:./db/db'
-2024-08-15 17:04:36,185 [INFO] org.hibernate.jpa.internal.util.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-08-15 17:04:36,239 [INFO] org.hibernate.Version [main] HHH000412: Hibernate ORM core version 6.5.2.Final
-2024-08-15 17:04:36,270 [INFO] org.hibernate.cache.internal.RegionFactoryInitiator [main] HHH000026: Second-level cache disabled
-2024-08-15 17:04:36,501 [INFO] org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo [main] No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-08-15 17:04:36,536 [WARN] org.hibernate.orm.deprecation [main] HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-08-15 17:04:37,236 [INFO] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-08-15 17:04:37,270 [INFO] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-08-15 17:04:38,772 [WARN] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-08-15 17:04:38,802 [INFO] org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [main] Global AuthenticationManager configured with UserDetailsService bean with name accountService
-2024-08-15 17:04:39,119 [INFO] org.springframework.security.web.DefaultSecurityFilterChain [main] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@14cc1f5c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3100b5cf, org.springframework.security.web.context.SecurityContextHolderFilter@2f16c21f, org.springframework.security.web.header.HeaderWriterFilter@3dedc8b8, org.springframework.web.filter.CorsFilter@7baea18b, org.springframework.security.web.authentication.logout.LogoutFilter@2226fd2b, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@4d50f682, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@72ae1007, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@589a82af, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5ad13be4, org.springframework.security.web.session.SessionManagementFilter@80081d7, org.springframework.security.web.access.ExceptionTranslationFilter@1a000fff, org.springframework.security.web.access.intercept.AuthorizationFilter@5dabe7c8]
-2024-08-15 17:04:39,446 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port 8100 (http) with context path '/'
-2024-08-15 17:04:39,463 [INFO] com.snakeio.snake.DemoApplication [main] Started DemoApplication in 6.434 seconds (process running for 7.158)
-2024-08-15 17:04:58,809 [INFO] org.apache.tomcat.util.http.parser.Cookie [http-nio-8100-exec-1] A cookie header was received [g_state={"i_l":0};] that contained an invalid cookie. That cookie will be ignored.
- Note: further occurrences of this error will be logged at DEBUG level.
-2024-08-15 17:04:58,816 [INFO] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [http-nio-8100-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
-2024-08-15 17:04:58,816 [INFO] org.springframework.web.servlet.DispatcherServlet [http-nio-8100-exec-1] Initializing Servlet 'dispatcherServlet'
-2024-08-15 17:04:58,819 [INFO] org.springframework.web.servlet.DispatcherServlet [http-nio-8100-exec-1] Completed initialization in 3 ms
-2024-08-15 17:04:59,802 [INFO] org.springdoc.api.AbstractOpenApiResource [http-nio-8100-exec-9] Init duration for springdoc-openapi is: 566 ms
-2024-08-15 17:06:00,551 [INFO] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-08-15 17:06:00,553 [INFO] com.zaxxer.hikari.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
-2024-08-15 17:06:00,554 [INFO] com.zaxxer.hikari.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
-2024-08-15 17:06:03,623 [INFO] com.snakeio.snake.DemoApplication [main] Starting DemoApplication using Java 17.0.7 with PID 76754 (/Users/oww/Documents/GitHub/SnakeOnline/UserService/target/classes started by oww in /Users/oww/Documents/GitHub/SnakeOnline)
-2024-08-15 17:06:03,627 [INFO] com.snakeio.snake.DemoApplication [main] No active profile set, falling back to 1 default profile: "default"
-2024-08-15 17:06:04,877 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-08-15 17:06:04,948 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 65 ms. Found 1 JPA repository interface.
-2024-08-15 17:06:05,694 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port 8100 (http)
-2024-08-15 17:06:05,705 [INFO] org.apache.catalina.core.StandardService [main] Starting service [Tomcat]
-2024-08-15 17:06:05,706 [INFO] org.apache.catalina.core.StandardEngine [main] Starting Servlet engine: [Apache Tomcat/10.1.24]
-2024-08-15 17:06:05,770 [INFO] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [main] Initializing Spring embedded WebApplicationContext
-2024-08-15 17:06:05,770 [INFO] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 2081 ms
-2024-08-15 17:06:05,816 [INFO] com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
-2024-08-15 17:06:05,990 [INFO] com.zaxxer.hikari.pool.HikariPool [main] HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./db/db user=ROOT
-2024-08-15 17:06:05,992 [INFO] com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
-2024-08-15 17:06:06,007 [INFO] org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration [main] H2 console available at '/db-console'. Database available at 'jdbc:h2:file:./db/db'
-2024-08-15 17:06:06,315 [INFO] org.hibernate.jpa.internal.util.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-08-15 17:06:06,356 [INFO] org.hibernate.Version [main] HHH000412: Hibernate ORM core version 6.5.2.Final
-2024-08-15 17:06:06,387 [INFO] org.hibernate.cache.internal.RegionFactoryInitiator [main] HHH000026: Second-level cache disabled
-2024-08-15 17:06:06,632 [INFO] org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo [main] No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-08-15 17:06:06,664 [WARN] org.hibernate.orm.deprecation [main] HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-08-15 17:06:07,368 [INFO] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-08-15 17:06:07,399 [INFO] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-08-15 17:06:09,964 [WARN] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-08-15 17:06:09,991 [INFO] org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [main] Global AuthenticationManager configured with UserDetailsService bean with name accountService
-2024-08-15 17:06:10,372 [INFO] org.springframework.security.web.DefaultSecurityFilterChain [main] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3ad80206, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2b4675db, org.springframework.security.web.context.SecurityContextHolderFilter@a1c4f69, org.springframework.security.web.header.HeaderWriterFilter@7e9d171c, org.springframework.web.filter.CorsFilter@1737834, org.springframework.security.web.authentication.logout.LogoutFilter@65528bcf, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@16a78700, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@79e33802, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2f16c21f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@58ec3e8b, org.springframework.security.web.session.SessionManagementFilter@49b73e6c, org.springframework.security.web.access.ExceptionTranslationFilter@19f9287a, org.springframework.security.web.access.intercept.AuthorizationFilter@4250b0c1]
-2024-08-15 17:06:10,748 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port 8100 (http) with context path '/'
-2024-08-15 17:06:10,765 [INFO] com.snakeio.snake.DemoApplication [main] Started DemoApplication in 7.836 seconds (process running for 8.586)
-2024-08-15 17:06:10,852 [INFO] org.apache.tomcat.util.http.parser.Cookie [http-nio-8100-exec-1] A cookie header was received [g_state={"i_l":0};] that contained an invalid cookie. That cookie will be ignored.
- Note: further occurrences of this error will be logged at DEBUG level.
-2024-08-15 17:06:10,858 [INFO] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [http-nio-8100-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
-2024-08-15 17:06:10,858 [INFO] org.springframework.web.servlet.DispatcherServlet [http-nio-8100-exec-1] Initializing Servlet 'dispatcherServlet'
-2024-08-15 17:06:10,859 [INFO] org.springframework.web.servlet.DispatcherServlet [http-nio-8100-exec-1] Completed initialization in 1 ms
-2024-08-15 17:06:12,314 [INFO] org.springdoc.api.AbstractOpenApiResource [http-nio-8100-exec-4] Init duration for springdoc-openapi is: 608 ms
-2024-08-15 17:12:27,221 [INFO] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-08-15 17:12:27,223 [INFO] com.zaxxer.hikari.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
-2024-08-15 17:12:27,225 [INFO] com.zaxxer.hikari.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
-2024-08-15 17:12:36,192 [INFO] com.snakeio.snake.DemoApplication [main] Starting DemoApplication using Java 17.0.7 with PID 79700 (/Users/oww/Documents/GitHub/SnakeOnline/UserService/target/classes started by oww in /Users/oww/Documents/GitHub/SnakeOnline)
-2024-08-15 17:12:36,196 [INFO] com.snakeio.snake.DemoApplication [main] No active profile set, falling back to 1 default profile: "default"
-2024-08-15 17:12:37,533 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-08-15 17:12:37,612 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 72 ms. Found 1 JPA repository interface.
-2024-08-15 17:12:38,414 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port 8100 (http)
-2024-08-15 17:12:38,427 [INFO] org.apache.catalina.core.StandardService [main] Starting service [Tomcat]
-2024-08-15 17:12:38,427 [INFO] org.apache.catalina.core.StandardEngine [main] Starting Servlet engine: [Apache Tomcat/10.1.24]
-2024-08-15 17:12:38,500 [INFO] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [main] Initializing Spring embedded WebApplicationContext
-2024-08-15 17:12:38,500 [INFO] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 2240 ms
-2024-08-15 17:12:38,555 [INFO] com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
-2024-08-15 17:12:38,736 [INFO] com.zaxxer.hikari.pool.HikariPool [main] HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./db/db user=ROOT
-2024-08-15 17:12:38,738 [INFO] com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
-2024-08-15 17:12:38,755 [INFO] org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration [main] H2 console available at '/db-console'. Database available at 'jdbc:h2:file:./db/db'
-2024-08-15 17:12:39,057 [INFO] org.hibernate.jpa.internal.util.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-08-15 17:12:39,115 [INFO] org.hibernate.Version [main] HHH000412: Hibernate ORM core version 6.5.2.Final
-2024-08-15 17:12:39,150 [INFO] org.hibernate.cache.internal.RegionFactoryInitiator [main] HHH000026: Second-level cache disabled
-2024-08-15 17:12:39,414 [INFO] org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo [main] No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-08-15 17:12:39,449 [WARN] org.hibernate.orm.deprecation [main] HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-08-15 17:12:40,175 [INFO] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-08-15 17:12:40,208 [INFO] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-08-15 17:12:41,503 [WARN] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-08-15 17:12:41,528 [INFO] org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [main] Global AuthenticationManager configured with UserDetailsService bean with name accountService
-2024-08-15 17:12:41,867 [INFO] org.springframework.security.web.DefaultSecurityFilterChain [main] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3445341, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@14cc1f5c, org.springframework.security.web.context.SecurityContextHolderFilter@3070f59f, org.springframework.security.web.header.HeaderWriterFilter@7c855ef0, org.springframework.web.filter.CorsFilter@3100b5cf, org.springframework.security.web.authentication.logout.LogoutFilter@19bad88, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@19a799cb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2314f013, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@329a27ae, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7baea18b, org.springframework.security.web.session.SessionManagementFilter@44bb6856, org.springframework.security.web.access.ExceptionTranslationFilter@6980fa39, org.springframework.security.web.access.intercept.AuthorizationFilter@25502b1c]
-2024-08-15 17:12:42,308 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port 8100 (http) with context path '/'
-2024-08-15 17:12:42,329 [INFO] com.snakeio.snake.DemoApplication [main] Started DemoApplication in 6.905 seconds (process running for 7.718)
-2024-08-15 17:12:42,523 [INFO] org.apache.tomcat.util.http.parser.Cookie [http-nio-8100-exec-1] A cookie header was received [g_state={"i_l":0};] that contained an invalid cookie. That cookie will be ignored.
- Note: further occurrences of this error will be logged at DEBUG level.
-2024-08-15 17:12:42,532 [INFO] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [http-nio-8100-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
-2024-08-15 17:12:42,532 [INFO] org.springframework.web.servlet.DispatcherServlet [http-nio-8100-exec-1] Initializing Servlet 'dispatcherServlet'
-2024-08-15 17:12:42,535 [INFO] org.springframework.web.servlet.DispatcherServlet [http-nio-8100-exec-1] Completed initialization in 2 ms
-2024-08-15 17:12:43,953 [INFO] org.springdoc.api.AbstractOpenApiResource [http-nio-8100-exec-4] Init duration for springdoc-openapi is: 608 ms
+2024-08-16 00:00:27,754 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=50s954ms).
+2024-08-16 00:12:18,620 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=11m50s865ms).
+2024-08-16 00:41:11,614 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=28m22s989ms).
+2024-08-16 01:10:12,765 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=29m1s152ms).
+2024-08-16 01:13:23,922 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m11s157ms).
+2024-08-16 01:56:35,999 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=43m12s76ms).
+2024-08-16 02:25:38,569 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=29m2s571ms).
+2024-08-16 02:40:21,824 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14m43s255ms).
+2024-08-16 02:55:02,123 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14m40s299ms).
+2024-08-16 03:09:18,152 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14m16s29ms).
+2024-08-16 03:23:51,237 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14m33s85ms).
+2024-08-16 03:38:37,291 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14m16s42ms).
+2024-08-16 03:46:34,166 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=7m56s875ms).
+2024-08-16 04:01:21,049 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14m16s862ms).
+2024-08-16 04:15:38,096 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14m17s41ms).
+2024-08-16 04:30:24,063 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14m15s965ms).
+2024-08-16 04:45:02,760 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14m38s697ms).
+2024-08-16 04:59:30,777 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14m28s17ms).
+2024-08-16 05:13:46,241 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14m15s464ms).
+2024-08-16 06:01:14,490 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=46m58s248ms).
+2024-08-16 06:44:33,992 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=43m19s503ms).
+2024-08-16 07:13:35,378 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=29m1s386ms).
+2024-08-16 07:42:28,221 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=28m52s843ms).
+2024-08-16 08:16:31,134 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=34m2s912ms).
+2024-08-16 08:45:31,264 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=29m131ms).
+2024-08-16 09:03:00,071 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=17m28s807ms).
+2024-08-16 09:25:16,135 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=22m16s64ms).
+2024-08-16 11:27:21,549 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=10m34s718ms).
+2024-08-16 11:28:29,693 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m8s145ms).
+2024-08-16 11:29:59,768 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m30s75ms).
+2024-08-16 11:31:09,233 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m9s465ms).
+2024-08-16 11:31:54,571 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=45s338ms).
+2024-08-16 11:58:39,393 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=26m44s822ms).
+2024-08-16 12:10:42,104 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=10m2s696ms).
+2024-08-16 12:20:42,116 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m59s968ms).
+2024-08-16 12:56:30,943 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=35m48s827ms).
+2024-08-16 15:16:22,919 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h49m51s649ms).
+2024-08-16 15:33:22,874 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m58s421ms).
+2024-08-16 15:51:27,080 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m33s981ms).
+2024-08-16 17:27:40,592 [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=6m12s23ms).
