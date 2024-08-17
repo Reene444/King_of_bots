@@ -66,9 +66,7 @@ const Game = ({roomId}) => {
            dispatch(setCurrentPlayerId(player.id))
         }
     })
-    useEffect(() => {
-        playersRef.current = players;
-    }, [players]);
+
     const handleRecordingChange = (recording) => {
         recordingRef.current = recording;
         console.log("recordingref:",recordingRef.current);
@@ -119,6 +117,7 @@ const Game = ({roomId}) => {
                     const movedPlayer = JSON.parse(message.body);
                     console.log("sbscribe_move:" + message.body + "id:"+movedPlayer.id+"current_player:" + player.id,(movedPlayer.id !== player.id));
                     if(movedPlayer.id!==player.id) dispatch(movePlayer(movedPlayer));
+
                 });
                 setStompClient(client);
             },
@@ -128,7 +127,8 @@ const Game = ({roomId}) => {
             },
         });
         client.activate();
-        return () => { client.deactivate(); };
+        return () => {
+            removePlayerHandler(player);client.deactivate(); };
     }, []);
 
     useEffect(() => {
@@ -157,12 +157,13 @@ const Game = ({roomId}) => {
         // 清理函数
         return () => {
             // 这里可以添加需要的清理逻辑
-
+             removePlayerHandler(player)
+             setModelSelected(false)
+             setPlayerType(null)
+             dispatch(setCurrentPlayerId(null))
         };
 
-
     }, [playerType]);
-
 
     useEffect(() => {
         console.log("logs:moved:"+JSON.stringify({ id: player.id, head: player.segments[0], type: player.type, timestamp: Date.now() }))
@@ -203,7 +204,7 @@ const Game = ({roomId}) => {
         setPlayer(updatedPlayer);
         dispatch(setPlayers(updatedPlayer))
 
-    }, 200);
+    }, 50);
 
 
     const checkCollision = (player) => {
@@ -248,6 +249,7 @@ const Game = ({roomId}) => {
 
     const removePlayerHandler = (player) => {
         console.log("remove player:",player);
+
         if (player && player.id) {
             console.log("remove 1");
             if (stompClient && stompClient.connected) {
@@ -256,15 +258,20 @@ const Game = ({roomId}) => {
                 stompClient.publish({
                     destination: `/app/game/${roomId}/removePlayer`,
                     body: JSON.stringify(player),
-                });
+                });//√
                 dispatch(removePlayer(player.id));
-                removePlayerFromRoom(roomId,player.id);
+                removePlayerFromRoom(roomId,player.id);//√
                 console.log("remove success");
+            }
+            else{
+
             }
             console.log("remove 3");
         }
     };
-
+    useEffect(() => {
+        playersRef.current = players;
+    }, [players]);
     const memoizedPlayers = useMemo(() => playersRef.current.map((p) => {
         if (p.type === 'mouse') {
             return <Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} />;

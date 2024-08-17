@@ -31,20 +31,13 @@ const Snake = ({ players, onMouseMove }) => {
                     previousTail: { ...player.segments[player.segments.length - 1] }
                 });
                 // alert("这是一个提示框");
-                context.clearRect(0, 0, canvas.width, canvas.height);
+                // context.clearRect(0, 0, canvas.width, canvas.height);
             } else {
                 // 获取上次绘制的头尾信息
-                // alert("this is exist")
                 const { previousHead, previousTail } = snakePositions.current.get(player.id);
                 // 清除之前的尾巴
-                context.clearRect(previousTail.x - 10, previousTail.y - 10, 20, 20); // 调整清除区域大小以覆盖尾巴
-
                 // 绘制新增的头部
                 const newHead = player.segments[0];
-                context.beginPath();
-                context.moveTo(previousHead.x, previousHead.y);
-                context.lineTo(newHead.x, newHead.y);
-                context.stroke();
 
                 // 更新上次绘制的头尾
                 snakePositions.current.set(player.id, {

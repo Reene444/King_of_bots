@@ -54,6 +54,7 @@ const gameReducer = (state = initialState, action = {}) => {
                 ) : [],
             };
         case REMOVE_PLAYER:
+            alert("remove"+JSON.stringify(action.payload.id)+ state.players.filter(player => player.id !== action.payload.id).length)
             return {
                 ...state,
                 players: Array.isArray(state.players) ? state.players.filter(player => player.id !== action.payload.id) : [],
