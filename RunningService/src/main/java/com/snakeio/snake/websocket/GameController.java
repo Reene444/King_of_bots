@@ -43,11 +43,12 @@ public class GameController {
     }
 
     @MessageMapping("/game/{roomId}/removePlayer")
-    @SendTo("/topic/game/{roomId}")
-    public GameStateDTO removePlayer(@DestinationVariable String roomId, @Payload Player player) {
+    @SendTo("/topic/game/{roomId}/remove")
+    public Player removePlayer(@DestinationVariable String roomId, @Payload Player player) {
         gameService.removePlayerFromRoom(roomId, player);
         System.out.println("remove from websocket:"+gameService.getPlayersInRoom(roomId).size()+roomId+player+'\n'+gameService.getFullState(roomId));
-        return new GameStateDTO(gameService.getPlayersInRoom(roomId));
+//        return new GameStateDTO(gameService.getPlayersInRoom(roomId));
+        return player;
     }
 
 

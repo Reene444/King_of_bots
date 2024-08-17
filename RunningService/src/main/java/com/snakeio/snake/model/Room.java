@@ -3,6 +3,7 @@ package com.snakeio.snake.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -34,7 +35,10 @@ public class Room {
         players.add(playerId);
     }
 
-    public void removePlayer(String playerId) {
-        players.remove(playerId);
+    public boolean removePlayer(String playerId) {
+        System.out.println("current hashset:"+players);
+        boolean rt=players.remove(playerId);
+        System.out.println("result:"+rt);
+       return rt;
     }
 }

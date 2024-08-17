@@ -51,9 +51,10 @@ public class RoomService {
 
     public Room removePlayerFromRoom(String roomId, String playerId) {
         Room room = getRoomById(roomId);
+        System.out.println("removeService remove from room");
         if (room != null) {
-
-            room.removePlayer(playerId);
+            System.out.println("exist player in room outcome:");
+            System.out.println(room.removePlayer(playerId));
             return saveRoom(room);
         }
         return null;

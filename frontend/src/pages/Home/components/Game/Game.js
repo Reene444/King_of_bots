@@ -130,6 +130,14 @@ const Game = ({roomId}) => {
                     if(movedPlayer.id!==player.id) dispatch(movePlayer(movedPlayer));
 
                 });
+                client.subscribe(`/topic/game/${roomId}/remove`, (message) => {
+                    const removedplayer = JSON.parse(message.body);
+                    // if (removedplayer.id !== player.id) {
+                        console.log("this is update for dispatch in adding",message.body,removedplayer.id !== player.id);
+                        dispatch(removePlayer(removedplayer.id));
+                        // dispatch(setPlayers(gameState.player));
+                    // }
+                });
                 setStompClient(client);
             },
             onStompError: (frame) => {
@@ -258,15 +266,15 @@ const Game = ({roomId}) => {
     const resetPlayer = () => {
         const newPlayer = {
             id: uuidv4(),
-            segments: generateInitialSegments(),
+            segments: generateInitialSegments(players),
             color: getRandomColor(),
             score: 0,
             username: 'user@user.com',
             nickname: 'user_' + uuidv4().slice(0, 1),
             type: playerType // 保留玩家类型
         };
+        // alert("newplayer+"+newPlayer)
         setPlayer(newPlayer);
-        alert("newplayer+"+newPlayer)
         if (stompClient && stompClient.connected) {
             stompClient.publish({
                 destination: `/app/game/${roomId}/add`,
@@ -282,19 +290,16 @@ const Game = ({roomId}) => {
             if (stompClient && stompClient.connected) {
                 console.log("remove 2");
                 console.log("begin to remove");
-                // stompClient.publish({
-                //     destination: `/app/game/${roomId}/removePlayer`,
-                //     body: JSON.stringify(player),
-                // });//√
-                // console.log("end remove from websocket");
-                removePlayerFromRoom(roomId, player.id).then(r=>{
-                console.log("end remove from room");
-                // dispatch(removePlayer(player.id));
-                // setPlayer(null)
-                console.log("remove success");}
-            );//√
-
+                stompClient.publish({
+                    destination: `/app/game/${roomId}/removePlayer`,
+                    body: JSON.stringify(player),
+                });//√
+                console.log("end remove from websocket");
             }
+            removePlayerFromRoom(roomId, player.id).then(r => {return null});
+            console.log("end remove from room");
+            dispatch(removePlayer(player.id));
+            console.log("remove success");
             console.log("remove 3");
         }
     };
