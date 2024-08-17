@@ -92,12 +92,14 @@ const Game = ({roomId}) => {
         const initializeGamePlayers = async () => {
             try {
                 const gameState = await fetchGameState(roomId);
+                dispatch(setPlayers(null))
                 gameState.players.forEach(p=>{
                     dispatch(addPlayer(p))
                 })
                 console.log("game.js:get the init gamers:",players);
                 setInit(true)
                 // alert("get init player"+`${JSON.stringify(gameState.players)}`)
+                // alert("players"+`${JSON.stringify(players)}`)
             } catch (error) {
                 console.error("Failed to fetch game state:", error);
             }

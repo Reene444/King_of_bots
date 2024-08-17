@@ -24,7 +24,10 @@ public class GameRestController {
 
     @GetMapping("/{roomId}/fullstate")
     public GameStateDTO getFullGameState(@PathVariable String roomId) {
-        return gameService.getFullState(roomId);
+
+        System.out.println("full state for roomID:"+roomId+"\n:"+gameService.getFullState(roomId));
+        return gameService.getFullState(roomId)
+                ;
     }
 
 

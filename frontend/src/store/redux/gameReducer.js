@@ -12,7 +12,6 @@ const SET_CURRENT_PLAYER_ID='SET_CURRENT_PLAYER_ID'
 
 const initialState = {
     current_player_id:null,
-
     players: [],
 };
 
@@ -27,9 +26,9 @@ const gameReducer = (state = initialState, action = {}) => {
 
         case SET_PLAYERS:
             return {        ...state,
-                players: state.players.map(p =>
+                players: action.payload!==null?state.players.map(p =>
                     p.id === action.payload.id ? { ...p, ...action.payload } : p
-                )
+                ):[]
 
             };
         case ADD_PLAYER:
