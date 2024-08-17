@@ -1,9 +1,10 @@
 import React from 'react';
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import {Card, CardContent, Typography, Box, Button} from '@mui/material';
 import './Leaderboard.css';
 import SportsScoreIcon from '@mui/icons-material/SportsScore';
 import UpgradeTwoToneIcon from '@mui/icons-material/UpgradeTwoTone';
-const Leaderboard = ({ leaderboard,score }) => {
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+const Leaderboard = ({ leaderboard,score,onReturnRoom }) => {
     const uniquePlayers = [...leaderboard]
         .sort((a, b) => b.score - a.score)
         .slice(0, 5);
@@ -24,13 +25,16 @@ const Leaderboard = ({ leaderboard,score }) => {
                             </li>
                         ))}
                     </ul>
-                    <div style={{borderTop: '1px solid #ccc', paddingTop: '8px', marginBottom: '8px'}}>
+                    <div style={{borderTop: '1px solid #ccc', paddingTop: '8px', marginBottom: '1px'}}>
                         <div style={{display: 'flex', alignItems: 'center'}}>
                             <UpgradeTwoToneIcon/>
                             <text>You - {score}</text>
                         </div>
                     </div>
                 </CardContent>
+                <Typography variant="h4" component="div">
+                   <Button variant='text' onClick={onReturnRoom}>return room</Button><KeyboardReturnIcon/>
+                </Typography>
             </Card>
         </Box>
 );

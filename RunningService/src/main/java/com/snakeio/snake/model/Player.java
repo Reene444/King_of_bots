@@ -5,8 +5,10 @@ import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Objects;
+
 @Document(collection = "players")
-@Data
+//@Data
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,11 +26,24 @@ public class Player {
     private String ISOcode="UK";
     private String roomId; // 关联的房间 ID
     private long lastUpdateTime;
-    @Data
+//    @Data
     @Getter
     @Setter
     public static class Segment {
         private int x;
         private int y;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true; // 如果两个对象是同一个实例
+        if (obj == null || getClass() != obj.getClass()) return false; // 检查类型和非空
+        Player player = (Player) obj;
+        return id.equals(player.id); // 根据唯一标识符进行比较
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id); // 计算基于唯一标识符的哈希码
     }
 }

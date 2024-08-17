@@ -9,20 +9,26 @@ const ADD_PLAYER = 'ADD_PLAYER';
 const MOVE_PLAYER = 'MOVE_PLAYER';
 const REMOVE_PLAYER = 'REMOVE_PLAYER';
 const SET_CURRENT_PLAYER_ID='SET_CURRENT_PLAYER_ID'
-
+const SET_ROOM_ONLINE='SET_ROOM_ONLINE'
 const initialState = {
     current_player_id:null,
+    room_online:true,
     players: [],
 };
 
 const gameReducer = (state = initialState, action = {}) => {
     console.log('Action:', action.type, 'Payload:', action.payload);
     switch (action.type) {
-            case SET_CURRENT_PLAYER_ID:
-                return {
-                    ...state,
-                    current_player_id:action.payload
-                }
+        case SET_CURRENT_PLAYER_ID:
+            return {
+                ...state,
+                current_player_id:action.payload
+            }
+        case SET_ROOM_ONLINE:
+            return {
+                ...state,
+                room_online:action.payload
+            }
         case SET_PLAYERS:
             return {        ...state,
                 players: state.players.map(p =>
@@ -41,6 +47,7 @@ const gameReducer = (state = initialState, action = {}) => {
             };
 
         case MOVE_PLAYER:
+            if(action.payload.id===state.current_player_id)return{...state}
             return {
                 ...state,
                 players: Array.isArray(state.players) ? state.players.map(player =>
@@ -54,7 +61,6 @@ const gameReducer = (state = initialState, action = {}) => {
                 ) : [],
             };
         case REMOVE_PLAYER:
-            alert("remove"+JSON.stringify(action.payload.id)+ state.players.filter(player => player.id !== action.payload.id).length)
             return {
                 ...state,
                 players: Array.isArray(state.players) ? state.players.filter(player => player.id !== action.payload.id) : [],
@@ -87,5 +93,9 @@ export const removePlayer = playerId => ({
 export const setCurrentPlayerId = playerId => ({
     type: SET_CURRENT_PLAYER_ID,
     payload: playerId
+});
+export const setRoomOnline = online => ({
+    type: SET_ROOM_ONLINE,
+    payload: online
 });
 export default gameReducer;

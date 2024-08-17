@@ -11,7 +11,15 @@ import './Game.css';
 import Leaderboard from '../Leaderboard/Leaderboard';
 import RecordingControl from '../RecordingControl/RecordingControl';
 import RecordingList from '../RecordingList/RecordingList';
-import {setPlayers, addPlayer, movePlayer, removePlayer, setCurrentPlayerId} from '../../../../store/redux/gameReducer';
+
+import {
+    setPlayers,
+    addPlayer,
+    movePlayer,
+    removePlayer,
+    setCurrentPlayerId,
+    setRoomOnline
+} from '../../../../store/redux/gameReducer';
 import SelectModel from '../SelectModel/SelectModel';
 import Map from '../../../../assets/scripts/Map/Map'
 import {useNavigate} from "react-router-dom";
@@ -23,6 +31,7 @@ import {generateInitialSegments} from "../../../../common/utils/generateInitialS
 const Game = ({roomId}) => {
     const userAuth=useSelector(state => state.auth.user)
     // const roomId = useSelector(state => state.room.roomId);
+    const online=useSelector(state => state.game.room_online)
     const players = useSelector(state => state.game.players || []);
     const [playerType, setPlayerType] = useState(''); // 初始化为空
     const [modelSelected, setModelSelected] = useState(false); // 记录是否选择了模型
@@ -57,14 +66,16 @@ const Game = ({roomId}) => {
         if(exsited_player_id){
             const existingPlayer = players.find(p => p.id === exsited_player_id);
             if (existingPlayer) {
-                setPlayer(existingPlayer);
-                setModelSelected(true)
-                setPlayerType(existingPlayer.type)
+                    setPlayer(existingPlayer);
+                    setModelSelected(true)
+                    setPlayerType(existingPlayer.type)
+
             }
+
+        }else{
+            dispatch(setCurrentPlayerId(player.id))
         }
-        else{
-           dispatch(setCurrentPlayerId(player.id))
-        }
+
     })
 
     const handleRecordingChange = (recording) => {
@@ -128,8 +139,14 @@ const Game = ({roomId}) => {
         });
         client.activate();
         return () => {
-            removePlayerHandler(player);client.deactivate(); };
+            removePlayerHandler(player);
+            client.deactivate();
+        };
     }, []);
+
+
+
+
 
     useEffect(() => {
         const joinRoom = async () => {
@@ -165,6 +182,15 @@ const Game = ({roomId}) => {
 
     }, [playerType]);
 
+
+    const handleReturnRoom=()=>{
+        removePlayerHandler(player)
+        setModelSelected(false)
+        setPlayerType(null)
+        dispatch(setCurrentPlayerId(null))
+        navigate("/room")
+
+    }
     useEffect(() => {
         console.log("logs:moved:"+JSON.stringify({ id: player.id, head: player.segments[0], type: player.type, timestamp: Date.now() }))
         let timestamp = Date.now();
@@ -261,10 +287,8 @@ const Game = ({roomId}) => {
                 });//√
                 dispatch(removePlayer(player.id));
                 removePlayerFromRoom(roomId,player.id);//√
+                dispatch(setRoomOnline(false))
                 console.log("remove success");
-            }
-            else{
-
             }
             console.log("remove 3");
         }
@@ -272,6 +296,7 @@ const Game = ({roomId}) => {
     useEffect(() => {
         playersRef.current = players;
     }, [players]);
+
     const memoizedPlayers = useMemo(() => playersRef.current.map((p) => {
         if (p.type === 'mouse') {
             return <Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} />;
@@ -293,7 +318,7 @@ const Game = ({roomId}) => {
             )}
             <Map players={{ players }} />
             {memoizedPlayers}
-            <Leaderboard leaderboard={players} score={player.score}/>
+            <Leaderboard leaderboard={players} score={player.score} onReturnRoom={handleReturnRoom}/>
             <RecordingControl players={players} onRecordingChange={handleRecordingChange}/>
             <RecordingList recording={recordingRef.current}/>
 

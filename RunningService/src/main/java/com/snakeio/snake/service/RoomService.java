@@ -52,6 +52,7 @@ public class RoomService {
     public Room removePlayerFromRoom(String roomId, String playerId) {
         Room room = getRoomById(roomId);
         if (room != null) {
+
             room.removePlayer(playerId);
             return saveRoom(room);
         }

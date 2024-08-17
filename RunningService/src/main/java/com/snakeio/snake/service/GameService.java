@@ -20,14 +20,19 @@ public class GameService {
     private SimpMessagingTemplate messagingTemplate;
 
     public void addPlayerToRoom(String roomId, Player player) {
-        roomPlayers.computeIfAbsent(roomId, k -> new CopyOnWriteArrayList<>()).add(player);
+
+        System.out.println("add in db in websocket outcome："+roomPlayers.computeIfAbsent(roomId, k -> new CopyOnWriteArrayList<>()).add(player));
     }
 
     public void removePlayerFromRoom(String roomId, Player player) {
         CopyOnWriteArrayList<Player> players = roomPlayers.get(roomId);
         if (players != null) {
-            players.remove(player);
+            System.out.println("Current players in room " + roomId + ": " + players);
+            System.out.println("whether player in the players list:"+players.contains(player));
+            System.out.println("remove from websocket outcome："+players.remove(player));
         }
+
+        System.out.println("remove from websocket process end");
     }
 
     public GameStateDTO getFullState(String roomId) {

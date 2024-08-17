@@ -30,8 +30,6 @@ const Snake = ({ players, onMouseMove }) => {
                     previousHead: { ...player.segments[0] },
                     previousTail: { ...player.segments[player.segments.length - 1] }
                 });
-                // alert("这是一个提示框");
-                // context.clearRect(0, 0, canvas.width, canvas.height);
             } else {
                 // 获取上次绘制的头尾信息
                 const { previousHead, previousTail } = snakePositions.current.get(player.id);

@@ -13,6 +13,7 @@ import {GoogleOAuthProvider} from "@react-oauth/google"; // Ensure Provider is i
 import config from './common/config';
 import {PersistGate} from "redux-persist/integration/react";  // 导入配置文件
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
           <Provider store={store}>
