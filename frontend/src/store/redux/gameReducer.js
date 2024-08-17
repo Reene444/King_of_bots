@@ -9,10 +9,10 @@ const ADD_PLAYER = 'ADD_PLAYER';
 const MOVE_PLAYER = 'MOVE_PLAYER';
 const REMOVE_PLAYER = 'REMOVE_PLAYER';
 const SET_CURRENT_PLAYER_ID='SET_CURRENT_PLAYER_ID'
-const SET_ROOM_ONLINE='SET_ROOM_ONLINE'
+
 const initialState = {
     current_player_id:null,
-    room_online:true,
+
     players: [],
 };
 
@@ -24,11 +24,7 @@ const gameReducer = (state = initialState, action = {}) => {
                 ...state,
                 current_player_id:action.payload
             }
-        case SET_ROOM_ONLINE:
-            return {
-                ...state,
-                room_online:action.payload
-            }
+
         case SET_PLAYERS:
             return {        ...state,
                 players: state.players.map(p =>
@@ -94,8 +90,5 @@ export const setCurrentPlayerId = playerId => ({
     type: SET_CURRENT_PLAYER_ID,
     payload: playerId
 });
-export const setRoomOnline = online => ({
-    type: SET_ROOM_ONLINE,
-    payload: online
-});
+
 export default gameReducer;

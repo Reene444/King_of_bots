@@ -225,10 +225,12 @@ const Game = ({roomId}) => {
             alert('Game over! Restarting...');
             removePlayerHandler(player);
             resetPlayer();
-            return;
         }
-        setPlayer(updatedPlayer);
-        dispatch(setPlayers(updatedPlayer))
+        else{
+            setPlayer(updatedPlayer);
+            dispatch(setPlayers(updatedPlayer))
+        }
+
 
     }, 50);
 
@@ -264,6 +266,7 @@ const Game = ({roomId}) => {
             type: playerType // 保留玩家类型
         };
         setPlayer(newPlayer);
+        alert("newplayer+"+newPlayer)
         if (stompClient && stompClient.connected) {
             stompClient.publish({
                 destination: `/app/game/${roomId}/add`,
@@ -275,20 +278,22 @@ const Game = ({roomId}) => {
 
     const removePlayerHandler = (player) => {
         console.log("remove player:",player);
-
         if (player && player.id) {
-            console.log("remove 1");
             if (stompClient && stompClient.connected) {
                 console.log("remove 2");
                 console.log("begin to remove");
-                stompClient.publish({
-                    destination: `/app/game/${roomId}/removePlayer`,
-                    body: JSON.stringify(player),
-                });//√
-                dispatch(removePlayer(player.id));
-                removePlayerFromRoom(roomId,player.id);//√
-                dispatch(setRoomOnline(false))
-                console.log("remove success");
+                // stompClient.publish({
+                //     destination: `/app/game/${roomId}/removePlayer`,
+                //     body: JSON.stringify(player),
+                // });//√
+                // console.log("end remove from websocket");
+                removePlayerFromRoom(roomId, player.id).then(r=>{
+                console.log("end remove from room");
+                // dispatch(removePlayer(player.id));
+                // setPlayer(null)
+                console.log("remove success");}
+            );//√
+
             }
             console.log("remove 3");
         }

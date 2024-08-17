@@ -69,8 +69,11 @@ export const addPlayerToRoom = async (roomId, player) => {
 };
 
 export const removePlayerFromRoom = async (roomId, playerId) => {
+    alert("roomid:"+roomId+"pld:"+playerId)
     try {
+        console.log("begin to send rest data:"+`/api/rooms/${roomId}/players/${playerId}`);
         const response = await apiClientRuningService.delete(`/api/rooms/${roomId}/players/${playerId}`);
+        console.log("remove back data:"+response.data);
         return response.data;
     } catch (error) {
         console.error(`Failed to remove player ${playerId} from room ${roomId}:`, error);
