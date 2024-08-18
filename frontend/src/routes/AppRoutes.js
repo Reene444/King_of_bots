@@ -4,7 +4,7 @@ import HomePage from '../pages/Home/HomePage';
 import PlaybackPage from '../pages/Playback/PlaybackPage';
 import LoginPage from "../pages/Auth/Login/LoginPage";
 import RoomManagerPage from "../pages/RoomManager/RoomManagerPage";
-import {Switch} from "@mui/material";
+import WebSocketTest from '../common/Test/WebSocketTest';
 const AppRoutes = () => (
     <Router>
 
@@ -14,6 +14,9 @@ const AppRoutes = () => (
             <Route path="/home/:roomid" element={<HomePage />} />
             <Route path="/auth" element={<LoginPage />} />
             <Route path="/playback/:recordingId" element={<PlaybackPage />} />
+
+
+            <Route path="/test" element={<WebSocketTest />} />
         </Routes>
 
     </Router>

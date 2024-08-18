@@ -1,9 +1,6 @@
 package com.snakeio.snake.config;
 
 
-import com.snakeio.snake.model.Player;
-
-import com.snakeio.snake.model.Recording;
 import com.snakeio.snake.service.RecordingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

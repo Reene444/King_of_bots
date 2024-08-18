@@ -114,7 +114,7 @@ const Game = ({roomId}) => {
 
     useEffect(() => {
 
-        const socket = new SockJS('ws://localhost:8097/ws');
+        const socket = new SockJS('http://localhost:8097/ws');
         const client = new Client({
             webSocketFactory: () => socket,
             debug: (str) => { console.log(str); },
