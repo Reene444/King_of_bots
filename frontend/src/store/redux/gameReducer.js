@@ -9,7 +9,7 @@ const ADD_PLAYER = 'ADD_PLAYER';
 const MOVE_PLAYER = 'MOVE_PLAYER';
 const REMOVE_PLAYER = 'REMOVE_PLAYER';
 const SET_CURRENT_PLAYER_ID='SET_CURRENT_PLAYER_ID'
-
+const SCORE_UPDATE='SCORE_UPDATE'
 const initialState = {
     current_player_id:null,
     players: [],
@@ -60,6 +60,19 @@ const gameReducer = (state = initialState, action = {}) => {
                 ...state,
                 players: Array.isArray(state.players) ? state.players.filter(player => player.id !== action.payload.id) : [],
             };
+
+        case SCORE_UPDATE:
+            // alert("update")
+            return {
+                ...state,
+                players: Array.isArray(state.players) ? state.players.map(player =>
+                    player.id === action.payload.id
+                        ? { ...player,
+                           score:action.payload.score   
+                        }
+                        : player
+                ) : [],
+            };
         default:
             return state;
     }
@@ -84,10 +97,15 @@ export const removePlayer = playerId => ({
     type: REMOVE_PLAYER,
     payload: { id: playerId }
 });
+export const scoreUpdate = ScoreUpdatedplayer => ({
+    type: SCORE_UPDATE,
+    payload: ScoreUpdatedplayer
+});
 
 export const setCurrentPlayerId = playerId => ({
     type: SET_CURRENT_PLAYER_ID,
     payload: playerId
 });
+
 
 export default gameReducer;

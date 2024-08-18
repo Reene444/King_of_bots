@@ -7,6 +7,7 @@ const Snake = ({ players, onMouseMove }) => {
 
     useEffect(() => {
         const canvas = canvasRef.current;
+
         const context = canvas.getContext('2d');
 
         const drawSnake = (player) => {

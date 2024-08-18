@@ -1,7 +1,7 @@
 package com.snakeio.snake.service;
 
 import com.snakeio.snake.payload.GameStateDTO;
-import com.snakeio.snake.websocket.GameController;
+// import com.snakeio.snake.websocket.GameController;
 import com.snakeio.snake.model.Player;
 import com.snakeio.snake.payload.PlayerMovePayload;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +58,7 @@ public class GameService {
                                 segments.add(moveData.getHead());
                             }
                             player.setSegments(segments);
+                            // player.setScore(moveData.getScore());
                             player.setLastUpdateTime(moveData.getTimestamp());
                         } else {
                             // 忽略较旧的消息
@@ -71,6 +72,26 @@ public class GameService {
                 }
             }
         }
+    }
+    public boolean updatePlayerStaticConfigInRoom(String roomId,String playerId,int score){
+        // 获取房间中的玩家列表
+    CopyOnWriteArrayList<Player> players = roomPlayers.get(roomId);
+    if (players != null) {
+        for (Player player : players) {
+            if (player.getId().equals(playerId)) {
+                synchronized (player) { // 锁定当前玩家对象以确保线程安全
+                    // 更新分数
+                    player.setScore(score);
+                    // 发送分数更新到客户端
+                    messagingTemplate.convertAndSend("/topic/game/" + roomId + "/scoreUpdate", player);
+                    System.out.println("update success for score");
+                    return true; // 更新成功
+                }
+            }
+        }
+    }
+    System.out.println("update fail for score");
+    return false; // 玩家未找到
     }
     public List<Player> getPlayersInRoom(String roomId) {
         return roomPlayers.getOrDefault(roomId, new CopyOnWriteArrayList<>());

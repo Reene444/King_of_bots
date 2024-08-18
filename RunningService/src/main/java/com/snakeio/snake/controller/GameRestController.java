@@ -3,6 +3,7 @@ package com.snakeio.snake.controller;
 
 
 import com.snakeio.snake.model.Player;
+import com.snakeio.snake.model.Room;
 import com.snakeio.snake.payload.GameStateDTO;
 import com.snakeio.snake.service.GameService;
 import lombok.Getter;
@@ -28,6 +29,11 @@ public class GameRestController {
         System.out.println("full state for roomID:"+roomId+"\n:"+gameService.getFullState(roomId));
         return gameService.getFullState(roomId)
                 ;
+    }
+   @PutMapping("/{roomId}/players/{playerId}/{newscore}")
+    public boolean updatePlayerStaticConfigInRoom(@PathVariable String roomId, @PathVariable String playerId,@PathVariable int newscore) {
+        System.out.println("recieve updated score:"+newscore+","+playerId);
+        return gameService.updatePlayerStaticConfigInRoom(roomId,playerId,newscore);
     }
 
 

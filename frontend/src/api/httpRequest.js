@@ -81,6 +81,20 @@ export const removePlayerFromRoom = async (roomId, playerId) => {
     }
 };
 
+export const updatePlayerStaticConfigFromRoom = async (roomId, playerId,newscore) => {
+    // alert("score :roomid:"+roomId+"pld:"+playerId)
+    try {
+        console.log("begin to send rest data:"+`/api/game/${roomId}/players/${playerId}/${newscore}`);
+        const response = await apiClientRuningService.put(`/api/game/${roomId}/players/${playerId}/${newscore}`);
+        // alert("back score :roomid:"+roomId+"pld:"+playerId)
+        console.log("update back data:"+response.data);
+        return response.data;
+    } catch (error) {
+        console.error(`Failed to remove player ${playerId} from room ${roomId}:`, error);
+        throw error;
+    }
+};
+
 // 新增记录游戏动作的函数
 export const recordGameActions = async (file) => {
     try {

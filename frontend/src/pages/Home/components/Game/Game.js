@@ -18,12 +18,13 @@ import {
     movePlayer,
     removePlayer,
     setCurrentPlayerId,
-    setRoomOnline
+    setRoomOnline,
+    scoreUpdate
 } from '../../../../store/redux/gameReducer';
 import SelectModel from '../SelectModel/SelectModel';
 import Map from '../../../../assets/scripts/Map/Map'
 import {useNavigate} from "react-router-dom";
-import {addPlayerToRoom, fetchGameState, removePlayerFromRoom} from "../../../../api/httpRequest";
+import {addPlayerToRoom, fetchGameState, removePlayerFromRoom, updatePlayerStaticConfigFromRoom} from "../../../../api/httpRequest";
 import {leaveRoom} from "../../../../store/redux/roomReducer";
 import {generateInitialSegments} from "../../../../common/utils/generateInitialSegments";
 
@@ -140,6 +141,16 @@ const Game = ({roomId}) => {
                         // dispatch(setPlayers(gameState.player));
                     // }
                 });
+
+                client.subscribe(`/topic/game/${roomId}/scoreUpdate`, (message) => {//订阅分数
+                    const updatedScoreplayer = JSON.parse(message.body);
+                    // if (removedplayer.id !== player.id) {
+                        // console.log("this is update for dispatch in adding",message.body,removedplayer.id !== player.id);
+                        dispatch(scoreUpdate(updatedScoreplayer));
+                        // dispatch(setPlayers(gameState.player));
+                    // }
+                });
+               
                 setStompClient(client);
             },
             onStompError: (frame) => {
@@ -254,6 +265,8 @@ const Game = ({roomId}) => {
                     if (Math.abs(head.x - otherPlayer.segments[j].x) < 10 &&
                         Math.abs(head.y - otherPlayer.segments[j].y) < 10) {
                         otherPlayer.score += 1;
+                        updatePlayerStaticConfigFromRoom(roomId,otherPlayer.id,otherPlayer.score)//更新分数
+                        // alert("score begin:"+otherPlayer.score)
                         if (otherPlayer.id === player.id) {
                             setPlayer(prevPlayer => ({ ...prevPlayer, score: otherPlayer.score }));
                         }
@@ -316,8 +329,9 @@ const Game = ({roomId}) => {
             return <Snake key={p.id} players={[p]} onMouseMove={handleMouseMove} />;
         }
     }), [playersRef.current, handleMouseMove]);
+
     return (
-        <div className="game-container">
+        <div className="game-container" >
             {!modelSelected && (
                 <SelectModel
                     playerType={playerType}
