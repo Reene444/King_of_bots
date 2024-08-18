@@ -1,8 +1,8 @@
 
-<h1 align="center">King of Bots</h1>
+<h1 align="center">Muil-users snake game</h1>
 
 
-#### this is a small snake online game
+#### This is a snake online game for muiltiple players 
 
 ## :sparkles: Skills
 - `Springboot`
@@ -48,9 +48,6 @@ $ npm start
 ## Blogs for implementing
 [Blogs for implementing](https://www.blogger.com/blog/posts/3583988235096926786)
 
-## Demo
+## [Demo link](./demo1.mp4)
 
-<video controls src="demo1.mp4" title="Title">Demo</video>
-
-
-
+[![video](./image.png)](./demo1.mp4)
