@@ -50,7 +50,7 @@ $ npm start
 
 ## Demo
 
-<video controls src="demo1.mp4" title="Title"></video>
+<video controls src="demo1.mp4" title="Title">Demo</video>
 
 
 
