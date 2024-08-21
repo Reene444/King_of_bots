@@ -15,8 +15,8 @@ const AppRoutes = () => (
             <Route path="/auth" element={<LoginPage />} />
             <Route path="/playback/:recordingId" element={<PlaybackPage />} />
 
-
             <Route path="/test" element={<WebSocketTest />} />
+
         </Routes>
 
     </Router>

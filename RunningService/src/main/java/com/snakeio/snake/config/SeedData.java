@@ -20,7 +20,7 @@ public class SeedData implements CommandLineRunner {
     private PlayerService playerService;
     @Override
     public void run(String... args) throws Exception {
-        Room room1= new Room("1",null,10,10);
+        Room room1= new Room("1",null,1000000,10);
         Room room2= new Room("2",null,10,10);
         Room room3= new Room("3",null,10,10);
         Room room4= new Room("4",null,10,10);

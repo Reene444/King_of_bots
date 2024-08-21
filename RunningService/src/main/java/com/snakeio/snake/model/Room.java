@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 @Document(collection = "rooms")
 @Data
@@ -22,7 +24,7 @@ public class Room {
     @Id
     private String id;
     @Field("players")
-    private Set<String> players = new HashSet<>();
+    private Set<String> players =ConcurrentHashMap.newKeySet();
     private int maxPlayers;
     private int timeLeft;
 

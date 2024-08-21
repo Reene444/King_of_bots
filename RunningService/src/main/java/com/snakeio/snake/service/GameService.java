@@ -4,6 +4,7 @@ import com.snakeio.snake.payload.GameStateDTO;
 // import com.snakeio.snake.websocket.GameController;
 import com.snakeio.snake.model.Player;
 import com.snakeio.snake.payload.PlayerMovePayload;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -15,16 +16,26 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Service
 public class GameService {
 
-    private final ConcurrentHashMap<String, CopyOnWriteArrayList<Player>> roomPlayers = new ConcurrentHashMap<>();
+    private volatile ConcurrentHashMap<String, CopyOnWriteArrayList<Player>> roomPlayers = new ConcurrentHashMap<>();
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
-
-    public void addPlayerToRoom(String roomId, Player player) {
-
+//    @Autowired
+//    private PlayerService playerService;
+//
+//    @Autowired
+//    private RoomService roomService;
+//    @Transactional
+    public synchronized void addPlayerToRoom(String roomId, Player player) {
         System.out.println("add in db in websocket outcome："+roomPlayers.computeIfAbsent(roomId, k -> new CopyOnWriteArrayList<>()).add(player));
     }
 
-    public void removePlayerFromRoom(String roomId, Player player) {
+
+    public synchronized void savePlayerAndAddToRoom(Player player, Long roomId) {
+        // 保存玩家
+
+    }
+
+    public synchronized void removePlayerFromRoom(String roomId, Player player) {
         CopyOnWriteArrayList<Player> players = roomPlayers.get(roomId);
         if (players != null) {
             System.out.println("Current players in room " + roomId + ": " + players);
@@ -35,12 +46,12 @@ public class GameService {
         System.out.println("remove from websocket process end");
     }
 
-    public GameStateDTO getFullState(String roomId) {
+    public synchronized GameStateDTO getFullState(String roomId) {
         List<Player> players = roomPlayers.getOrDefault(roomId, new CopyOnWriteArrayList<>());
         return new GameStateDTO(players);
     }
 
-    public void movePlayer(String roomId, PlayerMovePayload moveData) {
+    public synchronized void movePlayer(String roomId, PlayerMovePayload moveData) {
         CopyOnWriteArrayList<Player> players = roomPlayers.get(roomId);
         if (players != null) {
             for (Player player : players) {

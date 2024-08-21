@@ -30,7 +30,7 @@ const WebSocketTest = ({ roomId }) => {
     },);
     const createClients = () => {
         const clients = [];
-        roomId=1;
+        roomId=1;//测试单个房间
         for (let i = 0; i < numClients; i++) {
             const socket = new SockJS('http://localhost:8097/ws');
             setPlayer(pre=>({...pre,id:uuidv4()}))

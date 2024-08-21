@@ -61,10 +61,11 @@ public class RoomController {
         return roomService.getPlayerInRoom(roomId);
     }
     @PostMapping("/{roomId}/players")
-    public Room addPlayerToRoom(@PathVariable String roomId,@RequestBody Player player) {
-        System.out.println("addplayertoroom:"+roomId+","+player.getId()+"\n");
-        playerService.savePlayer(player);
-        return roomService.addPlayerToRoom(roomId, player.getId());
+    public void addPlayerToRoom(@PathVariable String roomId,@RequestBody Player player) {
+//        System.out.println("addplayertoroom:"+roomId+","+player.getId()+"\n");
+//        playerService.savePlayer(player);
+         roomService.addPlayerToRoom(roomId, player.getId());
+
     }
 
     @DeleteMapping("/{roomId}/players/{playerId}")
