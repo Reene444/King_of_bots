@@ -31,6 +31,7 @@ public class GameController {
     @SendTo("/topic/game/{roomId}/add")
     public Player addPlayer(@DestinationVariable String roomId, @Payload Player player) {
         gameService.addPlayerToRoom(roomId,player);
+        roomService.addPlayerToRoom(roomId,player.getId());
         System.out.println("add"+player+"\nroom:"+gameService.getFullState(roomId));
         return player;
     }
@@ -46,6 +47,7 @@ public class GameController {
     @SendTo("/topic/game/{roomId}/remove")
     public Player removePlayer(@DestinationVariable String roomId, @Payload Player player) {
         gameService.removePlayerFromRoom(roomId, player);
+        roomService.removePlayerFromRoom(roomId,player.getId());
         System.out.println("remove from websocket:"+gameService.getPlayersInRoom(roomId).size()+roomId+player+'\n'+gameService.getFullState(roomId));
 //        return new GameStateDTO(gameService.getPlayersInRoom(roomId));
         return player;

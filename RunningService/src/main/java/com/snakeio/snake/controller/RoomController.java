@@ -63,7 +63,7 @@ public class RoomController {
     @PostMapping("/{roomId}/players")
     public void addPlayerToRoom(@PathVariable String roomId,@RequestBody Player player) {
 //        System.out.println("addplayertoroom:"+roomId+","+player.getId()+"\n");
-//        playerService.savePlayer(player);
+         playerService.savePlayer(player);
          roomService.addPlayerToRoom(roomId, player.getId());
 
     }
