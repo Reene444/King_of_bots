@@ -102,7 +102,7 @@ for (let i = 0; i < numberOfUsers; i++) {
 const loopDurationSeconds = (loopEndTime - loopStartTime) / 1000;
 
 // 打印循环总时间
-console.log(`Total execution time for the loop: ${loopDurationSeconds.toFixed(3)} seconds ,${JSON.stringify(response.body)}`);
+console.log(`Total execution time for the loop: ${loopDurationSeconds.toFixed(3)} seconds ,${JSON.stringify(response.)}`);
         })
         .catch(error => {
             console.error('callback Failed to add player:', error);

@@ -1,0 +1,8 @@
+/* Map.css */
+.Map {
+    display: block;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    background-color: #1a1a1a; /* Darker background */
+   
+}

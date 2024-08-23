@@ -1,7 +1,10 @@
 package com.snakeio.snake.config;
 
 import com.snakeio.snake.interceptor.TimestampInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -41,4 +44,15 @@ public class WebSocketConfig  implements WebSocketMessageBrokerConfigurer{
     public void configureClientInboundChannel(ChannelRegistration registration) {
         registration.interceptors(new TimestampInterceptor());
     }
+//    @KafkaListener(topics = "game-room", groupId = "group_id")
+//    public void listen(String message) {
+//        // Parse the message to determine the room and the action
+//        String[] parts = message.split(":", 3);
+//        String roomId = parts[0];
+//        String action = parts[1];
+//        String playerData = parts[2];
+//
+//        // Send message to WebSocket clients
+//        messagingTemplate.convertAndSend("/topic/game/" + roomId + "/" + action, playerData);
+//    }
 }

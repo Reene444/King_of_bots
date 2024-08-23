@@ -1,18 +1,17 @@
 import React, { useRef, useEffect } from 'react';
 import './Snake.css';
 
-const Snake = ({ players, onMouseMove }) => {
-    const canvasRef = useRef(null);
+const Snake = ({ players, onMouseMove ,GameCanvas}) => {
     const snakePositions = useRef(new Map()); // 使用 useRef 来存储蛇的位置
 
     useEffect(() => {
-        const canvas = canvasRef.current;
-
+        const canvas = GameCanvas.current;
         const context = canvas.getContext('2d');
-
+       
         const drawSnake = (player) => {
             if (!player.segments || player.segments.length === 0) return; // 防止未定义的属性访问
-
+            if (context) { // Ensure the context is successfully obtained
+    
             context.fillStyle = player.color;
             context.strokeStyle = player.color;
             context.lineWidth = 20;
@@ -83,14 +82,19 @@ const Snake = ({ players, onMouseMove }) => {
                 context.fillText(player.nickname, head.x, head.y - 30); // 在头部上方绘制昵称
             }
 
-
+        }
         };
 
         const render = () => {
             context.clearRect(0, 0, canvas.width, canvas.height); // 在绘制前清空画布
+            context.save();
+
             players.forEach(player => {
+
                 drawSnake(player);
+
             });
+            context.restore();
             requestAnimationFrame(render)
         };
 
@@ -98,7 +102,7 @@ const Snake = ({ players, onMouseMove }) => {
     }, [players]);
     return (
         <canvas
-            ref={canvasRef}
+            ref={GameCanvas}
             width={window.innerWidth}
             height={window.innerHeight}
             onMouseMove={onMouseMove}

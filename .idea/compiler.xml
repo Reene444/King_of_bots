@@ -7,15 +7,21 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="RunningService" />
         <module name="RecordingService" />
+        <module name="RunningService" />
         <module name="UserService" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="RunningFlux" target="17" />
+      <module name="RunningFlux.main" target="17" />
+      <module name="RunningFlux.test" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="RecordingService" options="-parameters" />
+      <module name="RunningFlux" options="-parameters" />
       <module name="RunningService" options="-parameters" />
       <module name="UserService" options="-parameters" />
     </option>

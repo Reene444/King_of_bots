@@ -47,6 +47,7 @@ const Game = ({roomId}) => {
     const playersRef = useRef(players);
     const recordingRef=useRef(false)
     const exsited_player_id=useSelector(state => state.game.current_player_id)
+    const [offset, setOffset] = useState({ x: 0, y: 0 });
     useEffect(() => {
         if (!isAuthenticated) navigate("/auth");
     }, []);
@@ -237,7 +238,11 @@ const Game = ({roomId}) => {
         if (distance > MAX_SPEED) {
             const ratio = MAX_SPEED / distance;
             head.x += dx * ratio; head.y += dy * ratio;
-        } else { head.x = mouseX; head.y = mouseY; }
+            setOffset({ x: dx * ratio, y: dy * ratio });
+        } else { 
+            head.x = mouseX; head.y = mouseY;
+            setOffset({ x: mouseX-head.x, y: mouseY-head.y });
+         }
 
         const updatedSegments = [head, ...player.segments.slice(0, -1)];
         const updatedPlayer = { ...player, segments: updatedSegments };
@@ -250,9 +255,8 @@ const Game = ({roomId}) => {
         else{
             setPlayer(updatedPlayer);
             dispatch(setPlayers(updatedPlayer))
+            updateOffset(head.x,head.y)
         }
-
-
     }, 50);
 
 
@@ -321,15 +325,34 @@ const Game = ({roomId}) => {
     useEffect(() => {
         playersRef.current = players;
     }, [players]);
+ 
+    const canvasRef =useRef(null);
+    const updateOffset = (x, y) => {
+        const canvas = canvasRef.current;
+        const canvasCenterX = canvas.width / 2;
+        const canvasCenterY = canvas.height / 2;
 
-    const memoizedPlayers = useMemo(() => playersRef.current.map((p) => {
-        if (p.type === 'mouse') {
-            return <Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} />;
-        } else {
-            return <Snake key={p.id} players={[p]} onMouseMove={handleMouseMove} />;
-        }
-    }), [playersRef.current, handleMouseMove]);
-
+        const offsetX = canvasCenterX - (x + player.segments.length*12 );
+        const offsetY = canvasCenterY - (y + 12);
+        const context = canvas.getContext('2d');
+        // context.translate(-offset.x+canvasCenterX, -offset.y+canvasCenterY);
+        // setOffset({ x: offsetX, y: offsetY });
+    };
+    // const memoizedPlayers = useMemo(() => playersRef.current.map((p) => {
+    //     if (p.type === 'mouse') {
+    //         return <Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} GameCanvas={canvasRef}/>;
+    //     } else {
+    //         return <Snake key={p.id} players={[p]} onMouseMove={handleMouseMove} GameCanvas={canvasRef} offset={{offset}}/>;
+    //     }
+    // }), [playersRef.current, handleMouseMove]);
+    useEffect(()=>{
+      players.map(p=>{
+        if(p.id!==player.id)p.segments.forEach((element, index, seg) => {
+            seg[index].x = element.x - offset.x;
+            seg[index].y = element.y - offset.y;
+          });
+      })
+    },[offset])
     return (
         <div className="game-container" >
             {!modelSelected && (
@@ -342,8 +365,9 @@ const Game = ({roomId}) => {
                 }}
                 />
             )}
-            <Map players={{ players }} />
-            {memoizedPlayers}
+            <Map offset={offset} />
+            {/* {memoizedPlayers} */}
+            <Snake players={players} onMouseMove={handleMouseMove} GameCanvas={canvasRef} offset={{offset}}/>;
             <Leaderboard leaderboard={players} score={player.score} onReturnRoom={handleReturnRoom}/>
             <RecordingControl players={players} onRecordingChange={handleRecordingChange}/>
             <RecordingList recording={recordingRef.current}/>

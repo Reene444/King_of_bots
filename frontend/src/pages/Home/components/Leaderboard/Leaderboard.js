@@ -11,10 +11,10 @@ const Leaderboard = ({ leaderboard,score,onReturnRoom }) => {
 
     return (
         <Box className="leaderboard-container">
-            <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0)', padding: '5px', borderRadius: '10px', boxShadow: '0 4px 5px rgba(0, 0, 0, 0.2)' }}>
+            <Card sx={{ backgroundColor: 'rgba(0, 0, 0, 0)', padding: '0px', borderRadius: '10px', boxShadow: '0 4px 5px rgba(0, 0, 0, 0.2)' }}>
                 <CardContent>
-                    <Typography variant="h5" component="div" gutterBottom>
-                        <SportsScoreIcon/>Leaderboard
+                    <Typography variant="h5" component="div" gutterBottom  >
+                        <SportsScoreIcon/> <text  style={{ color: 'white', fontWeight: 'bold' }} >Leaderboard</text>
                     </Typography>
                     <ul className="leaderboard-list">
                         {uniquePlayers.map((player, index) => (
