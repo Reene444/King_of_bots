@@ -26,8 +26,8 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    @MessageMapping("/game/{roomId}/add")
-    @SendTo("/topic/game/{roomId}/add")
+    @MessageMapping("/game.{roomId}.add")
+    @SendTo("/topic/game.{roomId}.add")
     public Player addPlayer(@DestinationVariable String roomId, @Payload Player player) {
         gameService.addPlayerToRoom(roomId,player);
         roomService.addPlayerToRoom(roomId,player.getId());
@@ -36,14 +36,14 @@ public class GameController {
     }
 
     //actually there we only put in the drift data of the head
-    @MessageMapping("/game/{roomId}/move")
+    @MessageMapping("/game.{roomId}.move")
     public void movePlayer(@DestinationVariable String roomId, @Payload PlayerMovePayload moveData) {
         gameService.movePlayer(roomId, moveData);
         System.out.println("move:"+gameService.getFullState(roomId).getPlayers().size()+":"+moveData.toString());
     }
 
-    @MessageMapping("/game/{roomId}/removePlayer")
-    @SendTo("/topic/game/{roomId}/remove")
+    @MessageMapping("/game.{roomId}.removePlayer")
+    @SendTo("/topic/game.{roomId}.remove")
     public Player removePlayer(@DestinationVariable String roomId, @Payload Player player) {
         gameService.removePlayerFromRoom(roomId, player);
         roomService.removePlayerFromRoom(roomId,player.getId());

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 @Service
 public class GameService {
 
@@ -21,7 +21,7 @@ public class GameService {
     private RedissonClient redissonClient;
 
     @Autowired
-    private SimpMessagingTemplate messagingTemplate;
+        private SimpMessageSendingOperations messagingTemplate;
 
     private static final String ROOM_KEY_PREFIX = "room:";
     private static final String PLAYERS_KEY_PREFIX = "players:";
@@ -74,7 +74,7 @@ public class GameService {
                     }
                 }
                 playerList.set(players.indexOf(player), player);
-                messagingTemplate.convertAndSend("/topic/game/" + roomId + "/move", moveData);
+                messagingTemplate.convertAndSend("/topic/game." + roomId + ".move", moveData);
                 break;
             }
         }
@@ -89,7 +89,7 @@ public class GameService {
                 synchronized (player) {
                     player.setScore(score);
                     playerList.set(players.indexOf(player), player);
-                    messagingTemplate.convertAndSend("/topic/game/" + roomId + "/scoreUpdate", player);
+                    messagingTemplate.convertAndSend("/topic/game." + roomId + ".scoreUpdate", player);
                     System.out.println("Score update success for player: " + playerId);
                     return true;
                 }
