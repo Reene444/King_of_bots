@@ -49,8 +49,10 @@ const gameReducer = (state = initialState, action = {}) => {
                     player.id === action.payload.id
                         ? { ...player,
                             segments: [
-                                { x: action.payload.head.x, y: action.payload.head.y },
-                                ...player.segments.slice(0, -1)
+                                // { x: action.payload.head.x, y: action.payload.head.y },
+                                // ...player.segments.slice(0, -1)
+                                { x: action.payload.head_drift.x+player.segments[0].x, y: action.payload.head_drift.y+player.segments[0].y },
+                                ...player.segments.slice(0, -1)//there we change it which is suitable for the head_drift:put a new head added with the new drift and cut the tail
                             ] }
                         : player
                 ) : [],

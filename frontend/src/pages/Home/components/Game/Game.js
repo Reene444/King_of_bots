@@ -149,7 +149,7 @@ const Game = ({roomId}) => {
                         // console.log("this is update for dispatch in adding",message.body,removedplayer.id !== player.id);
                         dispatch(scoreUpdate(updatedScoreplayer));
                         
-                    // }
+          // }
                 });
                
                 setStompClient(client);
@@ -219,7 +219,8 @@ const Game = ({roomId}) => {
         if (modelSelected && stompClient && stompClient.connected) {
             stompClient.publish({
                 destination: `/app/game/${roomId}/move`,
-                body: JSON.stringify({ id: player.id, head: player.segments[0], type: player.type, timestamp: Date.now() }),
+                // body: JSON.stringify({ id: player.id, head: player.segments[0], type: player.type, timestamp: Date.now() }),
+                body: JSON.stringify({ id: player.id, head_drift:offset, type: player.type, timestamp: Date.now() }),//there we just upload the offset as the head_drift data
                 headers: { timestamp: timestamp }
             });
         }

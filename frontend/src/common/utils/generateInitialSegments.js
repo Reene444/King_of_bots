@@ -2,8 +2,8 @@ export const  generateInitialSegments = (players) => {
     let segments;
     let isSafe;
     do {
-        const startX = Math.floor(Math.random() * window.innerWidth);
-        const startY = Math.floor(Math.random() * window.innerHeight);
+        const startX = Math.floor(Math.random() * Math.floor(window.innerWidth/3.0)+window.innerWidth/3.0);
+        const startY = Math.floor(Math.random() * Math.floor(window.innerHeight/3.0)+window.innerHeight/3.0);
         segments = Array.from({ length: 15 }, (_, index) => ({ x: startX - index * 1 , y: startY }));
         isSafe = players && players.every(player =>
                 player && Array.isArray(player.segments) && player.segments.every(segment =>

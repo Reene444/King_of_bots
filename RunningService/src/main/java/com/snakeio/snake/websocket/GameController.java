@@ -18,7 +18,6 @@ import java.util.List;
 
 @Controller
 public class GameController {
-
     private final GameService gameService;
     @Autowired
     private RoomService roomService;
@@ -36,7 +35,7 @@ public class GameController {
         return player;
     }
 
-
+    //actually there we only put in the drift data of the head
     @MessageMapping("/game/{roomId}/move")
     public void movePlayer(@DestinationVariable String roomId, @Payload PlayerMovePayload moveData) {
         gameService.movePlayer(roomId, moveData);

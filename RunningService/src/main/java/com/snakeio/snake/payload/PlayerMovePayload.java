@@ -10,7 +10,7 @@ import lombok.Setter;
 @Data
 public class PlayerMovePayload {
     private String id;
-    private Player.Segment head;
+    private Player.Segment head_drift;
     // private int score;
     private long timestamp;  // 添加时间戳字段
 

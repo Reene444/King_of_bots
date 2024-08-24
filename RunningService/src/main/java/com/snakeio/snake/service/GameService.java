@@ -55,13 +55,16 @@ public class GameService {
                 List<Player.Segment> segments = player.getSegments();
                 synchronized (segments) {
                     if (moveData.getTimestamp() > player.getLastUpdateTime()) {
+                        Player.Segment newDriftedHead=segments.get(0);
+                        newDriftedHead.setX(newDriftedHead.getX()+moveData.getHead_drift().getX());
+                        newDriftedHead.setY(newDriftedHead.getY()+moveData.getHead_drift().getY());
                         if (!segments.isEmpty()) {
-                            segments.add(0, moveData.getHead());
+                            segments.add(0, newDriftedHead);
                             if (segments.size() > 1) {
                                 segments.remove(segments.size() - 1);
                             }
                         } else {
-                            segments.add(moveData.getHead());
+                            segments.add(newDriftedHead);
                         }
                         player.setSegments(segments);
                         player.setLastUpdateTime(moveData.getTimestamp());
