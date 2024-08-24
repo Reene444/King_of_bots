@@ -1,7 +1,7 @@
 import React, {useState, useRef, useEffect } from 'react';
 import './Map.css';
 
-const Map = ({players,GameCanvas,offset}) => {
+const Map = ({offset}) => {
        const canvasRef=useRef(null)
        const [viewport, setViewport] = useState({ x: 0, y: 0 });
     useEffect(() => {
@@ -15,8 +15,8 @@ const Map = ({players,GameCanvas,offset}) => {
             context.strokeStyle = '#2e2e2e';
             context.lineWidth = 1;
             // 计算偏移量
-            const offsetX = viewport.x % (gridSize);
-            const offsetY = viewport.y % (gridSize);
+            const offsetX = viewport.x%gridSize ;
+            const offsetY = viewport.y%gridSize;
             for (let x =  offsetX; x <= canvas.width; x += gridSize) {
                 context.moveTo(x, 0);
                 context.lineTo(x, canvas.height);
@@ -24,7 +24,7 @@ const Map = ({players,GameCanvas,offset}) => {
 
             for (let y = offsetY; y <= canvas.height; y += gridSize) {
                 context.moveTo(0, y);
-                context.lineTo(canvas.width, y);
+                context.lineTo( canvas.width,y);
             }
 
             context.stroke();

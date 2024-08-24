@@ -4,7 +4,8 @@
     align-items:center;
     margin: 10px;
     font-family: 'Roboto', sans-serif; /* Use a more modern font */
-    background-color: rgba(249, 249, 249, 0); /* Light gray background for the whole page */
+    /* background-color: rgba(249, 249, 249, 0); Light gray background for the whole page */
+    /* background-color: #1a1a1a; Darker background */
 }
 
 .room-manager h1 {

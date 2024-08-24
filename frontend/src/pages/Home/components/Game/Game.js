@@ -125,7 +125,7 @@ const Game = ({roomId}) => {
                     if (newplayer.id !== player.id) {
                         console.log("this is update for dispatch in adding",message.body,newplayer.id !== player.id);
                         dispatch(addPlayer(newplayer));
-                        // dispatch(setPlayers(gameState.player));
+                      
                     }
                 });
                 client.subscribe(`/topic/game/${roomId}/move`, (message) => {
@@ -139,7 +139,7 @@ const Game = ({roomId}) => {
                     // if (removedplayer.id !== player.id) {
                         console.log("this is update for dispatch in adding",message.body,removedplayer.id !== player.id);
                         dispatch(removePlayer(removedplayer.id));
-                        // dispatch(setPlayers(gameState.player));
+                       
                     // }
                 });
 
@@ -148,7 +148,7 @@ const Game = ({roomId}) => {
                     // if (removedplayer.id !== player.id) {
                         // console.log("this is update for dispatch in adding",message.body,removedplayer.id !== player.id);
                         dispatch(scoreUpdate(updatedScoreplayer));
-                        // dispatch(setPlayers(gameState.player));
+                        
                     // }
                 });
                
@@ -235,14 +235,14 @@ const Game = ({roomId}) => {
         const dy = mouseY - head.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance > MAX_SPEED) {
+        // if (distance > MAX_SPEED) {
             const ratio = MAX_SPEED / distance;
             head.x += dx * ratio; head.y += dy * ratio;
             setOffset({ x: dx * ratio, y: dy * ratio });
-        } else { 
-            head.x = mouseX; head.y = mouseY;
-            setOffset({ x: mouseX-head.x, y: mouseY-head.y });
-         }
+        // } else { 
+        //     head.x = mouseX; head.y = mouseY;
+        //     setOffset({ x: mouseX-head.x, y: mouseY-head.y });
+        //  }
 
         const updatedSegments = [head, ...player.segments.slice(0, -1)];
         const updatedPlayer = { ...player, segments: updatedSegments };
@@ -255,7 +255,6 @@ const Game = ({roomId}) => {
         else{
             setPlayer(updatedPlayer);
             dispatch(setPlayers(updatedPlayer))
-            updateOffset(head.x,head.y)
         }
     }, 50);
 
@@ -335,19 +334,18 @@ const Game = ({roomId}) => {
         const offsetX = canvasCenterX - (x + player.segments.length*12 );
         const offsetY = canvasCenterY - (y + 12);
         const context = canvas.getContext('2d');
-        // context.translate(-offset.x+canvasCenterX, -offset.y+canvasCenterY);
-        // setOffset({ x: offsetX, y: offsetY });
+
     };
     // const memoizedPlayers = useMemo(() => playersRef.current.map((p) => {
     //     if (p.type === 'mouse') {
-    //         return <Mouse key={p.id} players={[p]} onMouseMove={handleMouseMove} GameCanvas={canvasRef}/>;
+    //         return <Mouse key={p.id} players={[p]} nMouseMove={handleMouseMove} GameCanvas={canvasRef}/>;
     //     } else {
     //         return <Snake key={p.id} players={[p]} onMouseMove={handleMouseMove} GameCanvas={canvasRef} offset={{offset}}/>;
     //     }
     // }), [playersRef.current, handleMouseMove]);
     useEffect(()=>{
       players.map(p=>{
-        if(p.id!==player.id)p.segments.forEach((element, index, seg) => {
+        p.segments.forEach((element, index, seg) => {
             seg[index].x = element.x - offset.x;
             seg[index].y = element.y - offset.y;
           });
@@ -367,7 +365,7 @@ const Game = ({roomId}) => {
             )}
             <Map offset={offset} />
             {/* {memoizedPlayers} */}
-            <Snake players={players} onMouseMove={handleMouseMove} GameCanvas={canvasRef} offset={{offset}}/>;
+            <Snake players={players} onMouseMove={handleMouseMove} GameCanvas={canvasRef}/>;
             <Leaderboard leaderboard={players} score={player.score} onReturnRoom={handleReturnRoom}/>
             <RecordingControl players={players} onRecordingChange={handleRecordingChange}/>
             <RecordingList recording={recordingRef.current}/>
