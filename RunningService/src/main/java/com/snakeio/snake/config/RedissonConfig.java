@@ -1,5 +1,6 @@
 package com.snakeio.snake.config;
 
+import jakarta.annotation.PostConstruct;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.codec.JsonJacksonCodec;
@@ -10,7 +11,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 
 @Configuration
 public class RedissonConfig {
-
 
     @Bean
     public RedissonClient redissonClient() {

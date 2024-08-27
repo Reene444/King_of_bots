@@ -1,0 +1,34 @@
+.game-container {
+    position: relative;
+    width: 100vw;
+    height: 100%;
+}
+
+.score-container {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.leaderboard-container {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.leaderboard-container h3 {
+    margin: 0 0 10px 0;
+}
+
+.leaderboard-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+

@@ -5,11 +5,29 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "DemoApplication",
+            "request": "launch",
+            "mainClass": "com.snakeio.snake.DemoApplication",
+            "projectName": "RunningService",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=50654 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=RunningService"
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "针对 localhost 启动 Chrome",
             "url": "http://localhost:8080",
             "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-DemoApplication<RecordingService>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.snakeio.snake.DemoApplication",
+            "projectName": "RecordingService",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

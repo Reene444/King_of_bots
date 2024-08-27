@@ -1,0 +1,60 @@
+.room-selection-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* 确保元素左对齐 */
+}
+
+.button-container {
+    position: relative;
+    margin: 20px;
+    height: 100px; /* 固定高度，确保统一大小，可以根据需要调整 */
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-button {
+    background-color: rgba(173, 216, 230, 0.38); /* 浅蓝色 */
+    border: 1px solid rgba(213, 212, 212, 0.99);
+    font-size: 16px;
+    cursor: pointer;
+    /*width: 100%;*/
+    /*height: 100%;*/
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 15px 25px;
+    border-radius: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    flex: 1 1 320px; /* Allow flex to grow and shrink while maintaining a base width */
+    max-width: 400px;
+    width: 100%;
+    height: 100%;
+    background-color: #e0f7fa; /* Light blue background for room items */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-button:hover  {
+    background-color: rgba(135, 206, 235, 0.64); /* 鼠标悬停时更深的蓝色 */
+    transform: translateY(-5px); /* Slight lift effect on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 8px;
+    background-color: #4CAF50; /* 绿色 */
+    z-index: 2;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 5px;
+}
+.button-container:hover .progress-bar {
+    width: 100%; /* Expand width on hover */
+    transform: translateY(-5px); /* Slight lift effect on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}

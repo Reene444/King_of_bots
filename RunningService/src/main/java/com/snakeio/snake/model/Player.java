@@ -23,9 +23,8 @@ public class Player {
     private int score; // 新增score字段
     private List<Segment> segments;
     private String nickname;
-    private String type; // 新增type字段，用于区分Snake和Mouse
+    private String type; // 新增type字段，用于区分Snake和Mousevs
     private String ISOcode="UK";
-    private String roomId; // 关联的房间 ID
     private long lastUpdateTime;
 //    @Data
     @Getter

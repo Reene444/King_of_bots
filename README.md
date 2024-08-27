@@ -7,35 +7,37 @@
 ## :sparkles: Skills
 - `Springboot`
 - `Mongodb`
+- `Redis`
+- `Rabbitmq`
+- `Redis`
 - `React`
 
 ## :book: How to use
 To clone and run this application
 ```
 # Clone this repository
-$ git clone https://github.com/Reene444/King_of_bots
+$ git clone https://git.cs.bham.ac.uk/projects-2023-24/lxc645.git
  
 # Go into the each backend modules and combine the commands as third point.
-$ cd DiscoveryServer
-$ cd ApiGateway
 $ cd RunningService
-$ 
+$ cd RecordingService
 
 #Each backend modules run commands as follows:
 # Install dependencies
 $ mvn clean package
 
 # Run the app
-$ java -jar target/Discovery-0.0.1-SNAPSHOT.jar
-$ java -jar target/ApiGateway-0.0.1-SNAPSHOT.jar
-$ java -jar target/RunningService-0.0.1-SNAPSHOT.jar
-
+$ java -jar java -jar target/RunningService-1.jar
+$ java -jar java -jar target/RecordingService-1.jar
 
 # Go into the repository
-$ cd frontend
+$ cd frontend_web
 
 # Run the app
 $ npm start
+
+# if the `npm start` doesn't work then:
+$ ./setup_run_frontend.sh
 
 ```
 ## :wrench: Functions
@@ -44,9 +46,6 @@ $ npm start
 2. [x] LeaderBoard
 3. [x] Recording function
 4. [x] PlaybackPage function
-
-## Blogs for implementing
-[Blogs for implementing](https://www.blogger.com/blog/posts/3583988235096926786)
 
 ## [Demo link](./demo1.mp4)
 
