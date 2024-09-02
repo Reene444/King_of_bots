@@ -2,15 +2,9 @@ package com.snakeio.snake.controller;
 
 
 
-import com.snakeio.snake.model.Player;
-import com.snakeio.snake.model.Room;
 import com.snakeio.snake.payload.GameStateDTO;
 import com.snakeio.snake.service.GameService;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/game")

@@ -12,10 +12,10 @@ chmod +x setup_run_frontend.sh
 ./setup_run_frontend.sh &  # 后台运行脚本
 
 
-sleep 50
-cd ../Test
-source venv/bin/activate
-pip install selenium webdriver-manager
-#pip install time
-python locustfile.py
+# sleep 50
+# cd ../Test
+# source venv/bin/activate
+# pip install selenium webdriver-manager
+# #pip install time
+# python locustfile.py
 

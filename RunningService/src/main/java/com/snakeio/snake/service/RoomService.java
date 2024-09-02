@@ -64,7 +64,7 @@ public class RoomService {
 //        }
          final long MAX_WAIT_TIME_MS = 5000; // 最大等待时间（毫秒）
          final long LOCK_TIMEOUT_MS = 2000; // 锁持有时间（毫秒）
-         final long RETRY_INTERVAL_MS = 500; // 重试间隔（毫秒）
+         final long RETRY_INTERVAL_MS = 800; // 重试间隔（毫秒）
          final Room rl=null;
         return executorService.submit(() -> {
             boolean lockAcquired = false;

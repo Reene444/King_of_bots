@@ -2,7 +2,8 @@
 
     import com.snakeio.snake.model.Player;
     import com.snakeio.snake.payload.GameStateDTO;
-    import com.snakeio.snake.payload.PlayerMovePayload;
+import com.snakeio.snake.payload.HeartbeatPayload;
+import com.snakeio.snake.payload.PlayerMovePayload;
     import com.snakeio.snake.service.GameService;
     import com.snakeio.snake.service.RoomService;
     import lombok.Getter;
@@ -25,6 +26,12 @@
         public GameController(GameService gameService) {
             this.gameService = gameService;
         }
+        @MessageMapping("/heartbeat")
+        public void handleHeartbeat(@Payload HeartbeatPayload payload) {
+            // 处理心跳消息
+            System.out.println("Heartbeat received: " + payload);
+         
+        }
 
         @MessageMapping("/game.{roomId}.add")
         @SendTo("/topic/game.{roomId}.add")
@@ -35,7 +42,7 @@
             return player;
         }
 
-        //actually there we only put in the drift data of the head
+       
         @MessageMapping("/game.{roomId}.move")
         public void movePlayer(@DestinationVariable String roomId, @Payload PlayerMovePayload moveData) {
             gameService.movePlayer(roomId, moveData);
@@ -48,7 +55,6 @@
             gameService.removePlayerFromRoom(roomId, player);
             roomService.removePlayerFromRoom(roomId,player.getId());
             System.out.println("remove from websocket:"+gameService.getPlayersInRoom(roomId).size()+roomId+player+'\n'+gameService.getFullState(roomId));
-    //        return new GameStateDTO(gameService.getPlayersInRoom(roomId));
             return player;
         }
 

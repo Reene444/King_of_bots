@@ -1,8 +1,0 @@
-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 200vw;
-    height: 200vh;
-    z-index: -1; /* 确保 canvas 在背景 */
-}

@@ -69,7 +69,6 @@ public class GameService {
                         player.setSegments(segments);
                         player.setLastUpdateTime(moveData.getTimestamp());
                     } else {
-                        System.out.println("Ignoring outdated move data");
                         return;
                     }
                 }

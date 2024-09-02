@@ -2,7 +2,7 @@ const SockJS = require('sockjs-client');
 const { Client } = require('@stomp/stompjs');
 const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
-const numberOfUsers = 1000; // 并发用户数
+
 const roomId = "1";
 const serverUrl = 'http://localhost:8097/ws';
 const apiClientRuningService = axios.create({
@@ -11,7 +11,7 @@ const apiClientRuningService = axios.create({
 const axiosRetry = require('axios-retry');
 const connections = [];
 const moveInterval = 600000; // 移动消息发送间隔
-
+const numberOfUsers = 1000; // concurrent users
 function createClient(userId, index) {
     const socket = new SockJS(serverUrl);
     const client = new Client({
@@ -83,7 +83,7 @@ const loopStartTime = Date.now();
 
 for (let i = 0; i < numberOfUsers; i++) {
     const userId = uuidv4();
-    // const client = createClient(userId, i);
+ 
 
     const player = {
         id: userId,
@@ -97,23 +97,14 @@ for (let i = 0; i < numberOfUsers; i++) {
 
         const response = apiClientRuningService.post(`/api/rooms/${roomId}/players`, player)
         .then(response => {
-            // console.log(`callback Player ${userId} added to room ${roomId}.`);
             const loopEndTime = Date.now();
 const loopDurationSeconds = (loopEndTime - loopStartTime) / 1000;
 
-// 打印循环总时间
-console.log(`Total execution time for the loop: ${loopDurationSeconds.toFixed(3)} seconds ,${JSON.stringify(response.)}`);
+console.log(`Total execution time for the loop: ${loopDurationSeconds.toFixed(3)} seconds ,${JSON.stringify(response)}`);
         })
         .catch(error => {
-            console.error('callback Failed to add player:', error);
+            // console.error('callback Failed to add player:', error);
         });
         console.log(`Player ${userId} added to room ${roomId} via API.${i}` );
-    // connections.push(client);
 }
 
-// // 捕获终止信号并清理连接
-// process.on('SIGINT', () => {
-//     console.log('Terminating test');
-//     connections.forEach(client => client.deactivate());
-//     process.exit();
-// });

@@ -72,7 +72,6 @@ const Game = ({roomId}) => {
     }, [current_player_offset]);
 
     const load_existed=()=>{
-        // alert("load_existed:"+JSON.stringify(exsited_player.type))
         if(!players.find(p=>p.nickname===player.nickname))dispatch(addPlayer(player))  
 
         if(exsited_player!==null&&exsited_player.type!==""&&exsited_player.username===player.username&&exsited_player.id!==player.id){
@@ -101,13 +100,10 @@ const Game = ({roomId}) => {
     };
 
     const initializeGamePlayers = async () => {
-
         try {
             const gameState = await fetchGameState(roomId);
             let tmp=gameState.players.find(p=>p.nickname===player.nickname)
             if(tmp===undefined||tmp===null){
-                alert("initg1")
-              //  dispatch(addCurrentPlayerOffset({x:-current_player_offset.x,y:-current_player_offset.y}))
                dispatch(setPlayers(null))
                setPlayers(null) 
                 gameState.players.forEach(p=>{
@@ -115,7 +111,7 @@ const Game = ({roomId}) => {
                 })
             }
             else{
-                alert("initg")
+                //camera implementation to keep the current player in the centre of the view
                 let tmx=player.segments[0].x-tmp.segments[0].x
                 let tmy=player.segments[0].y-tmp.segments[0].y
                 gameState.players.forEach(p=>{
@@ -128,11 +124,8 @@ const Game = ({roomId}) => {
                 })
 
             }
-
-
             console.log("game.js:get the init gamers:",players);
             setInit(true)
-            // alert("get init player"+`${JSON.stringify(gameState.players)}`)
         } catch (error) {
             console.error("Failed to fetch game state:", error);
         }
@@ -140,9 +133,8 @@ const Game = ({roomId}) => {
     };
     useEffect(()=>{
         if(roomId !== null&& !init)initializeGamePlayers();
-    },[])
+    },[])// the hook will execute when the browser is refreshed
     useEffect(() => {
-
         const socket = new SockJS('http://localhost:8097/ws');
         const client = new Client({
             webSocketFactory: () => socket,
@@ -150,22 +142,22 @@ const Game = ({roomId}) => {
             onConnect: () => {
                 client.subscribe(`/topic/game.${roomId}.add`, (message) => {
                     let newplayer = JSON.parse(message.body);         
-
-                    if (newplayer.nickname !== player.nickname) {
-    
-                   
-                         alert("dispatch add player"+JSON.stringify( current_player_offsetRef.current))
+                    if (newplayer.nickname !== player.nickname) {    
                          newplayer.segments.forEach((element) => {
+                            /** Camera view(keep the current player in the centre of the window):
+                            when the new player is added, the position of the new player the engine get is the abosolute position,
+                            whereas we need to use the relative postion here, so we substract the totol movement or drift of the 
+                            current player which is the offsetRef.current here, then we get the position of the game word for the
+                            new player added in the current player's room.
+                            */
                             element.x -=( current_player_offsetRef.current.x);  
                             element.y -=( current_player_offsetRef.current.y);
                           })
-                         dispatch(addPlayer(newplayer));
+                         dispatch(addPlayer(newplayer));// give the payload into the reducer to process the addplayer action.
                     }
                 });
                 client.subscribe(`/topic/game.${roomId}.move`, (message) => {
                     const movedPlayer = JSON.parse(message.body);
-                //    alert("sbscribe_mov:" + message.body + "id:"+movedPlayer.id+"current_player:" + player.id,(movedPlayer.id !== player.id));
-    
                     if(movedPlayer.id!==player.id) dispatch(movePlayer(movedPlayer));
 
                 });
@@ -176,6 +168,25 @@ const Game = ({roomId}) => {
 
                 });
                 setStompClient(client);
+                          // Implementing Heartbeat Detection
+            const heartbeatInterval = setInterval(() => {
+                if (client.connected) {
+                    client.publish({
+                        destination: `/app/heartbeat`,
+                        body: JSON.stringify({ message: 'heartbeat' }),
+                    });
+                } else {
+                    console.warn('Connection is unstable or lost.');
+                }
+            }, 5000); // Heartbeat every 5 seconds
+
+            client.onWebSocketClose = () => {
+                clearInterval(heartbeatInterval);
+                console.warn('Connection closed. Attempting to reconnect...');
+                // Attempt to reconnect
+                client.activate();
+            };
+
             },
             onStompError: (frame) => {
                 console.error('Error: ', frame);
@@ -258,7 +269,6 @@ const Game = ({roomId}) => {
     }, [player.segments, stompClient, roomId]);
 
     const handleMouseMove = throttle((event) => {
-        console.log("Mouse moved"); // 添加日志以确认事件触发
         const rect = event.target.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
@@ -267,14 +277,12 @@ const Game = ({roomId}) => {
         const dy = mouseY - head.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        // if (distance > MAX_SPEED) {
+        if (distance > MAX_SPEED) {
             const ratio = MAX_SPEED / distance;
             head.x += dx * ratio; head.y += dy * ratio;
             setOffset({ x: dx * ratio, y: dy * ratio });    
             dispatch(addCurrentPlayerOffset({x:dx * ratio,y: dy * ratio}));
-           console.log("movemouse;"+JSON.stringify({ x: dx * ratio, y: dy * ratio })+JSON.stringify(current_player_offset))
-        //    dispatch(setCurrentPlayerOffset(current_player_offset))
-           // } else { head.x = mouseX; head.y = mouseY; setOffset({ x: mouseX-head.x, y: mouseY-head.y }); }
+           } else { head.x = mouseX; head.y = mouseY; setOffset({ x: mouseX-head.x, y: mouseY-head.y }); }
 
         const updatedSegments = [head, ...player.segments.slice(0, -1)];
         const updatedPlayer = { ...player, segments: updatedSegments };
@@ -288,8 +296,6 @@ const Game = ({roomId}) => {
             setPlayer(updatedPlayer);
             dispatch(setPlayers(updatedPlayer))
         }
-
-
     }, 50);
 
 
@@ -312,6 +318,7 @@ const Game = ({roomId}) => {
         }
         return false;
     };
+
 
     const resetPlayer = () => {
         const newPlayer = {

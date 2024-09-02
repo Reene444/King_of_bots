@@ -25,7 +25,7 @@ public class RecordingService {
     private static final String UPLOAD_DIR = "RecordingService/src/main/resources/static/recordings/";
 
     public Recording saveRecording(MultipartFile file) throws IOException {
-        // 创建文件名
+        // create file name
         String originalFilename = file.getOriginalFilename();
         assert originalFilename != null;
         String userId = originalFilename.split("_")[0];
@@ -33,23 +33,21 @@ public class RecordingService {
 
         String filePath = UPLOAD_DIR + originalFilename;
 
-        // 确保目录存在
+        // ensure the directory is existed
         File uploadDir = new File(UPLOAD_DIR);
         if (!uploadDir.exists()) {
             uploadDir.mkdirs();
         }
-        System.out.println("保存文件的路径是: " + Paths.get(filePath).toAbsolutePath().toString());
-        // 保存文件到目录
+        // Save the file to the directory
         Files.copy(file.getInputStream(), Paths.get(filePath));
-//        AppUtil.get_photo_upload_path(originalFilename,"recordings",userId);
-        // 创建 Recording 对象并保存到数据库
+        // Create a Recording object and save it to the database
         Recording recording = new Recording();
         recording.setUserId(userId);
         recording.setFileName(originalFilename);
         recording.setFilePath(filePath);
         recording.setContentType(file.getContentType());
         recording.setStartTime(startTime);
-        recording.setDuration("");  // 可选字段，之后可以更新
+        recording.setDuration("");  // Optional field, can be updated later
         return recordingRepository.save(recording);
     }
 

@@ -30,19 +30,16 @@ const RecordingControl = ({ players,onRecordingChange }) => {
         onRecordingChange(false);
         console.log("Stop recording");
 
-        const endTime = Date.now();
+        const endTime = Date.now();//timestamp, the replay will use the timestamp here to replay the actions
         const duration = endTime - startTime;
         const fileName = `${userAuth.id}_${startTime}_${duration}.txt`;
 
-        // 在创建文件之前，打印 recordedData 的内容
-        console.log("Recorded data:", recordedDataRef.current);
-
-        // 创建文件，并将 recordedData 写入文件
+        // create file and write data into file
         const blob = new Blob([recordedDataRef.current], { type: 'text/plain' });
         const file = new File([blob], fileName, { type: 'text/plain' });
         console.log("File created:", file);
 
-        // 发送操作记录到后端
+        // send action file to the backend
         recordGameActions(file)
             .then(response => {
                 console.log('Upload success:', response);
@@ -51,7 +48,7 @@ const RecordingControl = ({ players,onRecordingChange }) => {
                 console.error('Upload failed:', error);
             });
 
-        // 清除定时器
+        // clear timer
         if (intervalIdRef.current) {
             clearInterval(intervalIdRef.current);
             intervalIdRef.current = null;
@@ -60,16 +57,15 @@ const RecordingControl = ({ players,onRecordingChange }) => {
 
     useEffect(() => {
         if (recording) {
-            // 设置定时器
+            // Set the timer
             const recordPlayers = () => {
                 const action = JSON.stringify({ players: playersRef.current, timestamp: Date.now() }) + ',\n';
-                recordedDataRef.current += action; // 更新 ref 中的数据
-                console.log("Recorded action:", action); // 每次记录操作时输出日志
+                recordedDataRef.current += action; // update the ref data
             };
 
-            intervalIdRef.current = setInterval(recordPlayers, 17); // 调整为每 100 毫秒记录一次
+            intervalIdRef.current = setInterval(recordPlayers, 17); //record the actions per 17ms 
 
-            // 清除定时器
+            // clear timer
             return () => {
                 if (intervalIdRef.current) {
                     clearInterval(intervalIdRef.current);
@@ -81,8 +77,7 @@ const RecordingControl = ({ players,onRecordingChange }) => {
                 intervalIdRef.current = null;
             }
         }
-    }, [recording]); // 依赖数组中仅包含 recording
-
+    }, [recording]); 
     return (
         <div className="recording-control">
             {recording ? (
