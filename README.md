@@ -50,3 +50,6 @@ $ ./setup_run_frontend.sh
 ## [Demo link](./demo1.mp4)
 
 [![video](./image.png)](./demo1.mp4)
+
+## Version2.0
+![image-5-camera.png](image-5-camera.png)
