@@ -43,6 +43,5 @@ $ ./setup_run_frontend.sh
 3. [x] Recording function
 4. [x] PlaybackPage function
 
-
 ## Version2.0
 ![image-5-camera.png](image-5-camera.png)
