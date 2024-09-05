@@ -1,14 +1,11 @@
 
 <h1 align="center">Muil-users snake game</h1>
 
-
-#### This is a snake online game for muiltiple players 
-
 ## :sparkles: Skills
 - `Springboot`
 - `Mongodb`
 - `Redis`
-- `Rabbitmq`
+- `Kafka`
 - `Redis`
 - `React`
 
@@ -41,15 +38,11 @@ $ ./setup_run_frontend.sh
 
 ```
 ## :wrench: Functions
--  Process:
 1. [x] Pk
 2. [x] LeaderBoard
 3. [x] Recording function
 4. [x] PlaybackPage function
 
-## [Demo link](./demo1.mp4)
-
-[![video](./image.png)](./demo1.mp4)
 
 ## Version2.0
 ![image-5-camera.png](image-5-camera.png)
