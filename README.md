@@ -1,11 +1,10 @@
 
-<h1 align="center">Multiplayer snake game</h1>
+<h1 align="center">Multiplayer snake game - version 2.0 </h1>
 
 
 #### This is a snake online game for multiple players 
 #### keep improving the engine performance
 
-## Version  2.0
 
 ## :wrench: Improvement
 - Change the rabbitmq to Kafka Stream
