@@ -1,13 +1,17 @@
 
-<h1 align="center">Muil-users snake game</h1>
+<h1 align="center">Multiplayer snake game</h1>
+
+
+#### This is a snake online game for multiple players 
+#### keep improving the engine performance
 
 ## :sparkles: Skills
 - `Springboot`
 - `Mongodb`
-- `Redis`
-- `Kafka`
+- `Rabbitmq`
 - `Redis`
 - `React`
+
 
 ## :book: How to use
 To clone and run this application
@@ -24,8 +28,8 @@ $ cd RecordingService
 $ mvn clean package
 
 # Run the app
-$ java -jar java -jar target/RunningService-1.jar
-$ java -jar java -jar target/RecordingService-1.jar
+$ java -jar target/RunningService-1.jar
+$ java -jar target/RecordingService-1.jar
 
 # Go into the repository
 $ cd frontend_web
@@ -38,10 +42,11 @@ $ ./setup_run_frontend.sh
 
 ```
 ## :wrench: Functions
+-  Process:
 1. [x] Pk
 2. [x] LeaderBoard
 3. [x] Recording function
 4. [x] PlaybackPage function
 
-## Version2.0
+
 ![image-5-camera.png](image-5-camera.png)
