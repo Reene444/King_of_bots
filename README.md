@@ -20,7 +20,10 @@
 To clone and run this application
 ```
 # Clone this repository
-$ git clone https://github.com/Reene444/King_of_bots/tree/main_v2
+$ git clone https://github.com/Reene444/King_of_bots.git
+
+# Go to the v2 branch
+$ git checkout main_v2
  
 # Go into the each backend modules and combine the commands as third point.
 $ cd RunningService
