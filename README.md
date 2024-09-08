@@ -8,9 +8,9 @@
 ## :sparkles: Skills
 - `Springboot`
 - `Mongodb`
-- `Rabbitmq`
+- `Kafka Stream`
 - `Redis`
-- `React`
+- `React.js`
 
 
 ## :book: How to use

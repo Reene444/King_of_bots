@@ -26,18 +26,7 @@ public class WebSocketConfig  implements WebSocketMessageBrokerConfigurer{
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app");
-        //configure use simplebroker by springboot: there is enough for our application
-//        registry.enableSimpleBroker("/topic");
 
-//         This is optimization: Configure RabbitMQ as message broker
-        registry.enableStompBrokerRelay("/topic", "/queue")
-                .setRelayHost("localhost")
-                .setRelayPort(61613)
-                .setClientLogin("guest")
-                .setClientPasscode("guest")
-                .setVirtualHost("/")
-                .setSystemLogin("guest")
-                .setSystemPasscode("guest");
     }
 
     @Override
