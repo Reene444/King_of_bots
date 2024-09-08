@@ -135,7 +135,7 @@ const Game = ({roomId}) => {
         if(roomId !== null&& !init)initializeGamePlayers();
     },[])// the hook will execute when the browser is refreshed
     useEffect(() => {
-        const socket = new SockJS('http://localhost:8097/ws');
+        const socket = new SockJS('http://localhost:80/ws');
         const client = new Client({
             webSocketFactory: () => socket,
             debug: (str) => { console.log(str); },

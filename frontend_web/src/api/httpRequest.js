@@ -4,7 +4,7 @@ import { setCurrentPlayerOffset } from '../store/redux/gameReducer';
 
 // 创建一个axios实例
 const apiClientRuningService = axios.create({
-    baseURL: 'http://localhost:8097',
+    baseURL: 'http://localhost:80',
     timeout: 10000,
 });
 const apiClientRecordingService = axios.create({
