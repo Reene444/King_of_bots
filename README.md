@@ -20,7 +20,7 @@
 To clone and run this application
 ```
 # Clone this repository
-$ git clone https://git.cs.bham.ac.uk/projects-2023-24/lxc645.git
+$ git clone https://github.com/Reene444/King_of_bots/tree/main_v2
  
 # Go into the each backend modules and combine the commands as third point.
 $ cd RunningService
