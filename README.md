@@ -5,6 +5,8 @@
 #### This is a snake online game for multiple players 
 #### keep improving the engine performance
 
+## Version  2.0
+
 ## :wrench: Improvement
 - Change the rabbitmq to Kafka Stream
 
