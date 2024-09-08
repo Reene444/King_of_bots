@@ -5,6 +5,9 @@
 #### This is a snake online game for multiple players 
 #### keep improving the engine performance
 
+## :wrench: Improvement
+- Change the rabbitmq to Kafka Stream
+
 ## :sparkles: Skills
 - `Springboot`
 - `Mongodb`
