@@ -40,8 +40,8 @@ jobs:
     - name: Build Docker image
       working-directory: RunningService
       run: |
-        docker build -t reene44444/RunningService:latest .
+        docker build -t reene44444/runningservice:latest .
 
     - name: Push Docker image
       run: |
-        docker push reene44444/RunningService:latest
+        docker push reene44444/runningservice:latest
