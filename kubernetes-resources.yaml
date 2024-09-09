@@ -57,6 +57,7 @@ spec:
         target:
           type: Utilization
           averageUtilization: 40  # 当 CPU 使用率超过 50% 时扩展
+          
 
 ---
 # nginx-deployment.yaml
