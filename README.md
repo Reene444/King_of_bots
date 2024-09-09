@@ -9,7 +9,29 @@
 - `Docker`
 - `HPA`
 
-# Kubernetes directory structure
+
+
+
+## :wrench: the command
+go to the root directory
+
+to build the docker image
+`docker build -t reene44444/runningservice:latest_exp_sca .`
+
+to push the image to the dockerhub
+`docker push reene44444/runningservice:latest_exp_sca`
+
+apply the kubectl resource(including the services and deployment)
+`kubectl apply -f kubernetes-resources.yaml`
+
+delete the kubectl resource(including the services and deployment) and re-apply the yaml source , the source will be reconfigured
+`kubectl delete -f kubernetes-resources.yaml`
+
+## ：wrench: process
+
+![alt text](image.png)
+
+<!-- # Kubernetes directory structure
 
 ```plaintext
 kubernetes/
@@ -46,6 +68,6 @@ kubernetes/
 │       ├── redis-deployment.yaml
 │       ├── mongodb-deployment.yaml
 │       └── kafka-deployment.yaml
-└── kustomization.yaml
+└── kustomization.yaml -->
 
 

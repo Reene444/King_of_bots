@@ -15,7 +15,7 @@ public class RedissonConfig {
     @Bean
     public RedissonClient redissonClient() {
         Config config = new Config();
-        config.useSingleServer().setAddress("redis://127.0.0.1:6379"); // 配置 Redis 地址
+        config.useSingleServer().setAddress("redis://redis:6379"); // 配置 Redis 地址, local is 127.0.0.1 without k8s configuration 
         // 使用 JSON 编码器
         config.setCodec(new JsonJacksonCodec());
 
