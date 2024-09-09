@@ -37,11 +37,13 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-    - name: Build Docker image
+    - name: Build Docker image with date tag
       working-directory: RunningService
       run: |
-        docker build -t reene44444/runningservice:latest .
+        IMAGE_TAG=last-$(date +'%Y-%m-%d')
+        docker build -t reene44444/runningservice:$IMAGE_TAG .
 
     - name: Push Docker image
       run: |
-        docker push reene44444/runningservice:latest
+        IMAGE_TAG=last-$(date +'%Y-%m-%d')
+        docker push reene44444/runningservice:$IMAGE_TAG
