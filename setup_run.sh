@@ -11,11 +11,3 @@ cd ../frontend
 chmod +x setup_run_frontend.sh
 ./setup_run_frontend.sh &  # Running scripts in the background
 
-
-# sleep 50
-# cd ../Test
-# source venv/bin/activate
-# pip install selenium webdriver-manager
-# #pip install time
-# python locustfile.py
-
