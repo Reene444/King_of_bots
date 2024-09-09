@@ -27,7 +27,7 @@ apply the kubectl resource(including the services and deployment)
 delete the kubectl resource(including the services and deployment) and re-apply the yaml source , the source will be reconfigured
 `kubectl delete -f kubernetes-resources.yaml`
 
-## ：wrench: process
+## :wrench: process
 
 ![alt text](image.png)
 
