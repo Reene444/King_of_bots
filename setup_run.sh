@@ -1,15 +1,15 @@
 # shellcheck disable=SC2164
-# 终止特定端口上的进程
+# kill the specific port in the terminal
 kill_pt 8097
 kill_pt 80
 
-# 切换到后端服务目录并启动 Docker Compose
+# Switch to the backend service directory and start Docker Compose
 cd ./RunningService
-docker-compose up &  # 后台运行 Docker Compose
+docker-compose up &  # Running scripts in the background Docker Compose
 
 cd ../frontend
 chmod +x setup_run_frontend.sh
-./setup_run_frontend.sh &  # 后台运行脚本
+./setup_run_frontend.sh &  # Running scripts in the background
 
 
 # sleep 50
