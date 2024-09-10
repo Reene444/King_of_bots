@@ -21,11 +21,26 @@ to build the docker image
 to push the image to the dockerhub
 `docker push reene44444/runningservice:latest_exp_sca`
 
+we start a minikube for kubernetes cluster
+`minikube start`
+`minikube status`
+`kubectl get nodes`
+
+Minikube provides a built-in Kubernetes Dashboard
+`minikube dashboard`
+
+
 apply the kubectl resource(including the services and deployment)
 `kubectl apply -f kubernetes-resources.yaml`
 
 delete the kubectl resource(including the services and deployment) and re-apply the yaml source , the source will be reconfigured
 `kubectl delete -f kubernetes-resources.yaml`
+
+View deployment and service status
+`kubectl get deployments`
+`kubectl get services`
+`kubectl get pods`
+
 
 ## :wrench: process
 
