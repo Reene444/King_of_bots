@@ -25,7 +25,7 @@
 4. [x] PlaybackPage function
 
 ![alt text](image.png)
-![alt text](image-1.png)
+![alt text](image-2.png)
 ![image-5-camera.png](image-5-camera.png)
 
 ## :book: How to use
