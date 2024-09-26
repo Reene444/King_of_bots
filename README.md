@@ -6,18 +6,9 @@
 #### keep improving the engine performance
 
 ## :wrench: Improvement
-- Change the rabbitmq to Kafka Stream 
-- Ngnix for websoket 
+- add elasticsearch 
+- mongodb synchro to elasticsearch
 
-## :wrench: Tasks
-- Scalability :
-    - Kubernetes auto Scaling - HPA
-    - Modify mongodb
--  Reliability;
-    - Add the Elasticsearch for log tracking
-    - Use master-slaves pattern on mongodb
-    - Use Resilience4j for fault tolerance
-    - Self-Healing
 
 ## :sparkles: Skills
 - `Springboot`
