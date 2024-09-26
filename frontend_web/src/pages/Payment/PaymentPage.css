@@ -22,7 +22,6 @@
     box-sizing: border-box; /* 包括边距和内边距在内 */
     width: 100%; /* 确保宽度为100% */
     max-width: 600px; /* 可选：设置最大宽度 */
-    margin: 0 auto; /* 居中对齐 */
 }
 
 /* TextField 和 Button 样式 */
