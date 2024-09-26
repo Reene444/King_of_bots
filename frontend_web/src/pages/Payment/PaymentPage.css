@@ -1,0 +1,40 @@
+.payment-container {
+    max-width: 900px; /* 设置最大宽度 */
+    padding: 20px; /* 内边距 */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+    border-radius: 8px; /* 圆角 */
+    background-color: #fff; /* 背景色 */
+    margin: 0 auto; /* 居中对齐 */
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+.card-element-container {
+    width: 100%; /* 确保宽度为100% */
+    max-width: 900px; /* 可选：设置最大宽度 */
+    margin: 50px 0; /* 上下边距 */
+}
+
+.card-element {
+    box-sizing: border-box; /* 包括边距和内边距在内 */
+    width: 100%; /* 确保宽度为100% */
+    max-width: 600px; /* 可选：设置最大宽度 */
+}
+
+/* TextField 和 Button 样式 */
+.text-field {
+    margin: 16px 0; /* 垂直边距 */
+    width: 100%; /* 确保宽度为100% */
+}
+
+.payment-button {
+    width: 100%; /* 使按钮宽度为100% */
+    margin-top: 20px; /* 添加上边距 */
+}
+.text-field {
+    margin-bottom: 16px; /* 控制输入框之间的间距 */
+}
+

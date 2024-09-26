@@ -169,22 +169,22 @@ const Game = ({roomId}) => {
                 });
                 setStompClient(client);
                           // Implementing Heartbeat Detection
-            const heartbeatInterval = setInterval(() => {
-                if (client.connected) {
-                    client.publish({
-                        destination: `/app/heartbeat`,
-                        body: JSON.stringify({ message: 'heartbeat' }),
-                    });
-                } else {
-                    console.warn('Connection is unstable or lost.');
-                }
-            }, 5000); // Heartbeat every 5 seconds
+            // const heartbeatInterval = setInterval(() => {
+            //     if (client.connected) {
+            //         client.publish({
+            //             destination: `/app/heartbeat`,
+            //             body: JSON.stringify({ message: 'heartbeat' }),
+            //         });
+            //     } else {
+            //         console.warn('Connection is unstable or lost.');
+            //     }
+            // }, 5000); // Heartbeat every 5 seconds
 
             client.onWebSocketClose = () => {
-                clearInterval(heartbeatInterval);
+                // clearInterval(heartbeatInterval);
                 console.warn('Connection closed. Attempting to reconnect...');
                 // Attempt to reconnect
-                client.activate();
+                // client.activate();
             };
 
             },

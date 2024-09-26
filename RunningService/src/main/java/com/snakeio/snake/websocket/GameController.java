@@ -26,12 +26,12 @@ import com.snakeio.snake.payload.PlayerMovePayload;
         public GameController(GameService gameService) {
             this.gameService = gameService;
         }
-        @MessageMapping("/heartbeat")
-        public void handleHeartbeat(@Payload HeartbeatPayload payload) {
-            // 处理心跳消息
-            System.out.println("Heartbeat received: " + payload);
-         
-        }
+//        @MessageMapping("/heartbeat")
+//        public void handleHeartbeat(@Payload HeartbeatPayload payload) {
+//            // 处理心跳消息
+//            System.out.println("Heartbeat received: " + payload);
+//
+//        }
 
         @MessageMapping("/game.{roomId}.add")
         @SendTo("/topic/game.{roomId}.add")
