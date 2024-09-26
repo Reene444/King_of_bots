@@ -35,7 +35,7 @@
 
 
 ![image-5-camera.png](image-5-camera.png)
-
+![alt text](image.png)
 ## :book: How to use
 To clone and run this application
 ```
