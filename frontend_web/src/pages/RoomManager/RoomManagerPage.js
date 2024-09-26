@@ -10,6 +10,7 @@ import RoomModal from "./components/RoomModal/RoomModal";
 import VideogameAssetTwoToneIcon from '@mui/icons-material/VideogameAssetTwoTone';
 import Typography from '@mui/material/Typography';
 import SpotlightSearch from './components/SpotlightSearch/SpotlightSearch';
+import Button from '@mui/material/Button'; // 引入 Button 组件
 const RoomManagerPage = ({ }) => {
     const [rooms, setRooms] = useState([]);
     const [selectedRoom, setSelectedRoom] = useState(null);
@@ -62,9 +63,13 @@ const RoomManagerPage = ({ }) => {
         setSelectedRoom(null);
         console.log("roomId:",selectedRoom);
     }
+    const handlePaymentClick = () => {
+        navigate('/payment'); // 导航到支付页面
+    };
     return (
         <div className="room-manager">
             <SpotlightSearch /> 
+
             <div style={{display: 'flex', alignItems: 'center'}}>
                 <Typography
                     variant="h1"
@@ -79,9 +84,17 @@ const RoomManagerPage = ({ }) => {
                         textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)' // 添加文本阴影
                     }}
                 >
-                    <VideogameAssetTwoToneIcon style={{ fontSize: 'inherit', marginRight: '8px' }}/>Select a Room</Typography>
+                    <VideogameAssetTwoToneIcon style={{ fontSize: 'inherit', marginRight: '8px' }}/>Select a Room
+                    <Button 
+                    variant="contained" 
+                    color="primary" 
+                    onClick={handlePaymentClick}
+                    style={{ marginLeft: '1300px' }} // 添加一些顶部间距
+                      > Billings and Payment</Button>
+                    </Typography>
+                  
             </div>
-            <div style={{borderTop: '1px solid #ccc', paddingTop: '8px', marginBottom: '8px'}}>
+            <div style={{borderTop: '1px solid #ccc', paddingTop: '2px', marginBottom: '8px'}}>
             <ul className="room-list">
                 {rooms.map(room => (
                     <li key={room.id}>
