@@ -31,6 +31,7 @@ public class RoomController {
 
     @GetMapping("/{roomId}")
     public Room getRoomById(@PathVariable String roomId) {
+        System.out.println("rooms:");
         return roomService.getRoomById(roomId);
     }
 

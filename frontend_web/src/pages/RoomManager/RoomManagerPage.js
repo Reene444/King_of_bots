@@ -9,6 +9,7 @@ import {fetchRooms} from "../../api/httpRequest";
 import RoomModal from "./components/RoomModal/RoomModal";
 import VideogameAssetTwoToneIcon from '@mui/icons-material/VideogameAssetTwoTone';
 import Typography from '@mui/material/Typography';
+import SpotlightSearch from './components/SpotlightSearch/SpotlightSearch';
 const RoomManagerPage = ({ }) => {
     const [rooms, setRooms] = useState([]);
     const [selectedRoom, setSelectedRoom] = useState(null);
@@ -44,12 +45,12 @@ const RoomManagerPage = ({ }) => {
         setSelectedRoom(roomId);
         setOpenModal(true); // Open the modal when a room is clicked
     };
-////////////
+
    useEffect(()=>{
     setSelectedRoom(1);
     setOpenModal(true);
    },[])
-   ///
+   
     const handleCloseModal = () => {
         setSelectedRoom(null);
         setOpenModal(false); // Close the modal
@@ -63,6 +64,7 @@ const RoomManagerPage = ({ }) => {
     }
     return (
         <div className="room-manager">
+            <SpotlightSearch /> 
             <div style={{display: 'flex', alignItems: 'center'}}>
                 <Typography
                     variant="h1"
