@@ -11,7 +11,7 @@ COPY package*.json ./
 ENV NODE_ENV=production
 
 # 安装项目依赖
-RUN npm install
+RUN npm install --force
 
 RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
 
