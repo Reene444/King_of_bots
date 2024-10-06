@@ -11,9 +11,7 @@ COPY package*.json ./
 ENV NODE_ENV=production
 
 # 安装项目依赖
-RUN npm install --force
-
-RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
+RUN npm ci --force
 
 # 复制应用程序的源代码到容器中
 COPY . .
