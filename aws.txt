@@ -1,0 +1,78 @@
+要在 AWS EC2 上部署 Java Web 应用和 React 前端应用，步骤如下：
+
+ ssh -i /Users/oww/Documents/game.pem ec2-user@13.60.236.170
+ 
+### 1. 创建 EC2 实例
+1. **登录 AWS 控制台**，选择 **EC2** 服务。
+2. **启动实例（Launch Instance）**，选择合适的 AMI（Amazon Machine Image），比如 Amazon Linux 2 或 Ubuntu。
+3. 选择实例类型，例如 `t2.micro`（免费套餐）。
+4. 配置存储、网络和安全组。为 HTTP/HTTPS 和 SSH 打开相应的端口：
+   - **HTTP（80）**：前端应用使用
+   - **HTTPS（443）**：如果有 SSL 证书
+   - **SSH（22）**：用于远程连接管理
+   - **自定义端口**：如果 Java Web 使用特定的后端端口，比如 `8080`
+
+5. 生成密钥对（Key Pair），用于之后 SSH 登录 EC2 实例。
+
+### 2. 配置 EC2 实例
+1. 通过 SSH 连接到实例，使用类似以下命令：
+   ```bash
+   ssh -i /path/to/your-key.pem ec2-user@<your-ec2-public-ip>
+   ```
+2. **安装 Java 环境**（假设你使用 Spring Boot 或其他 Java 框架）：
+   ```bash
+   sudo yum install java-17-amazon-corretto-devel  # 或安装其他版本
+   ```
+
+3. **安装 Nginx 或 Apache** 作为 Web 服务器，用于托管前端应用。
+   ```bash
+   sudo yum install nginx
+   sudo systemctl start nginx
+   sudo systemctl enable nginx
+   ```
+
+### 3. 部署 Java Web 应用
+1. **上传你的 Java Web 应用 JAR 文件** 到 EC2 实例，使用 `scp` 或者通过 S3。
+   ```bash
+   scp -i /path/to/your-key.pem your-app.jar ec2-user@<your-ec2-public-ip>:/home/ec2-user/
+   ```
+2. **运行 Java 应用**，例如使用 Spring Boot：
+   ```bash
+   java -jar your-app.jar
+   ```
+   确保应用监听的端口已经在安全组中开放。
+
+### 4. 部署 React 应用
+1. **构建 React 应用**：
+   - 在本地运行 `npm run build`，生成生产版本的静态文件。
+2. **上传前端构建后的文件**到 EC2：
+   ```bash
+   scp -i /path/to/your-key.pem -r build/* ec2-user@<your-ec2-public-ip>:/home/ec2-user/
+   ```
+3. **配置 Nginx** 用来托管 React 应用：
+   - 编辑 `/etc/nginx/nginx.conf` 或者创建一个新的配置文件 `/etc/nginx/conf.d/react.conf`：
+   ```nginx
+   server {
+       listen 80;
+       server_name <your-ec2-public-ip>;
+
+       location / {
+           root /home/ec2-user/build;
+           try_files $uri /index.html;
+       }
+   }
+   ```
+   - 重新启动 Nginx：
+   ```bash
+   sudo systemctl restart nginx
+   ```
+
+### 5. 测试和配置域名
+1. **测试访问**：通过 EC2 的公共 IP 访问 React 应用和 Java Web 应用。
+2. **绑定域名**：如果有域名，可以通过 AWS Route 53 或其他 DNS 服务将域名解析到 EC2 的公共 IP。
+3. **设置 HTTPS**：可以使用 **Let's Encrypt** 为 Nginx 配置 SSL 证书。
+
+完成这些步骤后，你的 React 前端和 Java 后端就会在 EC2 上运行。如果需要进一步优化，可以考虑使用 AWS 的其他服务，例如：
+- 使用 **Elastic Load Balancing（ELB）** 实现负载均衡。
+- 使用 **Auto Scaling** 根据流量自动扩展实例。
+
