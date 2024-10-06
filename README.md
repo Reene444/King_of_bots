@@ -6,8 +6,7 @@
 #### keep improving the engine performance
 
 ## :wrench: Improvement
-- add elasticsearch 
-- mongodb synchro to elasticsearch
+- add stripe
 
 
 ## :sparkles: Skills
