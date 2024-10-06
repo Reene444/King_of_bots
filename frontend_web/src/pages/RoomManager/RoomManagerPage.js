@@ -47,10 +47,7 @@ const RoomManagerPage = ({ }) => {
         setOpenModal(true); // Open the modal when a room is clicked
     };
 
-   useEffect(()=>{
-    setSelectedRoom(1);
-    setOpenModal(true);
-   },[])
+
    
     const handleCloseModal = () => {
         setSelectedRoom(null);
