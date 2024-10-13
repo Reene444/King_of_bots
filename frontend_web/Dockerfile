@@ -16,6 +16,8 @@ RUN npm ci --force
 # 暴露端口 3000
 EXPOSE 3000
 
+
+
 # 启动应用
 CMD ["npm", "run", "start"]
 
