@@ -6,7 +6,8 @@ WORKDIR /app
 
 # 复制 package.json 和 package-lock.json 以安装依赖
 COPY package*.json ./
-
+COPY public/ ./public
+COPY src/  ./src
 # 设置环境变量为生产模式
 ENV NODE_ENV=production
 
@@ -17,7 +18,7 @@ RUN npm ci --force
 COPY . .
 
 # 构建 React 应用
-RUN npm run build
+RUN npm install --force
 
 
 # 暴露端口 3000
@@ -25,3 +26,5 @@ EXPOSE 3000
 
 # 启动应用
 CMD ["npm", "start"]
+
+
