@@ -13,14 +13,6 @@ ENV NODE_ENV=production
 
 # 安装项目依赖
 RUN npm ci --force
-
-# 复制应用程序的源代码到容器中
-COPY . .
-
-# 构建 React 应用
-RUN npm install --force
-
-
 # 暴露端口 3000
 EXPOSE 3000
 
