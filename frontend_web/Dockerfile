@@ -8,11 +8,10 @@ WORKDIR /app
 COPY package*.json ./
 COPY public/ ./public
 COPY src/  ./src
-# 设置环境变量为生产模式
-ENV NODE_ENV=production
+
 
 # 安装项目依赖
-RUN npm ci --force
+RUN npm install --force
 # 暴露端口 3000
 EXPOSE 3000
 
